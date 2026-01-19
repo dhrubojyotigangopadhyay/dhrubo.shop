@@ -2,90 +2,94 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dhrubojoti | Senior AI Creative Strategist</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;700;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #050505; color: #ffffff; }
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .hero-gradient { background: radial-gradient(circle at top right, #1e3a8a, transparent); }
-        .reveal { transition: all 0.8s ease-out; opacity: 0; transform: translateY(20px); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #000; color: #fff; scroll-smooth: always; }
+        .hero-mesh { background: radial-gradient(circle at 50% -20%, #1e3a8a 0%, #000 80%); }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .text-gradient { background: linear-gradient(to right, #60a5fa, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        video { border-radius: 2rem; border: 1px solid rgba(255,255,255,0.1); }
     </style>
 </head>
-<body class="overflow-x-hidden">
+<body>
 
-    <nav class="fixed w-full z-50 py-6 px-10">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="text-xl font-extrabold tracking-widest uppercase italic">DHRUBO<span class="text-blue-500">.SHOP</span></div>
-            <a href="mailto:dhrubo@dhrubo.shop" class="glass px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-black transition duration-500">Inquire</a>
+    <nav class="fixed top-0 w-full z-50 px-6 py-4 glass border-none bg-black/40">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="logo.jpeg" alt="Logo" class="w-10 h-10 rounded-full object-cover border border-blue-500">
+                <div class="text-sm font-bold tracking-[0.3em] uppercase italic text-white">DHRUBO<span class="text-blue-500">.SHOP</span></div>
+            </div>
+            <a href="mailto:dhrubo@dhrubo.shop" class="text-[10px] font-extrabold uppercase tracking-widest bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 transition">Inquire</a>
         </div>
     </nav>
 
-    <section class="min-h-screen flex items-center px-10 hero-gradient relative">
-        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-20 items-center">
-            <div class="z-10">
-                <h1 class="text-6xl md:text-8xl font-extrabold leading-tight mb-8">
-                    CREATIVE <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">INTELLIGENCE.</span>
-                </h1>
-                <p class="text-lg text-gray-400 max-w-md leading-relaxed mb-10">
-                    Senior Leader specializing in the intersection of **Business Growth** and **AI-Driven Visual Storytelling**[cite: 7, 9]. Transforming legacy workflows into high-impact cinematic assets[cite: 13, 16].
-                </p>
-                <div class="flex gap-6">
-                    <a href="#work" class="bg-white text-black px-10 py-4 rounded-full font-bold hover:scale-105 transition">View Case Studies</a>
-                </div>
-            </div>
-            <div class="relative">
-                <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl blur opacity-30 animate-pulse"></div>
-                <img src="Gemini_Generated_Image_rvtu6hrvtu6hrvtu.jpg" alt="Dhrubo" class="relative rounded-3xl grayscale hover:grayscale-0 transition duration-1000">
+    <section class="min-h-screen flex flex-col justify-center px-6 hero-mesh pt-20">
+        <div class="max-w-5xl mx-auto w-full">
+            <h1 class="text-5xl md:text-8xl font-extrabold leading-[0.9] tracking-tighter mb-8 text-white">
+                CREATIVE <br> <span class="text-gradient underline decoration-blue-500/30 decoration-4 underline-offset-8">INTELLIGENCE.</span>
+            </h1>
+            <p class="text-gray-400 text-lg md:text-xl leading-relaxed max-w-xl mb-12">
+                Senior Leader bridging <strong>15+ years of Executive Experience</strong> with <strong>AI-Driven Visual Storytelling</strong>. I transform high-level business strategy into cinematic visual assets.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-5">
+                <a href="#portfolio" class="bg-white text-black text-center py-4 px-10 rounded-2xl font-bold hover:scale-105 transition">View Case Studies</a>
+                <a href="https://www.youtube.com/@Bongdadavlogs" target="_blank" class="glass text-white text-center py-4 px-10 rounded-2xl font-bold hover:bg-white/10 transition">YouTube Studio</a>
             </div>
         </div>
     </section>
 
-    <section class="py-32 px-10">
-        <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-10">
-            <div class="glass p-12 rounded-3xl reveal active">
-                <span class="text-blue-500 text-sm font-bold tracking-widest uppercase mb-4 block">01 / Strategy</span>
-                <h3 class="text-2xl font-bold mb-6 italic leading-snug text-white">AI VISUAL <br>ARCHITECTURE</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">Designing end-to-end AI video pipelines with total character consistency and cinematic art direction[cite: 14, 15].</p>
+    <section class="py-24 px-6 bg-[#050505]">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
+            <div class="glass p-10 rounded-[2.5rem]">
+                <div class="w-12 h-12 bg-blue-500/10 text-blue-500 flex items-center justify-center rounded-2xl mb-6"><i class="fas fa-brain"></i></div>
+                <h3 class="text-xl font-bold mb-4 uppercase italic tracking-tight text-white">AI Strategy</h3>
+                <p class="text-gray-500 text-sm leading-relaxed">Specializing in end-to-end AI video pipelines, prompt engineering, and cinematic character consistency.</p>
             </div>
-            <div class="glass p-12 rounded-3xl reveal active" style="transition-delay: 0.2s;">
-                <span class="text-purple-500 text-sm font-bold tracking-widest uppercase mb-4 block">02 / Conversion</span>
-                <h3 class="text-2xl font-bold mb-6 italic leading-snug text-white">GROWTH <br>DYNAMICS</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">Applying marketing psychology to visual assets to optimize performance and reduce production costs by 70%[cite: 16, 17].</p>
+            <div class="glass p-10 rounded-[2.5rem]">
+                <div class="w-12 h-12 bg-purple-500/10 text-purple-500 flex items-center justify-center rounded-2xl mb-6"><i class="fas fa-chart-line"></i></div>
+                <h3 class="text-xl font-bold mb-4 uppercase italic tracking-tight text-white">Growth Content</h3>
+                <p class="text-gray-500 text-sm leading-relaxed">Applying marketing psychology to improve visual rhythm and hooks for high-performance branding.</p>
             </div>
-            <div class="glass p-12 rounded-3xl reveal active" style="transition-delay: 0.4s;">
-                <span class="text-gray-400 text-sm font-bold tracking-widest uppercase mb-4 block">03 / Leadership</span>
-                <h3 class="text-2xl font-bold mb-6 italic leading-snug text-white">EXECUTIVE <br>OVERSIGHT</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">Built upon 15+ years of senior leadership experience managing multi-market regional retail operations[cite: 28, 29, 34].</p>
+            <div class="glass p-10 rounded-[2.5rem]">
+                <div class="w-12 h-12 bg-gray-500/10 text-gray-400 flex items-center justify-center rounded-2xl mb-6"><i class="fas fa-crown"></i></div>
+                <h3 class="text-xl font-bold mb-4 uppercase italic tracking-tight text-white">Leadership</h3>
+                <p class="text-gray-500 text-sm leading-relaxed">Built on a 15+ year legacy as an <strong>Assistant General Manager</strong> and Senior Business Leader.</p>
             </div>
         </div>
     </section>
 
-    <section id="work" class="py-32 bg-white text-black px-10">
-        <div class="max-w-7xl mx-auto">
-            <div class="mb-20">
-                <h2 class="text-5xl font-extrabold tracking-tighter mb-4 italic">CINEMATIC REELS</h2>
-                <div class="h-2 w-40 bg-black"></div>
+    <section id="portfolio" class="py-24 px-6 bg-white text-black">
+        <div class="max-w-6xl mx-auto">
+            <div class="mb-16">
+                <h2 class="text-4xl md:text-6xl font-extrabold tracking-tighter uppercase italic">The Studio</h2>
+                <div class="h-1.5 w-24 bg-blue-600 mt-4"></div>
             </div>
-            <div class="rounded-[2.5rem] overflow-hidden shadow-2xl bg-black">
-                <video controls class="w-full aspect-video object-cover opacity-90 hover:opacity-100 transition duration-700">
+            <div class="shadow-2xl overflow-hidden bg-black rounded-[2rem]">
+                <video controls preload="metadata" class="w-full aspect-video">
                     <source src="Sample AI video.mp4" type="video/mp4">
                 </video>
             </div>
         </div>
     </section>
 
-    <footer class="py-40 text-center px-10">
-        <h2 class="text-4xl md:text-6xl font-extrabold mb-12 tracking-tight">LET'S REDEFINE THE <span class="italic text-gray-500 underline decoration-blue-500 decoration-4">FUTURE.</span></h2>
-        <div class="flex justify-center gap-10 text-xs font-bold uppercase tracking-[0.3em]">
-            <a href="mailto:dhrubo@dhrubo.shop" class="hover:text-blue-500 transition">Email</a>
-            <a href="https://linkedin.com/in/dhrubojyoti-gangopadhyay" target="_blank" class="hover:text-blue-500 transition">LinkedIn</a>
-            <a href="https://www.fiverr.com/s/38xdGVA" target="_blank" class="hover:text-blue-500 transition">Consult</a>
+    <footer class="py-32 px-6 text-center bg-black">
+        <div class="max-w-4xl mx-auto">
+            <h4 class="text-4xl md:text-6xl font-extrabold mb-12 tracking-tight text-white">LET'S BUILD THE <span class="italic text-gray-500 underline decoration-blue-600 decoration-4">FUTURE.</span></h4>
+            <div class="flex flex-col gap-3 mb-16 text-lg font-bold">
+                <a href="mailto:dhrubo@dhrubo.shop" class="text-blue-500 underline underline-offset-8">dhrubo@dhrubo.shop</a>
+                <span class="text-gray-600">+91 98740 76688</span>
+            </div>
+            <div class="flex justify-center gap-10 text-[10px] font-black uppercase tracking-[0.4em] text-gray-700">
+                <a href="https://linkedin.com/in/dhrubojyoti-gangopadhyay" target="_blank" class="hover:text-white transition">LinkedIn</a>
+                <a href="https://www.youtube.com/@Bongdadavlogs" target="_blank" class="hover:text-white transition">YouTube</a>
+                <a href="https://www.fiverr.com/s/38xdGVA" target="_blank" class="hover:text-white transition">Consult</a>
+            </div>
+            <p class="mt-24 text-[8px] text-gray-900 font-bold uppercase tracking-[0.6em]">© 2026 DHRUBOJOTI GANGOPADHYAY</p>
         </div>
-        <p class="mt-20 text-[10px] text-gray-700 font-bold uppercase tracking-widest">© 2026 DHRUBOJOTI GANGOPADHYAY | SENIOR AI STRATEGIST [cite: 1, 11]</p>
     </footer>
 
 </body>
