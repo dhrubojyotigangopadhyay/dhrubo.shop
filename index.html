@@ -3,148 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dhrubojoti | Senior AI Creative Strategist & Business Leader</title>
+    <title>Dhrubojoti | Senior AI Creative Strategist</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .gradient-text { background: linear-gradient(90deg, #3b82f6, #9333ea); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #050505; color: #ffffff; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .hero-gradient { background: radial-gradient(circle at top right, #1e3a8a, transparent); }
+        .reveal { transition: all 0.8s ease-out; opacity: 0; transform: translateY(20px); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
     </style>
 </head>
-<body class="bg-white text-slate-900 scroll-smooth">
+<body class="overflow-x-hidden">
 
-    <nav class="fixed w-full bg-white/90 backdrop-blur-md z-50 border-b border-slate-100">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-black tracking-tighter italic">DHRUBO<span class="text-blue-600">.SHOP</span></div>
-            <div class="hidden md:flex space-x-8 items-center text-sm font-bold uppercase tracking-widest">
-                <a href="#about" class="hover:text-blue-600 transition">Expertise</a>
-                <a href="#work" class="hover:text-blue-600 transition">Work</a>
-                <a href="#journey" class="hover:text-blue-600 transition">Journey</a>
-                <a href="mailto:dhrubo@dhrubo.shop" class="bg-slate-900 text-white px-6 py-2 rounded-full hover:bg-blue-600 transition">Contact</a>
-            </div>
+    <nav class="fixed w-full z-50 py-6 px-10">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="text-xl font-extrabold tracking-widest uppercase italic">DHRUBO<span class="text-blue-500">.SHOP</span></div>
+            <a href="mailto:dhrubo@dhrubo.shop" class="glass px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-black transition duration-500">Inquire</a>
         </div>
     </nav>
 
-    <section class="pt-32 pb-20 px-6">
-        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-            <div class="order-2 md:order-1">
-                <h1 class="text-5xl md:text-8xl font-black leading-none mb-6">SENIOR <br><span class="gradient-text">AI LEADER.</span></h1>
-                <p class="text-xl text-slate-600 mb-8 leading-relaxed max-w-lg">
-                    Bridging the gap between <strong>15+ years of Market Leadership</strong> and <strong>AI-Driven Generative Media</strong>. I transform high-level business strategy into cinematic visual assets[cite: 7, 9].
+    <section class="min-h-screen flex items-center px-10 hero-gradient relative">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-20 items-center">
+            <div class="z-10">
+                <h1 class="text-6xl md:text-8xl font-extrabold leading-tight mb-8">
+                    CREATIVE <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">INTELLIGENCE.</span>
+                </h1>
+                <p class="text-lg text-gray-400 max-w-md leading-relaxed mb-10">
+                    Senior Leader specializing in the intersection of **Business Growth** and **AI-Driven Visual Storytelling**[cite: 7, 9]. Transforming legacy workflows into high-impact cinematic assets[cite: 13, 16].
                 </p>
-                <div class="flex flex-wrap gap-4">
-                    <a href="mailto:dhrubo@dhrubo.shop" class="bg-blue-600 text-white px-8 py-4 rounded-xl font-bold shadow-lg hover:bg-blue-700 transition">Partner With Me</a>
-                    <a href="#work" class="bg-slate-100 text-slate-900 px-8 py-4 rounded-xl font-bold hover:bg-slate-200 transition">View Portfolio</a>
+                <div class="flex gap-6">
+                    <a href="#work" class="bg-white text-black px-10 py-4 rounded-full font-bold hover:scale-105 transition">View Case Studies</a>
                 </div>
             </div>
-            <div class="order-1 md:order-2 flex justify-center">
-                <div class="relative w-full max-w-md">
-                    <img src="Gemini_Generated_Image_rvtu6hrvtu6hrvtu.jpg" alt="Dhrubojoti" class="rounded-3xl shadow-2xl grayscale hover:grayscale-0 transition duration-500">
-                    <div class="absolute -bottom-4 -right-4 bg-white p-4 rounded-2xl shadow-xl hidden md:block border border-slate-50">
-                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Global Expertise</p>
-                        <p class="text-lg font-black text-blue-600">Kolkata & Saskatoon</p>
-                    </div>
-                </div>
+            <div class="relative">
+                <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl blur opacity-30 animate-pulse"></div>
+                <img src="Gemini_Generated_Image_rvtu6hrvtu6hrvtu.jpg" alt="Dhrubo" class="relative rounded-3xl grayscale hover:grayscale-0 transition duration-1000">
             </div>
         </div>
     </section>
 
-    <section id="about" class="py-24 bg-slate-50 px-6">
+    <section class="py-32 px-10">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-10">
+            <div class="glass p-12 rounded-3xl reveal active">
+                <span class="text-blue-500 text-sm font-bold tracking-widest uppercase mb-4 block">01 / Strategy</span>
+                <h3 class="text-2xl font-bold mb-6 italic leading-snug text-white">AI VISUAL <br>ARCHITECTURE</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">Designing end-to-end AI video pipelines with total character consistency and cinematic art direction[cite: 14, 15].</p>
+            </div>
+            <div class="glass p-12 rounded-3xl reveal active" style="transition-delay: 0.2s;">
+                <span class="text-purple-500 text-sm font-bold tracking-widest uppercase mb-4 block">02 / Conversion</span>
+                <h3 class="text-2xl font-bold mb-6 italic leading-snug text-white">GROWTH <br>DYNAMICS</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">Applying marketing psychology to visual assets to optimize performance and reduce production costs by 70%[cite: 16, 17].</p>
+            </div>
+            <div class="glass p-12 rounded-3xl reveal active" style="transition-delay: 0.4s;">
+                <span class="text-gray-400 text-sm font-bold tracking-widest uppercase mb-4 block">03 / Leadership</span>
+                <h3 class="text-2xl font-bold mb-6 italic leading-snug text-white">EXECUTIVE <br>OVERSIGHT</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">Built upon 15+ years of senior leadership experience managing multi-market regional retail operations[cite: 28, 29, 34].</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="work" class="py-32 bg-white text-black px-10">
         <div class="max-w-7xl mx-auto">
-            <div class="grid md:grid-cols-3 gap-12">
-                <div class="p-10 bg-white rounded-3xl shadow-sm border border-slate-100">
-                    <div class="w-12 h-12 bg-blue-100 text-blue-600 flex items-center justify-center rounded-xl mb-6"><i class="fas fa-video text-xl"></i></div>
-                    <h3 class="text-xl font-black mb-4">AI VISUAL STRATEGY</h3>
-                    <p class="text-slate-500 text-sm leading-relaxed">Specializing in end-to-end AI pipelines, prompt engineering, and cinematic character consistency for reels and campaigns[cite: 13, 14, 15].</p>
-                </div>
-                <div class="p-10 bg-white rounded-3xl shadow-sm border border-slate-100">
-                    <div class="w-12 h-12 bg-purple-100 text-purple-600 flex items-center justify-center rounded-xl mb-6"><i class="fas fa-chart-line text-xl"></i></div>
-                    <h3 class="text-xl font-black mb-4">GROWTH CONTENT</h3>
-                    <p class="text-slate-500 text-sm leading-relaxed">Applying 15+ years of marketing psychology to improve hooks, visual rhythm, and CTA-driven conversion performance[cite: 7, 9, 17].</p>
-                </div>
-                <div class="p-10 bg-white rounded-3xl shadow-sm border border-slate-100">
-                    <div class="w-12 h-12 bg-slate-100 text-slate-600 flex items-center justify-center rounded-xl mb-6"><i class="fas fa-crown text-xl"></i></div>
-                    <h3 class="text-xl font-black mb-4">EXECUTIVE LEADERSHIP</h3>
-                    <p class="text-slate-500 text-sm leading-relaxed">Former Assistant General Manager (Star Cement) and Senior Manager (Birla Corp) with a track record of exceeding targets by 18%[cite: 29, 31, 34].</p>
-                </div>
+            <div class="mb-20">
+                <h2 class="text-5xl font-extrabold tracking-tighter mb-4 italic">CINEMATIC REELS</h2>
+                <div class="h-2 w-40 bg-black"></div>
             </div>
-        </div>
-    </section>
-
-    <section id="work" class="py-24 px-6 bg-slate-900 text-white">
-        <div class="max-w-7xl mx-auto text-center">
-            <h2 class="text-4xl font-black mb-16 italic tracking-tighter">AI CINEMATIC WORKFLOWS</h2>
-            <div class="bg-black rounded-3xl overflow-hidden shadow-2xl border border-white/10 mb-12">
-                <video controls class="w-full aspect-video object-cover">
+            <div class="rounded-[2.5rem] overflow-hidden shadow-2xl bg-black">
+                <video controls class="w-full aspect-video object-cover opacity-90 hover:opacity-100 transition duration-700">
                     <source src="Sample AI video.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
                 </video>
             </div>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-                <div class="text-center">
-                    <p class="text-3xl font-black text-blue-400">4K</p>
-                    <p class="text-xs font-bold uppercase tracking-widest text-slate-500 mt-1">Resolution</p>
-                </div>
-                <div class="text-center border-l border-white/10">
-                    <p class="text-3xl font-black text-blue-400">100%</p>
-                    <p class="text-xs font-bold uppercase tracking-widest text-slate-500 mt-1">Character Locking</p>
-                </div>
-                <div class="text-center border-l border-white/10">
-                    <p class="text-3xl font-black text-blue-400">70%</p>
-                    <p class="text-xs font-bold uppercase tracking-widest text-slate-500 mt-1">Cost Reduction [cite: 16]</p>
-                </div>
-                <div class="text-center border-l border-white/10">
-                    <p class="text-3xl font-black text-blue-400">15+</p>
-                    <p class="text-xs font-bold uppercase tracking-widest text-slate-500 mt-1">Years Experience [cite: 7]</p>
-                </div>
-            </div>
         </div>
     </section>
 
-    <section id="journey" class="py-24 px-6 max-w-5xl mx-auto">
-        <h2 class="text-3xl font-black mb-12 uppercase tracking-tighter">Leadership Journey</h2>
-        <div class="space-y-12">
-            <div class="flex flex-col md:flex-row gap-8 items-start border-l-2 border-blue-600 pl-8 relative">
-                <div class="absolute -left-2 top-0 w-4 h-4 rounded-full bg-blue-600"></div>
-                <div class="min-w-[150px]"><span class="bg-blue-100 text-blue-700 px-3 py-1 rounded text-sm font-bold">2024 - Present</span></div>
-                <div>
-                    <h4 class="text-xl font-black uppercase">Senior AI Creative Strategy Lead</h4>
-                    <p class="text-slate-500 mt-2 italic text-sm">Freelance - Helping agencies build generative pipelines for cinematic content[cite: 11, 16].</p>
-                </div>
-            </div>
-            <div class="flex flex-col md:flex-row gap-8 items-start border-l-2 border-slate-200 pl-8 relative">
-                <div class="min-w-[150px]"><span class="bg-slate-100 text-slate-500 px-3 py-1 rounded text-sm font-bold">2021 - 2022</span></div>
-                <div>
-                    <h4 class="text-xl font-black uppercase text-slate-700">Assistant General Manager</h4>
-                    <p class="text-slate-500 mt-2 text-sm italic">Star Cement Ltd. Led regional retail operations and exceeded targets by 18%[cite: 29, 31].</p>
-                </div>
-            </div>
-            <div class="flex flex-col md:flex-row gap-8 items-start border-l-2 border-slate-200 pl-8 relative">
-                <div class="min-w-[150px]"><span class="bg-slate-100 text-slate-500 px-3 py-1 rounded text-sm font-bold">2016 - 2021</span></div>
-                <div>
-                    <h4 class="text-xl font-black uppercase text-slate-700">Senior Manager</h4>
-                    <p class="text-slate-500 mt-2 text-sm italic">Birla Corporation Ltd. Managed high-potential portfolios across competitive markets[cite: 34, 35].</p>
-                </div>
-            </div>
+    <footer class="py-40 text-center px-10">
+        <h2 class="text-4xl md:text-6xl font-extrabold mb-12 tracking-tight">LET'S REDEFINE THE <span class="italic text-gray-500 underline decoration-blue-500 decoration-4">FUTURE.</span></h2>
+        <div class="flex justify-center gap-10 text-xs font-bold uppercase tracking-[0.3em]">
+            <a href="mailto:dhrubo@dhrubo.shop" class="hover:text-blue-500 transition">Email</a>
+            <a href="https://linkedin.com/in/dhrubojyoti-gangopadhyay" target="_blank" class="hover:text-blue-500 transition">LinkedIn</a>
+            <a href="https://www.fiverr.com/s/38xdGVA" target="_blank" class="hover:text-blue-500 transition">Consult</a>
         </div>
-    </section>
-
-    <footer class="py-24 px-6 text-center border-t border-slate-100 bg-slate-50">
-        <div class="max-w-2xl mx-auto">
-            <h2 class="text-4xl font-black mb-6">READY TO SCALE YOUR PRODUCTION?</h2>
-            <p class="text-slate-500 mb-10">I am available for Senior AI Strategy roles, agency consulting, and premium generative media projects.</p>
-            <div class="flex flex-col md:flex-row justify-center gap-6 mb-12">
-                <a href="mailto:dhrubo@dhrubo.shop" class="bg-slate-900 text-white px-10 py-4 rounded-2xl font-bold hover:shadow-2xl transition">dhrubo@dhrubo.shop</a>
-                <p class="px-10 py-4 rounded-2xl border border-slate-200 font-bold text-slate-600 tracking-tighter">+91 98740 76688 [cite: 4]</p>
-            </div>
-            <div class="flex justify-center space-x-8 text-2xl text-slate-300">
-                <a href="https://linkedin.com/in/dhrubojyoti-gangopadhyay" target="_blank" class="hover:text-blue-600 transition"><i class="fab fa-linkedin"></i></a>
-                <a href="https://www.youtube.com/@ChikuJalebi" target="_blank" class="hover:text-red-600 transition"><i class="fab fa-youtube"></i></a>
-                <a href="https://www.fiverr.com/s/38xdGVA" target="_blank" class="hover:text-green-600 transition"><i class="fas fa-briefcase"></i></a>
-            </div>
-            <p class="mt-16 text-[10px] font-black tracking-[0.2em] text-slate-300 uppercase">© 2026 DHRUBOJOTI GANGOPADHYAY | ALL RIGHTS RESERVED</p>
-        </div>
+        <p class="mt-20 text-[10px] text-gray-700 font-bold uppercase tracking-widest">© 2026 DHRUBOJOTI GANGOPADHYAY | SENIOR AI STRATEGIST [cite: 1, 11]</p>
     </footer>
 
 </body>
