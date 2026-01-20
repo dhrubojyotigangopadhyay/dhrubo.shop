@@ -1,142 +1,217 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f9f9f9;
-        }
-        .container {
-            background: #fff;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-        h2 {
-            font-size: 28px;
-            margin-bottom: 5px;
-            color: #222;
-        }
-        h3 {
-            font-size: 18px;
-            color: #555;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 5px;
-            margin-top: 30px;
-            text-transform: lowercase;
-        }
-        h3::first-letter {
-            text-transform: uppercase;
-        }
-        p, li {
-            font-size: 15px;
-            color: #444;
-        }
-        .experience-item {
-            margin-bottom: 15px;
-        }
-        .role {
-            font-weight: bold;
-            display: block;
-        }
-        .company-info {
-            font-style: italic;
-            font-size: 13px;
-            color: #777;
-        }
-        .social-links {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-        }
-        .social-links a {
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-size: 12px;
-            color: #333;
-        }
-        .social-links img {
-            width: 32px;
-            height: 32px;
-            margin-bottom: 5px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dhrubo | AI Growth & Storytelling</title>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+    background: #000;
+    color: #fff;
+    overflow-x: hidden;
+}
+section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 40px;
+    text-align: center;
+}
+video {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+.overlay {
+    background: rgba(0,0,0,0.6);
+    padding: 40px;
+    border-radius: 20px;
+    max-width: 900px;
+}
+h1 {
+    font-size: clamp(36px, 6vw, 72px);
+    margin-bottom: 20px;
+}
+h2 {
+    font-size: clamp(28px, 4vw, 48px);
+    margin-bottom: 20px;
+}
+p {
+    font-size: clamp(16px, 2vw, 20px);
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+button {
+    padding: 14px 32px;
+    border-radius: 40px;
+    border: none;
+    background: #fff;
+    color: #000;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+.super-text {
+    font-size: clamp(24px, 5vw, 64px);
+    font-weight: 700;
+    line-height: 1.2;
+}
+.chatbot {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #111;
+    padding: 15px;
+    border-radius: 16px;
+    width: 260px;
+    box-shadow: 0 0 20px rgba(255,255,255,0.1);
+}
+.chatbot p {
+    font-size: 14px;
+}
+canvas {
+    max-width: 100%;
+}
+a {
+    color: #fff;
+    text-decoration: underline;
+}
+</style>
 </head>
+
 <body>
 
-<div class="container">
-    <h2>Dhrubo</h2>
-
-    <h3>About me</h3>
-    <p>I am a senior business and creative leader with over 15 years of experience in sales, branding, and channel strategy[cite: 7]. Now specializing in ai-driven visual storytelling, I combine marketing psychology with generative media to deliver high-impact content for brands and creators[cite: 7, 9].</p>
-
-    <h3>Core skills</h3>
-    <ul>
-        <li>Ai image & video generation [cite: 19]</li>
-        <li>Prompt engineering [cite: 20]</li>
-        <li>Visual storytelling [cite: 21]</li>
-        <li>Creative strategy [cite: 23]</li>
-        <li>Campaign storyboarding [cite: 27]</li>
-        <li>Cta optimization [cite: 26]</li>
-    </ul>
-
-    <h3>Professional experiences</h3>
-    
-    <div class="experience-item">
-        <span class="role">Senior consultant – ai visual & creative strategy</span>
-        <span class="company-info">Jan 2024–present | Freelance [cite: 11, 12]</span>
+<!-- INTRO -->
+<section>
+    <video autoplay muted loop playsinline src="iv.mp4"></video>
+    <div class="overlay">
+        <h1>Dhrubo</h1>
+        <div class="super-text">
+            15+ Years<br>
+            ₹50 Cr / Month Businesses<br>
+            AI-Driven Growth Systems
+        </div>
+        <button onclick="document.getElementById('graphs').scrollIntoView({behavior:'smooth'})">
+            Enter the Growth Story
+        </button>
     </div>
+</section>
 
-    <div class="experience-item">
-        <span class="role">Assistant general manager</span>
-        <span class="company-info">Feb 2021–oct 2022 | Star Cement Ltd [cite: 29]</span>
+<!-- WHO I AM -->
+<section style="background:#000">
+    <div class="overlay">
+        <div class="super-text">
+            Enterprise Sales Leader.<br>
+            P&L Owner.<br>
+            AI Growth Consultant.
+        </div>
+        <p>
+            ACC → Lafarge → MP Birla → Star Cement → Shyam Steel → AI Consulting
+        </p>
     </div>
+</section>
 
-    <div class="experience-item">
-        <span class="role">Senior manager</span>
-        <span class="company-info">Jun 2016–jan 2021 | Birla Corporation Ltd [cite: 34]</span>
+<!-- GRAPHS -->
+<section id="graphs" style="background:#0b0b0b">
+    <div class="overlay">
+        <h2>Real Business Impact</h2>
+        <canvas id="businessChart"></canvas>
+        <br><br>
+        <canvas id="growthChart"></canvas>
     </div>
+</section>
 
-    <div class="experience-item">
-        <span class="role">Manager – retail & key account management</span>
-        <span class="company-info">Sep 2012–may 2016 | Lafarge India Pvt Ltd [cite: 40, 41]</span>
+<!-- AI VIDEO -->
+<section>
+    <video autoplay muted loop playsinline src="Sample AI video.mp4"></video>
+    <div class="overlay">
+        <h2>AI Visual Storytelling</h2>
+        <p>
+            Where psychology, narrative, and automation drive conversion.
+        </p>
     </div>
+</section>
 
-    <div class="experience-item">
-        <span class="role">Senior executive</span>
-        <span class="company-info">Jan 2008–aug 2012 | Acc Limited [cite: 44]</span>
+<!-- CONTACT -->
+<section style="background:#000">
+    <div class="overlay">
+        <img src="logo.jpeg" width="100" alt="Logo"><br><br>
+        <h2>Let’s Talk Growth</h2>
+        <p>📩 dhrubo@dhrubo.shop</p>
+        <p>📞 +91 98740 76688</p>
+        <p>
+            <a href="https://www.linkedin.com/in/dhrubojyoti-gangopadhyay/" target="_blank">
+                LinkedIn Profile
+            </a>
+        </p>
     </div>
+</section>
 
-    <h3>Education</h3>
-    <p>Mba – marketing | University of Kalyani, Kolkata [cite: 49, 50]<br>
-    Bba – marketing | Techno India, Kolkata [cite: 51, 52]</p>
-
-    <div class="social-links">
-        <a href="https://linkedin.com/in/dhrubojyoti-gangopadhyay" target="_blank">
-            <img src="https://cdn-icons-png.flaticon.com/128/145/145807.png" alt="LinkedIn">
-            <span>linkedin</span>
-        </a>
-        <a href="https://www.youtube.com/@ChikuJalebi" target="_blank">
-            <img src="https://cdn-icons-png.flaticon.com/128/1384/1384060.png" alt="YouTube">
-            <span>youtube</span>
-        </a>
-        <a href="https://www.fiverr.com/s/38xdGVA" target="_blank">
-            <img src="https://cdn-icons-png.flaticon.com/128/12101/12101561.png" alt="Fiverr">
-            <span>fiverr</span>
-        </a>
-    </div>
+<!-- CHATBOT -->
+<div class="chatbot">
+    <p><strong>AI Assistant</strong></p>
+    <p>
+        Explore growth, AI work, or contact Dhrubo directly.
+    </p>
 </div>
+
+<script>
+// GRAPH 1: BUSINESS SCALE
+new Chart(document.getElementById('businessChart'), {
+    type: 'bar',
+    data: {
+        labels: ['ACC', 'Lafarge', 'MP Birla', 'Star Cement', 'Shyam Steel'],
+        datasets: [{
+            label: 'Monthly Business Managed (₹ Cr)',
+            data: [5, 12, 20, 50, 90],
+        }]
+    },
+    options: {
+        plugins: {
+            legend: { labels: { color: 'white' } }
+        },
+        scales: {
+            x: { ticks: { color: 'white' } },
+            y: { ticks: { color: 'white' } }
+        }
+    }
+});
+
+// GRAPH 2: GROWTH %
+new Chart(document.getElementById('growthChart'), {
+    type: 'line',
+    data: {
+        labels: ['Territory Growth', 'Channel Growth', 'YoY Consistency'],
+        datasets: [{
+            label: 'Performance (%)',
+            data: [35, 25, 12],
+        }]
+    },
+    options: {
+        plugins: {
+            legend: { labels: { color: 'white' } }
+        },
+        scales: {
+            x: { ticks: { color: 'white' } },
+            y: { ticks: { color: 'white' } }
+        }
+    }
+});
+</script>
 
 </body>
 </html>
