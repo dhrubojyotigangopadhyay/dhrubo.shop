@@ -1,283 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- BASIC SEO -->
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dhrubo | AI & Growth Strategy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dhrubo | AI-Driven Growth & Sales Strategy Consultant</title>
+  <meta name="description" content="Dhrubo helps founders and leadership teams build predictable revenue using AI-driven go-to-market and sales systems. Book a free strategy call." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://dhrubo.shop/" />
 
-  <meta name="description" content="I help founders and leadership teams build predictable growth using AI and sales systems. Book a free strategy call." />
+  <!-- OPEN GRAPH -->
+  <meta property="og:title" content="Dhrubo – AI-Driven Growth & Sales Strategy" />
+  <meta property="og:description" content="Helping founders turn AI into real revenue with practical sales and GTM systems." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://dhrubo.shop/" />
+  <meta property="og:image" content="https://dhrubo.shop/logo.jpeg" />
 
+  <!-- TWITTER -->
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- STRUCTURED DATA -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Dhrubo Jyoti Gangopadhyay",
+    "url": "https://dhrubo.shop",
+    "sameAs": [
+      "https://www.linkedin.com/in/dhrubojyoti-gangopadhyay/"
+    ],
+    "jobTitle": "AI Growth & Sales Strategy Consultant",
+    "knowsAbout": [
+      "Artificial Intelligence",
+      "Go To Market Strategy",
+      "Sales Systems",
+      "Revenue Growth"
+    ],
+    "telephone": "+91-9874076688"
+  }
+  </script>
+
+  <!-- STYLES -->
   <style>
     :root {
-      --primary: #0f172a;
-      --accent: #2563eb;
-      --bg: #ffffff;
-      --muted: #64748b;
-      --light: #f8fafc;
-      --border: #e5e7eb;
+      --bg: #020617;
+      --card: rgba(255,255,255,0.08);
+      --border: rgba(255,255,255,0.15);
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent2: #818cf8;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
     }
 
     body {
-      background: var(--bg);
-      color: var(--primary);
+      background: radial-gradient(circle at top, #020617, #000);
+      color: var(--text);
       line-height: 1.6;
     }
 
-    .container {
-      max-width: 1100px;
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    header, section, footer {
+      max-width: 1150px;
       margin: auto;
-      padding: 60px 20px;
+      padding: 80px 20px;
+    }
+
+    header {
+      text-align: center;
+      padding-top: 120px;
     }
 
     h1 {
-      font-size: 44px;
-      line-height: 1.2;
-      margin-bottom: 20px;
+      font-size: 52px;
+      line-height: 1.15;
+      background: linear-gradient(90deg, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     h2 {
-      font-size: 32px;
+      font-size: 34px;
       margin-bottom: 20px;
     }
 
     p {
       color: var(--muted);
-      margin-bottom: 16px;
+      max-width: 780px;
+      margin: 20px auto 0;
+      font-size: 18px;
     }
 
     .btn {
       display: inline-block;
-      background: var(--accent);
-      color: #fff;
-      padding: 14px 24px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-      margin-top: 20px;
+      margin-top: 40px;
+      padding: 16px 34px;
+      background: linear-gradient(90deg, #38bdf8, #818cf8);
+      color: #020617;
+      font-weight: 700;
+      border-radius: 12px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .btn.secondary {
-      background: transparent;
-      color: var(--accent);
-      border: 2px solid var(--accent);
-      margin-left: 12px;
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px rgba(56,189,248,0.25);
     }
 
-    section {
-      border-bottom: 1px solid var(--border);
-    }
-
-    .hero {
+    .grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-      align-items: center;
-    }
-
-    .hero-box {
-      background: var(--light);
-      padding: 40px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-    }
-
-    .badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 20px;
-    }
-
-    .badge {
-      background: #eef2ff;
-      color: #1e40af;
-      padding: 8px 14px;
-      border-radius: 999px;
-      font-size: 14px;
-      font-weight: 500;
+      gap: 32px;
     }
 
     .grid-3 {
-      display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 30px;
     }
 
     .card {
-      background: var(--light);
-      padding: 30px;
-      border-radius: 14px;
+      background: var(--card);
       border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 32px;
+      backdrop-filter: blur(12px);
     }
 
     ul {
-      padding-left: 18px;
       color: var(--muted);
+      padding-left: 20px;
     }
 
     footer {
-      background: var(--light);
-      padding: 40px 20px;
       text-align: center;
-      font-size: 14px;
+      border-top: 1px solid var(--border);
       color: var(--muted);
+      font-size: 14px;
+      padding-bottom: 40px;
     }
 
     footer a {
-      color: var(--accent);
-      text-decoration: none;
       margin: 0 8px;
     }
 
     @media (max-width: 900px) {
-      .hero {
-        grid-template-columns: 1fr;
-      }
-
-      h1 {
-        font-size: 34px;
-      }
-
-      h2 {
-        font-size: 26px;
-      }
-
-      .grid-3 {
-        grid-template-columns: 1fr;
-      }
+      h1 { font-size: 36px; }
+      h2 { font-size: 26px; }
+      .grid-3 { grid-template-columns: 1fr; }
+      header { padding-top: 80px; }
     }
   </style>
 </head>
+
 <body>
 
-<!-- HERO -->
+<header>
+  <h1>AI-Driven Growth & Sales Strategy<br>for Founders</h1>
+  <p>
+    I help founders and leadership teams build predictable revenue using AI-enabled
+    go-to-market and sales systems — focused on execution, not hype.
+  </p>
+  <a href="#contact" class="btn">Book a Free Strategy Call</a>
+</header>
+
 <section>
-  <div class="container hero">
-    <div>
-      <h1>I Help Businesses Build Predictable Growth Using AI & Sales Systems</h1>
-      <p>
-        15+ years in enterprise sales. I work with founders and leadership teams to turn AI into real revenue — not buzzwords.
-      </p>
-
-      <div class="badges">
-        <span class="badge">AI-Driven GTM</span>
-        <span class="badge">Sales Strategy</span>
-        <span class="badge">Hands-On Execution</span>
-      </div>
-
-      <a href="#contact" class="btn">Book a Free Strategy Call</a>
-      <a href="#offer" class="btn secondary">See How I Help</a>
-    </div>
-
-    <div class="hero-box">
-      <h2>Who This Is For</h2>
-      <ul>
-        <li>Founders & CXOs of B2B, SaaS, and service businesses</li>
-        <li>Teams stuck with inconsistent sales results</li>
-        <li>Leaders confused by AI but serious about growth</li>
-      </ul>
-
-      <p style="margin-top:16px;"><strong>Not for:</strong> get-rich-quick seekers or non-executors.</p>
-    </div>
+  <h2>Who I Work With</h2>
+  <div class="grid grid-3">
+    <div class="card">B2B, SaaS & service business founders</div>
+    <div class="card">Leadership teams stuck with inconsistent growth</div>
+    <div class="card">Companies confused by AI but serious about ROI</div>
   </div>
 </section>
 
-<!-- PROBLEMS -->
 <section>
-  <div class="container">
-    <h2>If This Sounds Familiar, You’re in the Right Place</h2>
-    <div class="grid-3">
-      <div class="card">Sales depends too much on the founder</div>
-      <div class="card">Leads exist but conversions are unpredictable</div>
-      <div class="card">AI tools everywhere, ROI nowhere</div>
-    </div>
-    <p style="margin-top:20px;">
-      Growth problems aren’t solved by more tools — they’re solved by better systems.
-    </p>
+  <h2>Problems I Solve</h2>
+  <div class="grid grid-3">
+    <div class="card">Founder-dependent sales pipelines</div>
+    <div class="card">Unpredictable lead-to-close conversion</div>
+    <div class="card">AI tools without measurable business impact</div>
   </div>
 </section>
 
-<!-- METHOD -->
 <section>
-  <div class="container">
-    <h2>How I Help You Grow</h2>
-    <div class="grid-3">
-      <div class="card">
-        <h3>1. Diagnose</h3>
-        <p>Identify revenue leaks, GTM gaps, and AI leverage points.</p>
-      </div>
-      <div class="card">
-        <h3>2. Design</h3>
-        <p>Build sales and AI workflows tailored to your business.</p>
-      </div>
-      <div class="card">
-        <h3>3. Execute</h3>
-        <p>Hands-on guidance until systems actually perform.</p>
-      </div>
-    </div>
+  <h2>My Approach</h2>
+  <div class="grid grid-3">
+    <div class="card"><strong>Diagnose</strong><br>Revenue gaps & AI leverage points</div>
+    <div class="card"><strong>Design</strong><br>Custom GTM & sales systems</div>
+    <div class="card"><strong>Execute</strong><br>Hands-on support till results show</div>
   </div>
 </section>
 
-<!-- PROOF -->
 <section>
-  <div class="container">
-    <h2>Real Outcomes, Not Theories</h2>
-    <ul>
-      <li>Improved lead-to-close efficiency for B2B teams</li>
-      <li>Designed AI-assisted GTM workflows reducing manual effort</li>
-      <li>Advisory support for founders during scale-up phases</li>
-    </ul>
-  </div>
+  <h2>About Me</h2>
+  <p>
+    I’m <strong>Dhrubo Jyoti Gangopadhyay</strong>.
+    After 15+ years in enterprise sales, I now help businesses apply AI practically —
+    where it improves clarity, execution, and revenue.
+  </p>
+  <p><strong>I don’t sell tools. I build systems.</strong></p>
 </section>
 
-<!-- ABOUT -->
-<section>
-  <div class="container">
-    <h2>About Me</h2>
-    <p>
-      I’m Dhrubo — a sales leader turned growth advisor.
-    </p>
-    <p>
-      After 15+ years in enterprise sales, I now help businesses apply AI practically — where it actually impacts revenue, execution, and clarity.
-    </p>
-    <p><strong>I don’t sell tools. I build systems.</strong></p>
-  </div>
-</section>
-
-<!-- OFFER -->
-<section id="offer">
-  <div class="container">
-    <h2>How You Can Work With Me</h2>
-    <ul>
-      <li>1:1 Strategy Session</li>
-      <li>GTM & Growth Advisory</li>
-      <li>AI-Enabled Sales System Design</li>
-    </ul>
-    <a href="#contact" class="btn">Book a Free Intro Call</a>
-  </div>
-</section>
-
-<!-- CONTACT -->
 <section id="contact">
-  <div class="container">
-    <h2>Contact</h2>
-    <p>Email: <strong>dhrubo@dhrubo.shop</strong></p>
-    <p>Phone: <strong>+91-9874076688</strong></p>
-    <p>LinkedIn: <strong>https://www.linkedin.com/in/dhrubojyoti-gangopadhyay/</strong></p>
-  </div>
+  <h2>Contact</h2>
+  <p>
+    📧 <a href="mailto:dhrubo@dhrubo.shop">dhrubo@dhrubo.shop</a><br>
+    📞 <a href="tel:+919874076688">+91 98740 76688</a><br>
+    🔗 <a href="https://www.linkedin.com/in/dhrubojyoti-gangopadhyay/" target="_blank">LinkedIn Profile</a>
+  </p>
 </section>
 
 <footer>
-  © 2026 Dhrubo  
-  <br />
-  <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+  © 2026 Dhrubo Jyoti Gangopadhyay ·
+  <a href="/privacy.html">Privacy Policy</a> ·
+  <a href="/terms.html">Terms of Service</a>
 </footer>
 
 </body>
