@@ -121,11 +121,25 @@ p{color:var(--muted);font-size:18px;max-width:760px}
   backdrop-filter:blur(12px);
 }
 
-/* VIDEO */
-video{
+/* VIDEO FIX — ONLY CHANGE */
+.video-wrap{
+  display:flex;
+  justify-content:center;
+}
+
+/* Mobile: full width */
+.video-wrap video{
   width:100%;
+  aspect-ratio:16/9;
   border-radius:20px;
   border:1px solid var(--border);
+}
+
+/* Desktop: controlled size */
+@media (min-width: 1024px){
+  .video-wrap video{
+    max-width:560px;
+  }
 }
 
 /* SCROLL ANIMATION */
@@ -200,10 +214,12 @@ footer{
 
 <!-- VIDEO -->
 <section class="flow reveal">
-  <video controls playsinline preload="metadata" poster="profile.jpeg">
-    <source src="iv.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
+  <div class="video-wrap">
+    <video controls playsinline preload="metadata" poster="profile.jpeg">
+      <source src="iv.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
 </section>
 
 <!-- WHO -->
@@ -257,7 +273,7 @@ footer{
 </section>
 
 <footer>
-© 2026 Dhrubo  ·
+© 2026 Dhrubo ·
 <a href="/privacy.html">Privacy</a> ·
 <a href="/terms.html">Terms</a>
 </footer>
