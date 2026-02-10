@@ -1,302 +1,120 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>House Of Aghori | Coming Soon</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Dhrubo | AI-Driven Growth & Sales Strategy Consultant</title>
-<meta name="description" content="Helping founders and leadership teams build predictable revenue using AI-driven go-to-market and sales systems.">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://dhrubo.shop/">
+    <!-- SEO -->
+    <meta name="description" content="House Of Aghori – शिव भक्ति, रामायण और महाभारत से प्रेरित आध्यात्मिक मंच। जल्द आ रहा है।">
+    <meta name="keywords" content="House Of Aghori, Shiv Bhakti, Mahadev, Aghori, Ramayan, Mahabharat">
 
-<!-- Open Graph -->
-<meta property="og:title" content="Dhrubo – AI Growth & Sales Strategy">
-<meta property="og:description" content="AI-enabled GTM and sales systems for real business growth.">
-<meta property="og:url" content="https://dhrubo.shop/">
-<meta property="og:image" content="https://dhrubo.shop/profile.jpeg">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: radial-gradient(circle at top, #1a1a1a, #000);
+            color: #fff;
+            text-align: center;
+        }
 
-<!-- Schema -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Dhrubo",
-  "url": "https://dhrubo.shop",
-  "sameAs": ["https://www.linkedin.com/in/dhrubojyoti-gangopadhyay/"],
-  "jobTitle": "AI Growth & Sales Strategy Consultant",
-  "telephone": "+91-9874076688"
-}
-</script>
+        .container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
 
-<style>
-:root{
-  --bg:#020617;
-  --card:rgba(255,255,255,.08);
-  --border:rgba(255,255,255,.15);
-  --text:#e5e7eb;
-  --muted:#9ca3af;
-  --accent:#38bdf8;
-  --accent2:#818cf8;
-}
+        .banner {
+            max-width: 100%;
+            border-radius: 14px;
+            box-shadow: 0 0 45px rgba(255, 174, 0, 0.7);
+        }
 
-*{box-sizing:border-box;margin:0;padding:0}
+        h1 {
+            margin-top: 22px;
+            font-size: 2.6rem;
+            color: #ffcc66;
+        }
 
-body{
-  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-  background:radial-gradient(1200px at top,#020617,#000);
-  color:var(--text);
-  line-height:1.6;
-}
+        h2 {
+            font-weight: normal;
+            margin-top: 6px;
+            color: #ddd;
+        }
 
-a{color:var(--accent);text-decoration:none}
+        .coming {
+            margin: 22px 0;
+            font-size: 1.5rem;
+            color: #ffa500;
+            letter-spacing: 3px;
+        }
 
-section{
-  max-width:1150px;
-  margin:auto;
-  padding:56px 20px;
-}
+        .links {
+            margin-top: 15px;
+        }
 
-h1{
-  font-size:48px;
-  line-height:1.15;
-  background:linear-gradient(90deg,var(--accent),var(--accent2));
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
+        .links a {
+            display: inline-block;
+            margin: 8px;
+            padding: 12px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            color: #000;
+            background: linear-gradient(145deg, #ffcc66, #ffa500);
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
 
-h2{font-size:32px;margin-bottom:20px}
+        .links a:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 15px rgba(255,165,0,0.8);
+        }
 
-p{color:var(--muted);font-size:18px;max-width:760px}
+        .email {
+            margin-top: 18px;
+            font-size: 1.05rem;
+            color: #ccc;
+        }
 
-/* HERO */
-.hero{
-  display:grid;
-  grid-template-columns:1.2fr .8fr;
-  gap:40px;
-  align-items:center;
-  padding-top:90px;
-}
-
-.hero img{
-  width:100%;
-  max-width:420px;
-  aspect-ratio:1/1;
-  object-fit:cover;
-  border-radius:22px;
-  border:1px solid var(--border);
-}
-
-/* BUTTON */
-.btn{
-  display:inline-block;
-  margin-top:32px;
-  padding:14px 32px;
-  background:linear-gradient(90deg,var(--accent),var(--accent2));
-  color:#020617;
-  font-weight:700;
-  border-radius:14px;
-}
-
-/* FLOW */
-.flow{
-  background:linear-gradient(180deg,transparent,rgba(255,255,255,.03));
-  border-top:1px solid var(--border);
-}
-
-/* GRID */
-.grid{
-  display:grid;
-  gap:28px;
-}
-.grid-3{
-  grid-template-columns:repeat(3,1fr);
-}
-
-/* CARD */
-.card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:28px;
-  backdrop-filter:blur(12px);
-}
-
-/* VIDEO FIX — ONLY CHANGE */
-.video-wrap{
-  display:flex;
-  justify-content:center;
-}
-
-/* Mobile: full width */
-.video-wrap video{
-  width:100%;
-  aspect-ratio:16/9;
-  border-radius:20px;
-  border:1px solid var(--border);
-}
-
-/* Desktop: controlled size */
-@media (min-width: 1024px){
-  .video-wrap video{
-    max-width:560px;
-  }
-}
-
-/* SCROLL ANIMATION */
-.reveal{
-  opacity:0;
-  transform:translateY(18px);
-  transition:opacity .7s ease, transform .7s ease;
-}
-.reveal.visible{
-  opacity:1;
-  transform:none;
-}
-
-/* FLOATING BUTTONS */
-.float-wrap{
-  position:fixed;
-  right:20px;
-  bottom:20px;
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-  z-index:999;
-}
-.float-btn{
-  width:54px;
-  height:54px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:26px;
-  color:#020617;
-  font-weight:bold;
-  box-shadow:0 10px 30px rgba(0,0,0,.4);
-}
-.whatsapp{background:#25D366}
-.call{background:#38bdf8}
-
-/* FOOTER */
-footer{
-  text-align:center;
-  padding:40px 20px;
-  color:var(--muted);
-  border-top:1px solid var(--border);
-  font-size:14px;
-}
-
-/* MOBILE */
-@media(max-width:900px){
-  .hero{grid-template-columns:1fr}
-  h1{font-size:36px}
-  h2{font-size:26px}
-  .grid-3{grid-template-columns:1fr}
-}
-</style>
+        footer {
+            margin-top: 28px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+    </style>
 </head>
-
 <body>
 
-<!-- HERO -->
-<section class="hero reveal">
-  <div>
-    <h1>AI-Driven Growth & Sales Strategy<br>for Founders</h1>
-    <p>
-      I help founders and leadership teams build predictable revenue using AI-enabled
-      go-to-market and sales systems — focused on execution, not hype.
-    </p>
-    <a href="#booking" class="btn">Book a Free Strategy Call</a>
-  </div>
-  <img src="profile.jpeg" alt="Dhrubo">
-</section>
+<div class="container">
 
-<!-- VIDEO -->
-<section class="flow reveal">
-  <div class="video-wrap">
-    <video controls playsinline preload="metadata" poster="profile.jpeg">
-      <source src="iv.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-  </div>
-</section>
+    <!-- Banner Image -->
+    <img src="Aghori.png" alt="House Of Aghori" class="banner">
 
-<!-- WHO -->
-<section class="reveal">
-  <h2>Who I Work With</h2>
-  <div class="grid grid-3">
-    <div class="card">B2B, SaaS & service founders</div>
-    <div class="card">Leadership teams facing stalled growth</div>
-    <div class="card">Companies serious about AI ROI</div>
-  </div>
-</section>
+    <h1>House Of Aghori 🔱</h1>
+    <h2>जहाँ भक्ति मिलती है दिव्यता से</h2>
 
-<!-- PROBLEMS -->
-<section class="flow reveal">
-  <h2>Problems I Solve</h2>
-  <div class="grid grid-3">
-    <div class="card">Founder-dependent sales</div>
-    <div class="card">Unpredictable conversions</div>
-    <div class="card">AI without business impact</div>
-  </div>
-</section>
+    <div class="coming">🚧 COMING SOON 🚧</div>
 
-<!-- METHOD -->
-<section class="reveal">
-  <h2>My Approach</h2>
-  <div class="grid grid-3">
-    <div class="card"><strong>Diagnose</strong><br>Revenue & AI leverage points</div>
-    <div class="card"><strong>Design</strong><br>Custom GTM & sales systems</div>
-    <div class="card"><strong>Execute</strong><br>Hands-on till results show</div>
-  </div>
-</section>
+    <!-- SOCIAL LINKS -->
+    <div class="links">
+        <a href="https://youtube.com/@houseofaghori" target="_blank">YouTube</a>
+        <a href="https://www.instagram.com/houseofaghori" target="_blank">Instagram</a>
+        <a href="https://www.facebook.com/HouseOfAghori" target="_blank">Facebook</a>
+    </div>
 
-<!-- CALENDLY -->
-<section id="booking" class="flow reveal">
-  <h2>Book a Free Strategy Call</h2>
-  <div class="card">
-    <div class="calendly-inline-widget"
-      data-url="https://calendly.com/dhrubojyoti-gangopadhyay/30min"
-      style="min-width:320px;height:700px;"></div>
-  </div>
-</section>
+    <!-- EMAIL -->
+    <div class="email">
+        📩 संपर्क करें: <strong>dhrubo@dhrubo.shop</strong>
+    </div>
 
-<!-- CONTACT -->
-<section class="reveal">
-  <h2>Contact</h2>
-  <p>
-    📧 <a href="mailto:dhrubo@dhrubo.shop">dhrubo@dhrubo.shop</a><br>
-    📞 <a href="tel:+919874076688">+91 98740 76688</a><br>
-    🔗 <a href="https://www.linkedin.com/in/dhrubojyoti-gangopadhyay/" target="_blank">LinkedIn Profile</a>
-  </p>
-</section>
+    <footer>
+        🙏 हर हर महादेव
+    </footer>
 
-<footer>
-© 2026 Dhrubo ·
-<a href="/privacy.html">Privacy</a> ·
-<a href="/terms.html">Terms</a>
-</footer>
-
-<!-- FLOATING BUTTONS -->
-<div class="float-wrap">
-  <a class="float-btn whatsapp" href="https://wa.me/919874076688" target="_blank">🟢</a>
-  <a class="float-btn call" href="tel:+919874076688">📞</a>
 </div>
-
-<!-- SCROLL ANIMATION -->
-<script>
-const reveals=document.querySelectorAll('.reveal');
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting)e.target.classList.add('visible');
-  });
-},{threshold:0.15});
-reveals.forEach(r=>observer.observe(r));
-</script>
-
-<!-- CALENDLY -->
-<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
 
 </body>
 </html>
