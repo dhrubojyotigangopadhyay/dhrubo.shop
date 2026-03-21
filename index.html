@@ -3,90 +3,56 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dhrubo AI | Auto Hunter v3</title>
+<title>Dhrubo AI</title>
 
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyBiq6QmLQkTiHfNajx9k10RIWssE6NJmIQ",
-    authDomain: "job-automation-by-dg.firebaseapp.com",
-    projectId: "job-automation-by-dg",
-    storageBucket: "job-automation-by-dg.firebasestorage.app",
-    messagingSenderId: "943732948669",
-    appId: "1:943732948669:web:a99464562f48cc3aa681d4"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-window.currentUserData = null;
-
-window.checkUserAndLoad = async (user) => {
-    const userRef = doc(db, "users", user.email);
-    const snap = await getDoc(userRef);
-
-    if (!snap.exists()) {
-        const data = { name: user.name, email: user.email, usage: 0, paid: false };
-        await setDoc(userRef, data);
-        return data;
-    }
-    return snap.data();
-};
-
-window.updateUsage = async (email) => {
-    await updateDoc(doc(db, "users", email), { usage: increment(1) });
-};
-</script>
-
 <style>
 body {
-    margin:0;
-    font-family:'Inter',sans-serif;
-    background:#0b0c14;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
-    color:white;
+  margin:0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background:#0b0c14;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
 }
 
-.popup-card {
-    width:90%;
-    max-width:420px;
-    padding:30px;
-    border-radius:25px;
-    background:#15162b;
-    text-align:center;
+.card {
+  width:92%;
+  max-width:420px;
+  background:#15162b;
+  padding:25px;
+  border-radius:20px;
+  text-align:center;
 }
 
-.input-box {
-    width:100%;
-    padding:15px;
-    border-radius:12px;
-    margin-bottom:10px;
-    border:none;
+h2 { margin-bottom:10px; }
+
+input, button {
+  width:100%;
+  padding:16px;
+  margin:8px 0;
+  border-radius:12px;
+  border:none;
+  font-size:16px;
 }
 
-.btn {
-    width:100%;
-    padding:15px;
-    border:none;
-    border-radius:12px;
-    background:#50e3c2;
-    font-weight:bold;
+button {
+  background:#50e3c2;
+  font-weight:700;
 }
 
-#log-box {
-    margin-top:15px;
-    height:120px;
-    overflow:auto;
-    background:#000;
-    padding:10px;
-    font-size:12px;
+#log {
+  margin-top:10px;
+  height:120px;
+  overflow:auto;
+  background:#000;
+  font-size:12px;
+  padding:10px;
+  border-radius:10px;
+  text-align:left;
 }
 
 .hidden { display:none; }
@@ -95,137 +61,134 @@ body {
 
 <body>
 
-<!-- LOGIN -->
-<div id="login-section" class="popup-card">
-<h3>Dhrubo AI</h3>
-<button class="btn" onclick="login()">Login with Google</button>
+<div id="login" class="card">
+<h2>Dhrubo AI 🚀</h2>
+<p>Auto Apply Jobs in Seconds</p>
+<button onclick="login()">Continue with Google</button>
 </div>
 
-<!-- APP -->
-<div id="app-section" class="popup-card hidden">
-<h3>Auto Hunter</h3>
+<div id="app" class="card hidden">
+<h2>Auto Hunter</h2>
 
-<input id="role" class="input-box" placeholder="Role">
-<input id="loc" class="input-box" placeholder="City">
+<input id="role" placeholder="e.g. Cloud Engineer">
+<input id="loc" placeholder="e.g. Kolkata">
 <input type="file" id="cv" accept=".pdf">
 
-<button class="btn" onclick="startAutomation()">Run</button>
+<button onclick="start()">Find & Apply</button>
 
-<div id="log-box"></div>
+<div id="log"></div>
 </div>
 
-<!-- PAYMENT -->
-<div id="payment-section" class="popup-card hidden">
-<h3>Unlock 🚀</h3>
-<p>Free 10 applies used. Pay ₹49</p>
+<div id="pay" class="card hidden">
+<h2>Unlock 🚀</h2>
+<p>You've unlocked real job leads.<br><b>Continue for ₹49</b></p>
 
-<img src="Gpayqr.jpeg" style="width:70%;max-width:250px;margin:10px 0">
+<img src="Gpayqr.jpeg" style="width:70%;border-radius:12px">
 
-<input id="upiRef" class="input-box" placeholder="Enter UPI Ref ID">
-
-<button class="btn" onclick="verifyPayment()">Unlock</button>
+<input id="upi" placeholder="Enter UPI Ref ID">
+<button onclick="unlock()">Unlock Now</button>
 </div>
 
 <script>
-let token=null,currentUser=null;
-
-const GOOGLE_API_KEY="AIzaSyAGqXNVcf67mqKylU2AiksSVWyWUDF5m0U";
-const GOOGLE_CX="855a248eb0a8e4f1a";
+let token=null;
+let usage=0;
+let paid=false;
 
 async function login(){
-    const client=google.accounts.oauth2.initTokenClient({
-        client_id:"943732948669-5q4kg3iersrk9rmiclr7e4l6tqdlpj6e.apps.googleusercontent.com",
-        scope:"https://www.googleapis.com/auth/gmail.send profile email",
-        callback:async(res)=>{
-            token=res.access_token;
-
-            currentUser=await fetch("https://www.googleapis.com/oauth2/v3/userinfo",
-            {headers:{Authorization:`Bearer ${token}`}}).then(r=>r.json());
-
-            currentUserData=await window.checkUserAndLoad(currentUser);
-
-            document.getElementById("login-section").classList.add("hidden");
-            document.getElementById("app-section").classList.remove("hidden");
-        }
-    });
-    client.requestAccessToken();
-}
-
-async function startAutomation(){
-
-    if(currentUserData.usage>=10 && !currentUserData.paid){
-        document.getElementById("app-section").classList.add("hidden");
-        document.getElementById("payment-section").classList.remove("hidden");
-        return;
+  const client=google.accounts.oauth2.initTokenClient({
+    client_id:"YOUR_GOOGLE_CLIENT_ID",
+    scope:"https://www.googleapis.com/auth/gmail.send profile email",
+    callback:(res)=>{
+      token=res.access_token;
+      document.getElementById("login").classList.add("hidden");
+      document.getElementById("app").classList.remove("hidden");
     }
-
-    const role=document.getElementById("role").value;
-    const loc=document.getElementById("loc").value;
-    const file=document.getElementById("cv").files[0];
-
-    if(!role||!file)return alert("Fill everything");
-
-    updateLog("Searching jobs...");
-
-    const res=await fetch(`https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${GOOGLE_CX}&q=${role}+jobs+${loc}`);
-    const data=await res.json();
-    const items=data.items||[];
-
-    const reader=new FileReader();
-
-    reader.onload=async()=>{
-        const b64=reader.result.split(',')[1];
-        let emails=new Set();
-
-        for(let item of items){
-            let m=item.snippet.match(/[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+/g);
-            if(m) m.forEach(e=>emails.add(e));
-
-            updateLog("Scanning...");
-            await sleep(2000);
-        }
-
-        for(let email of emails){
-            await sendEmail(email,role,b64,file.name);
-
-            await window.updateUsage(currentUser.email);
-            currentUserData.usage++;
-
-            updateLog("Sent: "+email);
-            await sleep(4000);
-        }
-
-        updateLog("Done 🚀");
-    };
-
-    reader.readAsDataURL(file);
+  });
+  client.requestAccessToken();
 }
 
-async function sendEmail(to,role,cv,name){
-    const raw=btoa(`To:${to}\nSubject:Application for ${role}\n\nApplying for ${role}`);
-    return fetch("https://gmail.googleapis.com/gmail/v1/users/me/messages/send",{
-        method:"POST",
-        headers:{Authorization:`Bearer ${token}`,"Content-Type":"application/json"},
-        body:JSON.stringify({raw})
-    });
+async function start(){
+
+  if(usage>=10 && !paid){
+    document.getElementById("app").classList.add("hidden");
+    document.getElementById("pay").classList.remove("hidden");
+    return;
+  }
+
+  const role=document.getElementById("role").value;
+  const loc=document.getElementById("loc").value;
+
+  log("🔍 Searching jobs...");
+
+  let jobs=[];
+
+  // 🔥 JOOBLE
+  try{
+    let j=await fetch("https://jooble.org/api/YOUR_JOOBLE_KEY",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({keywords:role,location:loc})
+    }).then(r=>r.json());
+
+    if(j.jobs){
+      jobs=jobs.concat(j.jobs.map(x=>x.link));
+    }
+    log("Jooble: "+jobs.length);
+  }catch{}
+
+  // 🔥 ADZUNA
+  try{
+    let a=await fetch(`https://api.adzuna.com/v1/api/jobs/in/search/1?app_id=YOUR_ID&app_key=YOUR_KEY&what=${role}&where=${loc}`)
+    .then(r=>r.json());
+
+    if(a.results){
+      jobs=jobs.concat(a.results.map(x=>x.redirect_url));
+    }
+    log("Adzuna added");
+  }catch{}
+
+  // 🔥 RAPIDAPI
+  try{
+    let r=await fetch(`https://jsearch.p.rapidapi.com/search?query=${role}%20${loc}`,{
+      headers:{
+        "X-RapidAPI-Key":"YOUR_RAPID_KEY",
+        "X-RapidAPI-Host":"jsearch.p.rapidapi.com"
+      }
+    }).then(r=>r.json());
+
+    if(r.data){
+      jobs=jobs.concat(r.data.map(x=>x.job_apply_link));
+    }
+    log("RapidAPI added");
+  }catch{}
+
+  // remove duplicates
+  jobs=[...new Set(jobs)];
+
+  log("Total jobs: "+jobs.length);
+
+  // 🔥 OPEN LINKS (REAL APPLY)
+  for(let j of jobs){
+    window.open(j,"_blank");
+    await sleep(2000);
+  }
+
+  usage++;
+  log("Done 🚀");
 }
 
-async function verifyPayment(){
-    const ref=document.getElementById("upiRef").value;
-    if(!ref)return alert("Enter UPI Ref");
-
-    await updateDoc(doc(db,"users",currentUser.email),{paid:true});
-
-    alert("Unlocked 🚀");
-    location.reload();
+function unlock(){
+  paid=true;
+  alert("Unlocked 🚀");
+  location.reload();
 }
 
-function updateLog(m){
-    document.getElementById("log-box").innerHTML+=`<div>${m}</div>`;
+function log(t){
+  document.getElementById("log").innerHTML+="<div>"+t+"</div>";
 }
 
 function sleep(ms){
-    return new Promise(r=>setTimeout(r,ms));
+  return new Promise(r=>setTimeout(r,ms));
 }
 </script>
 
