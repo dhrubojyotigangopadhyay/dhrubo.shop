@@ -1,130 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Dhrubo AI Job Auto Apply</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dhrubo AI Job Auto Apply</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-<!-- Google OAuth -->
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBiq6QmLQkTiHfNajx9k10RIWssE6NJmIQ",
+            authDomain: "job-automation-by-dg.firebaseapp.com",
+            projectId: "job-automation-by-dg",
+            storageBucket: "job-automation-by-dg.firebasestorage.app",
+            messagingSenderId: "943732948669",
+            appId: "1:943732948669:web:a99464562f48cc3aa681d4"
+        };
 
-<!-- Firebase -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-// 🔥 Your Firebase Config
-const firebaseConfig = {
-  apiKey: "AIzaSyBiq6QmLQkTiHfNajx9k10RIWssE6NJmIQ",
-  authDomain: "job-automation-by-dg.firebaseapp.com",
-  projectId: "job-automation-by-dg",
-  storageBucket: "job-automation-by-dg.firebasestorage.app",
-  messagingSenderId: "943732948669",
-  appId: "1:943732948669:web:a99464562f48cc3aa681d4"
-};
+        window.saveUser = async (user) => {
+            await setDoc(doc(db, "users", user.email), {
+                name: user.name,
+                email: user.email,
+                credits: 10,
+                createdAt: new Date()
+            });
+        };
+    </script>
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-// Save user globally
-window.saveUser = async (user) => {
-  await setDoc(doc(db, "users", user.email), {
-    name: user.name,
-    email: user.email,
-    credits: 10,
-    createdAt: new Date()
-  });
-};
-</script>
-
-<style>
-body {
-  margin:0;
-  font-family: Arial;
-  background: linear-gradient(135deg,#0b1a2f,#132a4a);
-  color:white;
-  text-align:center;
-}
-
-.container {
-  margin-top:120px;
-}
-
-.card {
-  background: rgba(255,255,255,0.05);
-  padding:40px;
-  border-radius:16px;
-  display:inline-block;
-  box-shadow:0 0 30px rgba(0,255,150,0.1);
-}
-
-button {
-  margin-top:30px;
-  padding:14px 28px;
-  border-radius:10px;
-  border:none;
-  background:#00ff99;
-  font-weight:bold;
-  cursor:pointer;
-}
-</style>
+    <style>
+        body { margin:0; font-family: 'Segoe UI', Arial; background: linear-gradient(135deg,#0b1a2f,#132a4a); color:white; text-align:center; min-height: 100vh; }
+        .container { padding-top: 50px; }
+        .card { background: rgba(255,255,255,0.05); padding:40px; border-radius:16px; display:inline-block; box-shadow:0 0 30px rgba(0,255,150,0.1); width: 90%; max-width: 500px; }
+        input, select, button { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: none; box-sizing: border-box; }
+        input, select { background: rgba(255,255,255,0.1); color: white; }
+        button { background:#00ff99; font-weight:bold; cursor:pointer; color: #0b1a2f; }
+        button:disabled { background: #555; cursor: not-allowed; }
+        .hidden { display: none; }
+        #status { margin-top: 20px; color: #00ff99; font-size: 14px; }
+    </style>
 </head>
-
 <body>
 
 <div class="container">
-  <div class="card">
-    <h1>🚀 AI Job Auto Apply</h1>
-    <p>Login & auto apply to jobs using AI</p>
+    <div class="card">
+        <h1>🚀 AI Job Auto Apply</h1>
+        
+        <div id="login-section">
+            <p>Login with Gmail to allow AI to send applications on your behalf.</p>
+            <button onclick="login()">Continue with Google</button>
+        </div>
 
-    <button onclick="login()">Continue with Google</button>
+        <div id="app-section" class="hidden">
+            <p id="welcome-msg"></p>
+            
+            <input type="text" id="jobRole" placeholder="Enter Job Role (e.g. Python Developer)">
+            <input type="file" id="cvFile" accept=".pdf,.doc,.docx">
+            
+            <div style="background: rgba(0,255,150,0.1); padding: 10px; border-radius: 8px; margin: 10px 0;">
+                <p style="margin: 5px 0;">Service Fee: 10 Credits / $1</p>
+                <button onclick="processPayment()" id="payBtn">Pay & Start Applying</button>
+            </div>
 
-    <p style="font-size:12px;margin-top:20px;">
-      We request Gmail permission to send applications.
-    </p>
-  </div>
+            <div id="status"></div>
+        </div>
+    </div>
 </div>
 
 <script>
 let tokenClient;
+let accessToken = null;
+let currentUser = null;
 
+// 1. LOGIN & AUTHORIZATION
 function login() {
+    tokenClient = google.accounts.oauth2.initTokenClient({
+        client_id: "943732948669-xxxxxxxxxxxxxxxx.apps.googleusercontent.com", // 🚩 PUT REAL ID HERE
+        scope: "https://www.googleapis.com/auth/gmail.send profile email",
+        callback: async (response) => {
+            if (response.error) return;
+            
+            accessToken = response.access_token;
+            
+            // Get User Profile
+            const user = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+                headers: { Authorization: `Bearer ${accessToken}` }
+            }).then(res => res.json());
 
-  tokenClient = google.accounts.oauth2.initTokenClient({
-    client_id: "YOUR_CLIENT_ID", // 🔥 PUT YOUR CLIENT ID
-    scope: "https://www.googleapis.com/auth/gmail.send profile email",
-
-    callback: async (response) => {
-
-      if (response.error) {
-        alert("Login failed");
-        return;
-      }
-
-      // Save token
-      localStorage.setItem("access_token", response.access_token);
-
-      // Get user info
-      const user = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
-        headers: {
-          Authorization: "Bearer " + response.access_token
+            currentUser = user;
+            await window.saveUser(user);
+            
+            // UI Transition
+            document.getElementById('login-section').classList.add('hidden');
+            document.getElementById('app-section').classList.remove('hidden');
+            document.getElementById('welcome-msg').innerText = `Welcome, ${user.name}!`;
         }
-      }).then(res => res.json());
+    });
+    tokenClient.requestAccessToken();
+}
 
-      // Save locally
-      localStorage.setItem("userEmail", user.email);
-      localStorage.setItem("userName", user.name);
+// 2. PAYMENT PLACEHOLDER
+function processPayment() {
+    document.getElementById('status').innerText = "Verifying Payment...";
+    // In a real app, integrate Stripe or Razorpay here
+    setTimeout(() => {
+        document.getElementById('status').innerText = "Payment Successful! Searching for jobs...";
+        startAutoApply();
+    }, 2000);
+}
 
-      // 🔥 Save to Firebase
-      await window.saveUser(user);
+// 3. AUTO APPLY LOGIC
+async function startAutoApply() {
+    const role = document.getElementById('jobRole').value;
+    const file = document.getElementById('cvFile').files[0];
 
-      alert("Welcome " + user.name);
-
-      // Redirect to payment
-      window.location.href = "payment.html";
+    if (!role || !file) {
+        alert("Please provide job role and CV");
+        return;
     }
-  });
 
-  tokenClient.requestAccessToken();
+    const reader = new FileReader();
+    reader.onload = async function() {
+        const base64CV = reader.result.split(',')[1];
+        
+        // MOCKUP: Find jobs (In real life, your backend would scrape or use an API)
+        const sampleJobs = [
+            { email: "hr@techcorp.com", company: "TechCorp" },
+            { email: "hiring@startup.io", company: "StartupIO" }
+        ];
+
+        for (let job of sampleJobs) {
+            document.getElementById('status').innerText = `Sending CV to ${job.company}...`;
+            await sendEmailWithCV(job.email, role, file.name, base64CV);
+        }
+        
+        document.getElementById('status').innerText = "✅ All applications sent!";
+    };
+    reader.readAsDataURL(file);
+}
+
+// 4. GMAIL API INTEGRATION
+async function sendEmailWithCV(toEmail, role, fileName, base64CV) {
+    const boundary = "foo_bar_baz";
+    const subject = `Application for ${role} - ${currentUser.name}`;
+    
+    // Constructing the MIME message
+    const message = [
+        `To: ${toEmail}`,
+        `Subject: ${subject}`,
+        `MIME-Version: 1.0`,
+        `Content-Type: multipart/mixed; boundary=${boundary}`,
+        ``,
+        `--${boundary}`,
+        `Content-Type: text/plain; charset="UTF-8"`,
+        ``,
+        `Hello,\n\nPlease find my attached CV for the ${role} position.\n\nBest regards,\n${currentUser.name}`,
+        ``,
+        `--${boundary}`,
+        `Content-Type: application/pdf; name="${fileName}"`,
+        `Content-Disposition: attachment; filename="${fileName}"`,
+        `Content-Transfer-Encoding: base64`,
+        ``,
+        base64CV,
+        `--${boundary}--`
+    ].join('\r\n');
+
+    const encodedMessage = btoa(unescape(encodeURIComponent(message)))
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/, '');
+
+    return fetch("https://gmail.googleapis.com/gmail/v1/users/me/messages/send", {
+        method: "POST",
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ raw: encodedMessage })
+    });
 }
 </script>
 
