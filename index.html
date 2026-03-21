@@ -51,7 +51,6 @@
 
     <style>
         :root { --primary: #00ff99; --bg: #0a0b10; --card-bg: #161821; --text: #ffffff; }
-        
         * { box-sizing: border-box; }
 
         body { 
@@ -133,7 +132,7 @@
             font-size: 11px; 
             color: var(--primary); 
             text-align: left; 
-            height: 120px; 
+            height: 150px; 
             overflow-y: auto; 
             border: 1px solid #222; 
             font-family: monospace; 
@@ -141,7 +140,6 @@
 
         .pending-msg { background: #f39c12; color: #000; padding: 15px; border-radius: 15px; font-size: 13px; font-weight: bold; margin-top: 15px; }
         
-        /* Footer Links Style */
         .footer-links { margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; }
         .footer-links a { color: #888; font-size: 11px; text-decoration: none; margin: 0 8px; }
         .footer-links p { color: #444; font-size: 10px; margin-top: 10px; }
@@ -162,7 +160,7 @@
             <div class="stats" id="usage-stats">Balance Used: 0 / 10</div>
             
             <div id="inputs-wrapper">
-                <input type="text" id="role" placeholder="Job Title (e.g. Sales)">
+                <input type="text" id="role" placeholder="Job Title (e.g. Sales Manager)">
                 <input type="text" id="loc" placeholder="Location (e.g. Kolkata)">
                 <div style="text-align:left; font-size:11px; color:var(--primary); margin: 10px 0 0 5px; font-weight:bold;">ATTACH RESUME (PDF)</div>
                 <input type="file" id="cv" accept=".pdf" style="font-size: 12px;">
@@ -181,7 +179,7 @@
                 <span style="font-weight:normal; font-size:11px;">Verification in progress. Unlocking soon.</span>
             </div>
 
-            <div id="log-box">Initialized...</div>
+            <div id="log-box">System Active. Ready for input.</div>
         </div>
 
         <div class="footer-links">
@@ -197,8 +195,10 @@
     let currentUser = null;
     let userData = { usage: 0, paid: false, pendingApproval: false, welcomeSent: false };
 
+    // ✅ GOOGLE KEYS
+    const GOOGLE_API_KEY = "AIzaSyAGqXNVcf67mqKylU2AiksSVWyWUDF5m0U"; 
+    const GOOGLE_CX = "855a248eb0a8e4f1a"; 
     const CLIENT_ID = "943732948669-5q4kg3iersrk9rmiclr7e4l6tqdlpj6e.apps.googleusercontent.com"; 
-    const RAPID_API_KEY = "ee9d951672msha07d736cec3bccdp1b82d5jsn720b11b79449"; 
     const ADMIN_EMAIL = "dhrubojyoti.gangopadhyay@gmail.com";
 
     const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -267,37 +267,70 @@
         const file = document.getElementById('cv').files[0];
         if(!role || !file) return alert("Fill all fields.");
 
-        document.getElementById('goBtn').disabled = true;
-        log(`🔍 Finding 10 jobs...`);
+        const btn = document.getElementById('goBtn');
+        btn.disabled = true;
+        btn.innerText = "AI Deep-Scraping...";
         
+        log(`🔍 Accessing Google Jobs for ${role} in ${loc}...`);
+
         try {
-            const res = await fetch(`https://jsearch.p.rapidapi.com/search?query=${role}%20in%20${loc}`, {
-                headers: { 'x-rapidapi-key': RAPID_API_KEY, 'x-rapidapi-host': 'jsearch.p.rapidapi.com' }
-            });
+            // 📡 1. Search for Jobs via Google CSE
+            const res = await fetch(`https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${GOOGLE_CX}&q=${role}+jobs+in+${loc}`);
             const data = await res.json();
-            const jobs = data.data.slice(0, 10); 
+            const jobs = data.items ? data.items.slice(0, 10) : [];
+
+            if(jobs.length === 0) {
+                log("No jobs found. Try different keywords.");
+                btn.disabled = false;
+                return;
+            }
 
             const reader = new FileReader();
             reader.onload = async () => {
                 const base64CV = reader.result.split(',')[1];
+
                 for(let i = 0; i < jobs.length; i++) {
                     const job = jobs[i];
-                    let domain = job.employer_website ? job.employer_website.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('/')[0] : "hr-recruit.com";
-                    log(`📤 [${i+1}/10] Applying to ${job.employer_name}`);
-                    const body = `Dear Team,\n\nI am applying for the ${job.job_title} role at ${job.employer_name}. CV attached.\n\nBest,\n${userData.name}`;
+                    let domain = job.displayLink.replace('www.', '');
+                    
+                    log(`🎯 Analyzing ${domain} for contacts...`);
+
+                    // 📡 2. THE DEEP SCRAPE: Search specifically for the HR email in the snippet
+                    const emailSearch = await fetch(`https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${GOOGLE_CX}&q=HR+email+address+at+${domain}`);
+                    const emailData = await emailSearch.json();
+                    
+                    let targetEmail = `hr@${domain}`; // Fallback guess
+                    
+                    if (emailData.items) {
+                        for (let item of emailData.items.slice(0,3)) {
+                            const match = item.snippet.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/gi);
+                            if (match) {
+                                targetEmail = match[0];
+                                log(`✨ Found Real ID: ${targetEmail}`);
+                                break; 
+                            }
+                        }
+                    }
+
+                    log(`📤 [${i+1}/10] Mailing ${targetEmail}`);
+
+                    const body = `Dear Team,\n\nI am applying for the ${role} position. I found your contact through Dhrubo AI's automated search.\n\nPlease find my resume attached.\n\nBest regards,\n${userData.name}`;
+
                     try {
-                        await sendGmail(`careers@${domain}`, `Application: ${job.job_title}`, job.employer_name, base64CV, file.name, body);
+                        await sendGmail(targetEmail, `Job Application: ${role}`, domain, base64CV, file.name, body);
                         await window.updateUsage(currentUser.email);
                         userData.usage++;
                         refreshUI();
-                    } catch(err) { log(`⚠️ Error at ${job.employer_name}`); }
-                    await sleep(2500);
+                    } catch(e) { log(`⚠️ Delivery failed for ${domain}`); }
+
+                    await sleep(3500); // Prevent Gmail rate limiting
                 }
-                log("✅ Done! Batch complete.");
-                document.getElementById('goBtn').disabled = false;
+                log("🚀 BATCH COMPLETE. Emails are in your 'Sent' folder.");
+                btn.disabled = false;
+                btn.innerText = "Apply to 10 Jobs Now";
             };
             reader.readAsDataURL(file);
-        } catch (e) { log("Error. Check API."); document.getElementById('goBtn').disabled = false; }
+        } catch (e) { log("Error. Check API settings."); btn.disabled = false; }
     }
 
     async function sendGmail(to, subject, company, cvData, cvName, customBody) {
