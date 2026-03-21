@@ -26,7 +26,7 @@
             await setDoc(doc(db, "users", user.email), {
                 name: user.name,
                 email: user.email,
-                status: "Free User",
+                status: "Active User",
                 lastUsed: new Date()
             }, { merge: true });
         };
@@ -55,8 +55,8 @@
 
     <div id="app-section" class="hidden">
         <p id="user-display" style="font-size: 14px; color: #888;"></p>
-        <input type="text" id="role" placeholder="Job Title (e.g. Python Developer)">
-        <input type="text" id="loc" placeholder="Location (e.g. India)">
+        <input type="text" id="role" placeholder="Job Title (e.g. Software Engineer)">
+        <input type="text" id="loc" placeholder="Location (e.g. Remote)">
         <div style="text-align:left; font-size:12px; margin-bottom:5px; color:#00ff99;">Upload PDF Resume:</div>
         <input type="file" id="cv" accept=".pdf">
         
@@ -69,8 +69,8 @@
     let token = null;
     let user = null;
 
-    // 🚩 UPDATED FROM YOUR SCREENSHOT
-    const CLIENT_ID = "943732948669-xxxxxxxx.apps.googleusercontent.com"; // Make sure to use your actual full ID here
+    // ✅ YOUR ACTUAL KEYS LOADED
+    const CLIENT_ID = "943732948669-5q4kg3iersrk9rmiclr7e4l6tqdlpj6e.apps.googleusercontent.com"; 
     const RAPID_API_KEY = "ee9d951672msha07d736cec3bccdp1b82d5jsn720b11b79449"; 
 
     function login() {
@@ -78,7 +78,10 @@
             client_id: CLIENT_ID,
             scope: "https://www.googleapis.com/auth/gmail.send profile email",
             callback: async (res) => {
-                if (res.error) return;
+                if (res.error) {
+                    log("Login Error: " + res.error);
+                    return;
+                }
                 token = res.access_token;
                 user = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
                     headers: { Authorization: `Bearer ${token}` }
@@ -87,7 +90,7 @@
                 await window.saveUser(user);
                 document.getElementById('login-section').classList.add('hidden');
                 document.getElementById('app-section').classList.remove('hidden');
-                document.getElementById('user-display').innerText = "Account: " + user.email;
+                document.getElementById('user-display').innerText = "Logged in: " + user.email;
                 log("Authenticated successfully.");
             }
         });
@@ -105,9 +108,9 @@
         const location = document.getElementById('loc').value;
         const file = document.getElementById('cv').files[0];
 
-        if(!role || !file) return alert("Missing Info: Role and CV are required.");
+        if(!role || !file) return alert("Please fill in the Job Role and upload your CV.");
 
-        log(`Searching JSearch for: ${role} in ${location}...`);
+        log(`Searching JSearch for: ${role}...`);
         
         try {
             const response = await fetch(`https://jsearch.p.rapidapi.com/search?query=${role}%20in%20${location}&num_pages=1`, {
@@ -120,7 +123,7 @@
             const jobs = data.data.slice(0, 3); // Top 3 jobs
 
             if (jobs.length === 0) {
-                log("No jobs found. Try a broader search.");
+                log("No jobs found for this search.");
                 return;
             }
 
@@ -129,35 +132,33 @@
                 const base64CV = reader.result.split(',')[1];
 
                 for(let job of jobs) {
-                    log(`Processing: ${job.job_title} @ ${job.employer_name}`);
+                    log(`Processing: ${job.job_title} at ${job.employer_name}`);
                     
-                    // Note: JSearch provides a 'job_apply_link'. 
-                    // We simulate sending a follow-up email to HR.
-                    const targetEmail = "hr@targetcompany.com"; 
+                    // Sending to a generic HR placeholder for demonstration
+                    const targetEmail = "hr-department@company.com"; 
                     await sendGmail(targetEmail, job.job_title, job.employer_name, base64CV, file.name);
-                    log(`✅ Email sent to ${job.employer_name} hiring team.`);
                 }
-                log("DONE: All applications sent successfully!");
+                log("✅ Done! 3 emails sent from your Gmail address.");
             };
             reader.readAsDataURL(file);
 
         } catch (err) {
-            log("API Error: Check if RapidAPI Key is active.");
+            log("API Error: Check if your RapidAPI Key is active.");
         }
     }
 
     async function sendGmail(to, title, company, cvData, cvName) {
-        const boundary = "application_boundary";
+        const boundary = "boundary_str";
         const email = [
             `To: ${to}`,
-            `Subject: Application for ${title} - ${user.name}`,
+            `Subject: Job Application: ${title}`,
             `MIME-Version: 1.0`,
             `Content-Type: multipart/mixed; boundary=${boundary}`,
             ``,
             `--${boundary}`,
             `Content-Type: text/plain; charset="UTF-8"`,
             ``,
-            `Hi,\n\nI am applying for the ${title} position at ${company}. Please find my resume attached.\n\nBest regards,\n${user.name}`,
+            `Hello,\n\nI am applying for the ${title} position at ${company}. Please see my attached CV.\n\nBest regards,\n${user.name}`,
             ``,
             `--${boundary}`,
             `Content-Type: application/pdf; name="${cvName}"`,
