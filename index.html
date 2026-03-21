@@ -2,56 +2,69 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dhrubo AI Job Apply</title>
+<title>Dhrubo AI Job Auto Apply</title>
+
+<!-- Google OAuth -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// 🔥 Your Firebase Config
+const firebaseConfig = {
+  apiKey: "AIzaSyBiq6QmLQkTiHfNajx9k10RIWssE6NJmIQ",
+  authDomain: "job-automation-by-dg.firebaseapp.com",
+  projectId: "job-automation-by-dg",
+  storageBucket: "job-automation-by-dg.firebasestorage.app",
+  messagingSenderId: "943732948669",
+  appId: "1:943732948669:web:a99464562f48cc3aa681d4"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// Save user globally
+window.saveUser = async (user) => {
+  await setDoc(doc(db, "users", user.email), {
+    name: user.name,
+    email: user.email,
+    credits: 10,
+    createdAt: new Date()
+  });
+};
+</script>
 
 <style>
 body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #020617, #0f172a);
-  color: white;
+  margin:0;
+  font-family: Arial;
+  background: linear-gradient(135deg,#0b1a2f,#132a4a);
+  color:white;
+  text-align:center;
 }
 
 .container {
-  max-width: 420px;
-  margin: auto;
-  padding: 30px;
-  text-align: center;
+  margin-top:120px;
 }
 
 .card {
   background: rgba(255,255,255,0.05);
-  padding: 20px;
-  border-radius: 12px;
-  margin-top: 20px;
+  padding:40px;
+  border-radius:16px;
+  display:inline-block;
+  box-shadow:0 0 30px rgba(0,255,150,0.1);
 }
 
 button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  border-radius: 10px;
-  border: none;
-  background: #22c55e;
-  color: black;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-input {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  border-radius: 8px;
-  border: none;
-}
-
-.plan {
-  background: #111827;
-  padding: 15px;
-  border-radius: 10px;
-  margin-top: 10px;
+  margin-top:30px;
+  padding:14px 28px;
+  border-radius:10px;
+  border:none;
+  background:#00ff99;
+  font-weight:bold;
+  cursor:pointer;
 }
 </style>
 </head>
@@ -59,130 +72,59 @@ input {
 <body>
 
 <div class="container">
+  <div class="card">
+    <h1>🚀 AI Job Auto Apply</h1>
+    <p>Login & auto apply to jobs using AI</p>
 
-<h1>🚀 AI Job Auto Apply</h1>
-<p>Apply to jobs automatically using AI</p>
+    <button onclick="login()">Continue with Google</button>
 
-<!-- LOGIN -->
-<div class="card">
-<button onclick="login()">🔐 Login with Google</button>
-<p id="user"></p>
+    <p style="font-size:12px;margin-top:20px;">
+      We request Gmail permission to send applications.
+    </p>
+  </div>
 </div>
-
-<!-- UPLOAD + APPLY -->
-<div class="card">
-<input type="file" id="cv">
-<input type="text" id="role" placeholder="Enter job role">
-<button onclick="apply()">Auto Apply</button>
-<p id="msg"></p>
-</div>
-
-<!-- PLANS -->
-<div class="card">
-<h3>💰 Plans</h3>
-
-<div class="plan">Free → 3 Jobs</div>
-<div class="plan">₹9 → 10 Jobs</div>
-<div class="plan">₹49 → 50 Jobs</div>
-<div class="plan">₹99 → Unlimited</div>
-
-<img src="upi.png" width="180">
-<p>Scan & Pay → Then click confirm</p>
-<button onclick="paid()">I Paid</button>
-</div>
-
-</div>
-
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
 <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyBiq6QmLQkTiHfNajx9k10RIWssE6NJmIQ",
-  authDomain: "job-automation-by-dg.firebaseapp.com",
-  projectId: "job-automation-by-dg"
-};
+let tokenClient;
 
-firebase.initializeApp(firebaseConfig);
+function login() {
 
-const auth = firebase.auth();
-const db = firebase.firestore();
+  tokenClient = google.accounts.oauth2.initTokenClient({
+    client_id: "YOUR_CLIENT_ID", // 🔥 PUT YOUR CLIENT ID
+    scope: "https://www.googleapis.com/auth/gmail.send profile email",
 
-let currentUser = null;
+    callback: async (response) => {
 
-// LOGIN
-async function login() {
-  const provider = new firebase.auth.GoogleAuthProvider();
-  const result = await auth.signInWithPopup(provider);
-  currentUser = result.user;
+      if (response.error) {
+        alert("Login failed");
+        return;
+      }
 
-  document.getElementById("user").innerText =
-    "Logged in: " + currentUser.email;
+      // Save token
+      localStorage.setItem("access_token", response.access_token);
 
-  // Create user if not exists
-  const userRef = db.collection("users").doc(currentUser.uid);
-  const doc = await userRef.get();
+      // Get user info
+      const user = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+        headers: {
+          Authorization: "Bearer " + response.access_token
+        }
+      }).then(res => res.json());
 
-  if (!doc.exists) {
-    await userRef.set({
-      email: currentUser.email,
-      credits: 3,
-      paid: false
-    });
-  }
-}
+      // Save locally
+      localStorage.setItem("userEmail", user.email);
+      localStorage.setItem("userName", user.name);
 
-// APPLY
-async function apply() {
-  if (!currentUser) {
-    alert("Login first");
-    return;
-  }
+      // 🔥 Save to Firebase
+      await window.saveUser(user);
 
-  const role = document.getElementById("role").value;
+      alert("Welcome " + user.name);
 
-  const userRef = db.collection("users").doc(currentUser.uid);
-  const userDoc = await userRef.get();
-  const data = userDoc.data();
-
-  if (data.credits <= 0) {
-    alert("No credits. Please pay.");
-    return;
-  }
-
-  document.getElementById("msg").innerText =
-    "🚀 Applying to jobs...";
-
-  // Save job request
-  await db.collection("jobs").add({
-    user: currentUser.uid,
-    role: role,
-    time: new Date()
+      // Redirect to payment
+      window.location.href = "payment.html";
+    }
   });
 
-  // Deduct credit
-  await userRef.update({
-    credits: data.credits - 1
-  });
-
-  document.getElementById("msg").innerText =
-    "✅ Application submitted!";
-}
-
-// PAYMENT (manual)
-async function paid() {
-  if (!currentUser) return;
-
-  const userRef = db.collection("users").doc(currentUser.uid);
-
-  await userRef.update({
-    credits: 10,
-    paid: true
-  });
-
-  alert("Credits added! (Demo)");
+  tokenClient.requestAccessToken();
 }
 </script>
 
