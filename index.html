@@ -52,11 +52,11 @@
     <style>
         :root { --primary: #00ff99; --bg: #0a0b10; --card-bg: #161821; --text: #ffffff; }
         
-        * { box-sizing: border-box; } /* Fixes padding push-out issues */
+        * { box-sizing: border-box; }
 
         body { 
             margin: 0; 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
             background: var(--bg); 
             color: var(--text); 
             display: flex; 
@@ -89,7 +89,7 @@
             color: white; 
             margin-top: 8px; 
             outline: none; 
-            font-size: 16px; /* Prevents iPhone auto-zoom */
+            font-size: 16px; 
         }
 
         button { 
@@ -105,7 +105,6 @@
             font-size: 16px; 
         }
 
-        /* 📱 MOBILE FIX FOR QR CODE */
         #payment-section { 
             background: #ffffff; 
             color: #000; 
@@ -116,9 +115,9 @@
         }
 
         #payment-section img { 
-            width: 100%;      /* Makes image fit the container */
-            max-width: 220px; /* Limits size on desktop */
-            height: auto;     /* Maintains aspect ratio */
+            width: 100%;
+            max-width: 220px;
+            height: auto;
             margin: 10px 0; 
             border-radius: 10px; 
             border: 1px solid #ddd; 
@@ -141,6 +140,11 @@
         }
 
         .pending-msg { background: #f39c12; color: #000; padding: 15px; border-radius: 15px; font-size: 13px; font-weight: bold; margin-top: 15px; }
+        
+        /* Footer Links Style */
+        .footer-links { margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; }
+        .footer-links a { color: #888; font-size: 11px; text-decoration: none; margin: 0 8px; }
+        .footer-links p { color: #444; font-size: 10px; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -178,6 +182,12 @@
             </div>
 
             <div id="log-box">Initialized...</div>
+        </div>
+
+        <div class="footer-links">
+            <a href="privacy.html" target="_blank">Privacy Policy</a>
+            <a href="tos.html" target="_blank">Terms of Service</a>
+            <p>© 2026 Dhrubo AI Job Automator</p>
         </div>
     </div>
 </div>
@@ -222,9 +232,9 @@
         stats.innerText = `Balance Used: ${userData.usage} / ${limit}`;
 
         if (userData.paid && !userData.pendingApproval && !userData.welcomeSent) {
-            log("🎉 Sending Pro Welcome email...");
-            const sub = "Access Unlocked: Welcome to Dhrubo AI Pro! 🚀";
-            const msg = `Hi ${userData.name},\n\nPayment confirmed! Account upgraded to Pro.\n\nGood luck with your search!\n\nBest,\nDhrubo AI Team`;
+            log("🎉 Pro Access Unlocked!");
+            const sub = "Welcome to Dhrubo AI Pro! 🚀";
+            const msg = `Hi ${userData.name},\n\nPayment confirmed! You now have 50 more applications.\n\nBest,\nDhrubo AI Team`;
             try {
                 await sendGmail(currentUser.email, sub, "Dhrubo AI", null, null, msg);
                 await window.markWelcomeSent(currentUser.email);
