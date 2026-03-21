@@ -52,97 +52,17 @@
     <style>
         :root { --primary: #00ff99; --bg: #0a0b10; --card-bg: #161821; --text: #ffffff; }
         * { box-sizing: border-box; }
-
-        body { 
-            margin: 0; 
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
-            background: var(--bg); 
-            color: var(--text); 
-            display: flex; 
-            justify-content: center; 
-            align-items: flex-start;
-            padding: 15px; 
-            min-height: 100vh;
-        }
-
-        .container { width: 100%; max-width: 400px; margin-top: 10px; }
-
-        .card { 
-            background: var(--card-bg); 
-            padding: 25px; 
-            border-radius: 24px; 
-            border: 1px solid rgba(255,255,255,0.05); 
-            text-align: center; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
-        }
-
-        h1 { font-size: 24px; color: var(--primary); margin: 0 0 5px 0; }
-        .stats { font-size: 13px; color: #888; margin-bottom: 20px; }
-
-        input { 
-            width: 100%; 
-            padding: 14px; 
-            background: #212431; 
-            border: 1px solid #2d3142; 
-            border-radius: 12px; 
-            color: white; 
-            margin-top: 8px; 
-            outline: none; 
-            font-size: 16px; 
-        }
-
-        button { 
-            width: 100%; 
-            padding: 16px; 
-            background: var(--primary); 
-            color: #000; 
-            border: none; 
-            border-radius: 12px; 
-            font-weight: 700; 
-            cursor: pointer; 
-            margin-top: 15px; 
-            font-size: 16px; 
-        }
-
-        #payment-section { 
-            background: #ffffff; 
-            color: #000; 
-            padding: 20px; 
-            border-radius: 20px; 
-            margin-top: 15px;
-            width: 100%;
-        }
-
-        #payment-section img { 
-            width: 100%;
-            max-width: 220px;
-            height: auto;
-            margin: 10px 0; 
-            border-radius: 10px; 
-            border: 1px solid #ddd; 
-        }
-
+        body { margin: 0; font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); display: flex; justify-content: center; padding: 15px; min-height: 100vh; }
+        .container { width: 100%; max-width: 400px; }
+        .card { background: var(--card-bg); padding: 25px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.05); text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h1 { font-size: 24px; color: var(--primary); margin: 0; }
+        input { width: 100%; padding: 14px; background: #212431; border: 1px solid #2d3142; border-radius: 12px; color: white; margin-top: 10px; outline: none; }
+        button { width: 100%; padding: 16px; background: var(--primary); color: #000; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; margin-top: 15px; }
+        #payment-section { background: #fff; color: #000; padding: 20px; border-radius: 20px; margin-top: 15px; }
+        #payment-section img { width: 100%; max-width: 220px; border-radius: 10px; margin: 10px 0; border: 1px solid #eee; }
+        #log-box { margin-top: 20px; background: #000; padding: 12px; border-radius: 12px; font-size: 11px; color: var(--primary); text-align: left; height: 140px; overflow-y: auto; font-family: monospace; }
         .hidden { display: none; }
-
-        #log-box { 
-            margin-top: 20px; 
-            background: #000; 
-            padding: 12px; 
-            border-radius: 12px; 
-            font-size: 11px; 
-            color: var(--primary); 
-            text-align: left; 
-            height: 150px; 
-            overflow-y: auto; 
-            border: 1px solid #222; 
-            font-family: monospace; 
-        }
-
-        .pending-msg { background: #f39c12; color: #000; padding: 15px; border-radius: 15px; font-size: 13px; font-weight: bold; margin-top: 15px; }
-        
-        .footer-links { margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; }
-        .footer-links a { color: #888; font-size: 11px; text-decoration: none; margin: 0 8px; }
-        .footer-links p { color: #444; font-size: 10px; margin-top: 10px; }
+        .pending-msg { background: #f39c12; color: #000; padding: 15px; border-radius: 15px; font-weight: bold; margin-top: 15px; }
     </style>
 </head>
 <body>
@@ -150,69 +70,55 @@
 <div class="container">
     <div class="card">
         <h1>Dhrubo AI 🚀</h1>
-        
         <div id="login-section">
-            <p style="color: #888; font-size: 14px;">Universal Career Automation</p>
+            <p style="color:#888; font-size:14px;">Universal Career Automation</p>
             <button onclick="login()">Sign in with Google</button>
         </div>
 
         <div id="app-section" class="hidden">
-            <div class="stats" id="usage-stats">Balance Used: 0 / 10</div>
-            
+            <div id="usage-stats" style="font-size:13px; color:#888; margin-bottom:15px;">Usage: 0 / 10</div>
             <div id="inputs-wrapper">
                 <input type="text" id="role" placeholder="Job Title (e.g. Sales Manager)">
                 <input type="text" id="loc" placeholder="Location (e.g. Kolkata)">
-                <div style="text-align:left; font-size:11px; color:var(--primary); margin: 10px 0 0 5px; font-weight:bold;">ATTACH RESUME (PDF)</div>
-                <input type="file" id="cv" accept=".pdf" style="font-size: 12px;">
+                <div style="text-align:left; font-size:11px; color:var(--primary); margin:10px 0 0 5px; font-weight:bold;">ATTACH CV (PDF)</div>
+                <input type="file" id="cv" accept=".pdf" style="font-size:12px;">
                 <button onclick="startApply()" id="goBtn">Apply to 10 Jobs Now</button>
             </div>
 
             <div id="payment-section" class="hidden">
-                <h3 style="margin:0; font-size: 18px;">Limit Reached!</h3>
-                <p style="font-size: 13px; margin: 8px 0;">Pay <b>₹49</b> for 50 more applies.</p>
-                <img src="Gpayqr.jpeg" alt="GPay QR Code">
-                <button style="background: #25D366; color: white; margin-top: 5px;" onclick="handlePaymentNotification()">Notify Dhrubo</button>
+                <h3 style="margin:0;">Limit Reached!</h3>
+                <p style="font-size:13px;">Pay <b>₹49</b> for 50 more applies.</p>
+                <img src="Gpayqr.jpeg" alt="GPay QR">
+                <button style="background:#25D366; color:white;" onclick="handlePaymentNotification()">Notify Dhrubo After Payment</button>
             </div>
 
             <div id="pending-section" class="hidden" class="pending-msg">
-                ⏳ Approval Pending...<br>
-                <span style="font-weight:normal; font-size:11px;">Verification in progress. Unlocking soon.</span>
+                ⏳ Payment Verifying...<br>
+                <span style="font-weight:normal; font-size:11px;">Admin is verifying your ₹49. Unlocking soon.</span>
             </div>
-
-            <div id="log-box">System Active. Ready for input.</div>
-        </div>
-
-        <div class="footer-links">
-            <a href="privacy.html" target="_blank">Privacy Policy</a>
-            <a href="tos.html" target="_blank">Terms of Service</a>
-            <p>© 2026 Dhrubo AI Job Automator</p>
+            <div id="log-box">> System Active.</div>
         </div>
     </div>
 </div>
 
 <script>
-    let token = null;
-    let currentUser = null;
-    let userData = { usage: 0, paid: false, pendingApproval: false, welcomeSent: false };
-
-    // ✅ GOOGLE KEYS
+    let token = null, currentUser = null, userData = {usage:0, paid:false, pendingApproval:false, welcomeSent:false};
+    
+    // ✅ VERIFIED KEYS
     const GOOGLE_API_KEY = "AIzaSyAGqXNVcf67mqKylU2AiksSVWyWUDF5m0U"; 
     const GOOGLE_CX = "855a248eb0a8e4f1a"; 
     const CLIENT_ID = "943732948669-5q4kg3iersrk9rmiclr7e4l6tqdlpj6e.apps.googleusercontent.com"; 
     const ADMIN_EMAIL = "dhrubojyoti.gangopadhyay@gmail.com";
 
-    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+    const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
     async function login() {
         const client = google.accounts.oauth2.initTokenClient({
             client_id: CLIENT_ID,
             scope: "https://www.googleapis.com/auth/gmail.send profile email",
             callback: async (res) => {
-                if (res.error) return;
                 token = res.access_token;
-                currentUser = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
-                    headers: { Authorization: `Bearer ${token}` }
-                }).then(r => r.json());
+                currentUser = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {headers:{Authorization:`Bearer ${token}`}}).then(r=>r.json());
                 userData = await window.checkUserAndLoad(currentUser);
                 document.getElementById('login-section').classList.add('hidden');
                 document.getElementById('app-section').classList.remove('hidden');
@@ -223,135 +129,92 @@
     }
 
     async function refreshUI() {
-        const stats = document.getElementById('usage-stats');
-        const paySection = document.getElementById('payment-section');
-        const inputWrap = document.getElementById('inputs-wrapper');
-        const pendingSection = document.getElementById('pending-section');
-
         let limit = userData.paid ? 60 : 10;
-        stats.innerText = `Balance Used: ${userData.usage} / ${limit}`;
-
+        document.getElementById('usage-stats').innerText = `Usage: ${userData.usage} / ${limit}`;
+        
         if (userData.paid && !userData.pendingApproval && !userData.welcomeSent) {
             log("🎉 Pro Access Unlocked!");
-            const sub = "Welcome to Dhrubo AI Pro! 🚀";
-            const msg = `Hi ${userData.name},\n\nPayment confirmed! You now have 50 more applications.\n\nBest,\nDhrubo AI Team`;
             try {
-                await sendGmail(currentUser.email, sub, "Dhrubo AI", null, null, msg);
+                await sendGmail(currentUser.email, "Pro Unlocked! 🚀", "Dhrubo AI", null, null, "Your ₹49 payment is verified. You have 50 extra credits!");
                 await window.markWelcomeSent(currentUser.email);
                 userData.welcomeSent = true;
-            } catch(e) { console.log(e); }
+            } catch(e) {}
         }
 
+        document.getElementById('pending-section').classList.toggle('hidden', !userData.pendingApproval);
         if (userData.pendingApproval) {
-            inputWrap.classList.add('hidden'); paySection.classList.add('hidden'); pendingSection.classList.remove('hidden');
+            document.getElementById('inputs-wrapper').classList.add('hidden');
+            document.getElementById('payment-section').classList.add('hidden');
         } else if (userData.usage >= limit) {
-            inputWrap.classList.add('hidden'); paySection.classList.remove('hidden'); pendingSection.classList.add('hidden');
+            document.getElementById('inputs-wrapper').classList.add('hidden');
+            document.getElementById('payment-section').classList.remove('hidden');
         } else {
-            inputWrap.classList.remove('hidden'); paySection.classList.add('hidden'); pendingSection.classList.add('hidden');
+            document.getElementById('inputs-wrapper').classList.remove('hidden');
+            document.getElementById('payment-section').classList.add('hidden');
         }
     }
 
     async function handlePaymentNotification() {
-        log("Alerting Admin...");
+        log("Notifying Dhrubo...");
         await window.requestApproval(currentUser.email);
-        const sub = "PAYMENT APPROVAL: " + currentUser.email;
-        const body = `Verify ₹49 for ${currentUser.email}\nApprove: https://console.firebase.google.com/u/0/project/job-automation-by-dg/firestore/data/~2Fusers~2F${currentUser.email}`;
-        await sendGmail(ADMIN_EMAIL, sub, "Admin Alert", null, null, body);
+        await sendGmail(ADMIN_EMAIL, "PAYMENT ALERT", "System", null, null, `Verify ₹49 for ${currentUser.email}\nApprove: https://console.firebase.google.com/project/job-automation-by-dg/firestore/data/~2Fusers~2F${currentUser.email}`);
         userData.pendingApproval = true;
         refreshUI();
     }
 
     async function startApply() {
-        const role = document.getElementById('role').value;
-        const loc = document.getElementById('loc').value;
-        const file = document.getElementById('cv').files[0];
+        const role = document.getElementById('role').value, loc = document.getElementById('loc').value, file = document.getElementById('cv').files[0];
         if(!role || !file) return alert("Fill all fields.");
-
-        const btn = document.getElementById('goBtn');
-        btn.disabled = true;
-        btn.innerText = "AI Deep-Scraping...";
-        
-        log(`🔍 Accessing Google Jobs for ${role} in ${loc}...`);
+        document.getElementById('goBtn').disabled = true;
+        log(`🔍 Scraping Google Jobs for ${role}...`);
 
         try {
-            // 📡 1. Search for Jobs via Google CSE
             const res = await fetch(`https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${GOOGLE_CX}&q=${role}+jobs+in+${loc}`);
             const data = await res.json();
             const jobs = data.items ? data.items.slice(0, 10) : [];
-
-            if(jobs.length === 0) {
-                log("No jobs found. Try different keywords.");
-                btn.disabled = false;
-                return;
-            }
+            if(!jobs.length) { log("No jobs found."); document.getElementById('goBtn').disabled = false; return; }
 
             const reader = new FileReader();
             reader.onload = async () => {
-                const base64CV = reader.result.split(',')[1];
-
-                for(let i = 0; i < jobs.length; i++) {
-                    const job = jobs[i];
-                    let domain = job.displayLink.replace('www.', '');
-                    
-                    log(`🎯 Analyzing ${domain} for contacts...`);
-
-                    // 📡 2. THE DEEP SCRAPE: Search specifically for the HR email in the snippet
-                    const emailSearch = await fetch(`https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${GOOGLE_CX}&q=HR+email+address+at+${domain}`);
-                    const emailData = await emailSearch.json();
-                    
-                    let targetEmail = `hr@${domain}`; // Fallback guess
-                    
-                    if (emailData.items) {
-                        for (let item of emailData.items.slice(0,3)) {
-                            const match = item.snippet.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/gi);
-                            if (match) {
-                                targetEmail = match[0];
-                                log(`✨ Found Real ID: ${targetEmail}`);
-                                break; 
-                            }
+                const b64 = reader.result.split(',')[1];
+                for(let i=0; i<jobs.length; i++){
+                    let domain = jobs[i].displayLink.replace('www.', '');
+                    log(`🎯 Deep-Scraping ${domain}...`);
+                    const eRes = await fetch(`https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${GOOGLE_CX}&q=HR+email+at+${domain}`);
+                    const eData = await eRes.json();
+                    let email = `hr@${domain}`;
+                    if(eData.items) {
+                        for(let item of eData.items.slice(0,3)){
+                            const m = item.snippet.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/gi);
+                            if(m) { email = m[0]; log(`✨ Found ID: ${email}`); break; }
                         }
                     }
-
-                    log(`📤 [${i+1}/10] Mailing ${targetEmail}`);
-
-                    const body = `Dear Team,\n\nI am applying for the ${role} position. I found your contact through Dhrubo AI's automated search.\n\nPlease find my resume attached.\n\nBest regards,\n${userData.name}`;
-
+                    log(`📤 Applying to ${email}...`);
                     try {
-                        await sendGmail(targetEmail, `Job Application: ${role}`, domain, base64CV, file.name, body);
+                        await sendGmail(email, `Job Application: ${role}`, domain, b64, file.name, `I am applying for the ${role} position. CV attached.\nBest,\n${userData.name}`);
                         await window.updateUsage(currentUser.email);
                         userData.usage++;
                         refreshUI();
-                    } catch(e) { log(`⚠️ Delivery failed for ${domain}`); }
-
-                    await sleep(3500); // Prevent Gmail rate limiting
+                    } catch(e) { log(`⚠️ Skipped ${domain}`); }
+                    await sleep(3500);
                 }
-                log("🚀 BATCH COMPLETE. Emails are in your 'Sent' folder.");
-                btn.disabled = false;
-                btn.innerText = "Apply to 10 Jobs Now";
+                log("🚀 DONE! Check Sent Folder.");
+                document.getElementById('goBtn').disabled = false;
             };
             reader.readAsDataURL(file);
-        } catch (e) { log("Error. Check API settings."); btn.disabled = false; }
+        } catch(e) { log("API Error."); document.getElementById('goBtn').disabled = false; }
     }
 
-    async function sendGmail(to, subject, company, cvData, cvName, customBody) {
-        const boundary = "bndry";
-        let emailParts = [`To: ${to}`, `Subject: ${subject}`, `MIME-Version: 1.0`, `Content-Type: multipart/mixed; boundary=${boundary}`, ``, `--${boundary}`, `Content-Type: text/plain; charset="UTF-8"`, ``, customBody];
-        if (cvData) emailParts.push(``, `--${boundary}`, `Content-Type: application/pdf; name="${cvName}"`, `Content-Disposition: attachment; filename="${cvName}"`, `Content-Transfer-Encoding: base64`, ``, cvData);
-        emailParts.push(`--${boundary}--`);
-        const email = emailParts.join('\r\n');
-        const raw = btoa(unescape(encodeURIComponent(email))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-        return fetch("https://gmail.googleapis.com/gmail/v1/users/me/messages/send", {
-            method: "POST",
-            headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-            body: JSON.stringify({ raw })
-        });
+    async function sendGmail(to, sub, comp, cv, cvName, body) {
+        const b = "bndry";
+        let p = [`To: ${to}`, `Subject: ${sub}`, `MIME-Version: 1.0`, `Content-Type: multipart/mixed; boundary=${b}`, ``, `--${b}`, `Content-Type: text/plain; charset="UTF-8"`, ``, body];
+        if(cv) p.push(``, `--${b}`, `Content-Type: application/pdf; name="${cvName}"`, `Content-Disposition: attachment; filename="${cvName}"`, `Content-Transfer-Encoding: base64`, ``, cv);
+        p.push(`--${b}--`);
+        const raw = btoa(unescape(encodeURIComponent(p.join('\r\n')))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+        return fetch("https://gmail.googleapis.com/gmail/v1/users/me/messages/send", {method:"POST", headers:{Authorization:`Bearer ${token}`, 'Content-Type':'application/json'}, body:JSON.stringify({raw})});
     }
 
-    function log(msg) {
-        const box = document.getElementById('log-box');
-        box.innerHTML += `<div>> ${msg}</div>`;
-        box.scrollTop = box.scrollHeight;
-    }
+    function log(m) { const b = document.getElementById('log-box'); b.innerHTML += `<div>> ${m}</div>`; b.scrollTop = b.scrollHeight; }
 </script>
 </body>
 </html>
