@@ -1,132 +1,103 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Dhrubo AI Job Apply</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Job Auto Apply</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #0b1220;
+      color: white;
+      text-align: center;
+      padding: 30px;
+    }
 
-<style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #0f172a, #020617);
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
+    h1 {
+      font-size: 32px;
+    }
 
-.container {
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(12px);
-  padding: 40px;
-  border-radius: 16px;
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
-  box-shadow: 0 0 30px rgba(0,0,0,0.5);
-}
+    .card {
+      background: #111a2e;
+      padding: 20px;
+      margin: 20px auto;
+      border-radius: 12px;
+      width: 300px;
+    }
 
-h1 {
-  margin-bottom: 10px;
-}
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #22c55e;
+      color: black;
+      cursor: pointer;
+      margin-top: 10px;
+    }
 
-p {
-  color: #94a3b8;
-  font-size: 14px;
-}
+    input {
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      width: 80%;
+    }
 
-input {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  border-radius: 8px;
-  border: none;
-  outline: none;
-}
-
-input[type="file"] {
-  background: white;
-  color: black;
-}
-
-button {
-  width: 100%;
-  margin-top: 15px;
-  padding: 12px;
-  border-radius: 10px;
-  border: none;
-  background: #22c55e;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-button:hover {
-  background: #16a34a;
-}
-
-#msg {
-  margin-top: 15px;
-  color: #38bdf8;
-}
-
-.footer {
-  margin-top: 20px;
-  font-size: 12px;
-  color: #64748b;
-}
-</style>
+    .plans {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="container">
-  <h1>🚀 AI Job Auto Apply</h1>
-  <p>Upload CV & apply instantly</p>
+<h1>🚀 AI Job Auto Apply</h1>
+<p>Upload CV & apply to jobs automatically</p>
 
-  <input type="file" id="cv">
-  <input type="text" id="role" placeholder="Enter job role">
+<button onclick="login()">Login with Google</button>
 
-  <button onclick="run()">Auto Apply</button>
+<br><br>
 
-  <p id="msg"></p>
+<input type="file" id="cv">
+<br>
+<input type="text" id="role" placeholder="Enter job role">
 
-  <div class="footer">Built by Dhrubo 💼</div>
+<br>
+<button onclick="apply()">Auto Apply</button>
+
+<h2>💰 Plans</h2>
+
+<div class="plans">
+
+<div class="card">
+  <h3>Free</h3>
+  <p>3 Jobs</p>
 </div>
 
-<!-- ✅ Firebase (WORKING VERSION) -->
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<div class="card">
+  <h3>₹9</h3>
+  <p>10 Jobs</p>
+  <img src="upi.png" width="150">
+</div>
+
+<div class="card">
+  <h3>₹49</h3>
+  <p>50 Jobs</p>
+</div>
+
+<div class="card">
+  <h3>₹99</h3>
+  <p>Unlimited</p>
+</div>
+
+</div>
 
 <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyBiq6QmLQkTiHfNajx9k10RIWssE6NJmIQ",
-  authDomain: "job-automation-by-dg.firebaseapp.com",
-  projectId: "job-automation-by-dg"
-};
+function login(){
+  alert("Login connected (Firebase)");
+}
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-
-async function run() {
-  const role = document.getElementById("role").value;
-
-  if (!role) {
-    alert("Enter job role");
-    return;
-  }
-
-  document.getElementById("msg").innerText = "🚀 Saving...";
-
-  await db.collection("jobs").add({
-    role: role,
-    time: new Date()
-  });
-
-  document.getElementById("msg").innerText = "✅ Saved successfully!";
+function apply(){
+  alert("Applying to jobs...");
 }
 </script>
 
