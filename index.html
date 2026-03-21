@@ -11,6 +11,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getFirestore, doc, getDoc, setDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+        // Your Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyBiq6QmLQkTiHfNajx9k10RIWssE6NJmIQ",
             authDomain: "job-automation-by-dg.firebaseapp.com",
@@ -48,15 +49,15 @@
         :root { --primary: #00ff99; --bg: #0a0b10; --card-bg: #161821; --text: #ffffff; }
         body { margin: 0; font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); display: flex; justify-content: center; padding: 20px; }
         .container { width: 100%; max-width: 400px; margin-top: 20px; }
-        .card { background: var(--card-bg); padding: 25px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.05); text-align: center; }
-        h1 { font-size: 22px; color: var(--primary); margin-bottom: 5px; }
-        .stats { font-size: 12px; color: #888; margin-bottom: 20px; }
-        input { width: 100%; padding: 12px; background: #212431; border: 1px solid #2d3142; border-radius: 10px; color: white; box-sizing: border-box; margin-top: 5px; outline: none; }
-        button { width: 100%; padding: 15px; background: var(--primary); color: #000; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; margin-top: 10px; font-size: 16px; }
+        .card { background: var(--card-bg); padding: 25px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.05); text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+        h1 { font-size: 24px; color: var(--primary); margin-bottom: 5px; }
+        .stats { font-size: 13px; color: #888; margin-bottom: 20px; }
+        input { width: 100%; padding: 14px; background: #212431; border: 1px solid #2d3142; border-radius: 12px; color: white; box-sizing: border-box; margin-top: 8px; outline: none; }
+        button { width: 100%; padding: 16px; background: var(--primary); color: #000; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; margin-top: 15px; font-size: 16px; }
         #payment-section { background: #ffffff; color: #000; padding: 20px; border-radius: 20px; margin-top: 15px; }
-        #payment-section img { width: 180px; height: 180px; margin: 15px 0; border-radius: 10px; border: 1px solid #ddd; }
+        #payment-section img { width: 200px; height: 200px; margin: 15px 0; border-radius: 10px; border: 1px solid #ddd; }
         .hidden { display: none; }
-        #log-box { margin-top: 20px; background: #000; padding: 12px; border-radius: 10px; font-size: 11px; color: var(--primary); text-align: left; height: 80px; overflow-y: auto; border: 1px solid #222; font-family: monospace; }
+        #log-box { margin-top: 20px; background: #000; padding: 12px; border-radius: 12px; font-size: 11px; color: var(--primary); text-align: left; height: 100px; overflow-y: auto; border: 1px solid #222; font-family: monospace; }
         .pending-msg { background: #f39c12; color: #000; padding: 15px; border-radius: 15px; font-size: 13px; font-weight: bold; margin-top: 15px; }
     </style>
 </head>
@@ -67,6 +68,7 @@
         <h1>Dhrubo AI</h1>
         
         <div id="login-section">
+            <p style="color: #888;">Live Job Search & Auto-Apply</p>
             <button onclick="login()">Sign in with Google</button>
         </div>
 
@@ -82,20 +84,19 @@
 
             <div id="payment-section" class="hidden">
                 <h3 style="margin:0;">Limit Reached!</h3>
-                <p style="font-size: 13px; margin: 5px 0;">Pay <b>₹49</b> for 50 more applies.</p>
+                <p style="font-size: 14px; margin: 10px 0;">Pay <b>₹49</b> for 50 more applies.</p>
                 
-                <img src="Gpayqr.jpeg" alt="Scan to Pay ₹49">
+                <img src="Gpayqr.jpeg" alt="GPay QR Code">
                 
-                <p style="font-size: 11px; font-weight: bold;">Scan with GPay or PhonePe</p>
                 <button style="background: #25D366; color: white;" onclick="handlePaymentNotification()">I have Paid - Notify Dhrubo</button>
             </div>
 
             <div id="pending-section" class="hidden" class="pending-msg">
-                ⚠️ Payment Approval Pending<br>
-                <span style="font-weight:normal; font-size:11px;">Dhrubo is checking your payment. Your access will be unlocked shortly.</span>
+                ⚠️ Verification in Progress...<br>
+                <span style="font-weight:normal; font-size:11px;">I am checking your payment. Access will be restored soon.</span>
             </div>
 
-            <div id="log-box">Initialized...</div>
+            <div id="log-box">System Initialized...</div>
         </div>
     </div>
 </div>
@@ -105,6 +106,7 @@
     let currentUser = null;
     let userData = { usage: 0, paid: false, pendingApproval: false };
 
+    // ✅ KEYS FROM YOUR SCREENSHOTS
     const CLIENT_ID = "943732948669-5q4kg3iersrk9rmiclr7e4l6tqdlpj6e.apps.googleusercontent.com"; 
     const RAPID_API_KEY = "ee9d951672msha07d736cec3bccdp1b82d5jsn720b11b79449"; 
     const ADMIN_EMAIL = "dhrubojyoti.gangopadhyay@gmail.com";
@@ -114,7 +116,6 @@
             client_id: CLIENT_ID,
             scope: "https://www.googleapis.com/auth/gmail.send profile email",
             callback: async (res) => {
-                if (res.error) return;
                 token = res.access_token;
                 currentUser = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
                     headers: { Authorization: `Bearer ${token}` }
@@ -154,18 +155,17 @@
     }
 
     async function handlePaymentNotification() {
-        log("Sending notification to Admin...");
+        log("Notifying Dhrubo...");
         await window.requestApproval(currentUser.email);
         
-        // This sends an email to YOU so you know to check GPay
-        const subject = "PAYMENT ALERT: Approval Needed for " + currentUser.email;
-        const body = `User: ${currentUser.name}\nEmail: ${currentUser.email}\nStatus: Claimed to have paid ₹49.\n\nLink to Approve in Firebase:\nhttps://console.firebase.google.com/u/0/project/job-automation-by-dg/firestore/data/~2Fusers~2F${currentUser.email}`;
+        const subject = "PAYMENT APPROVAL REQUIRED: " + currentUser.email;
+        const body = `User: ${currentUser.name}\nEmail: ${currentUser.email}\nHas claimed to pay ₹49.\n\nApprove here: https://console.firebase.google.com/u/0/project/job-automation-by-dg/firestore/data/~2Fusers~2F${currentUser.email}`;
         
         await sendGmail(ADMIN_EMAIL, subject, "Dhrubo AI Admin", null, null, body);
         
         userData.pendingApproval = true;
         refreshUI();
-        alert("Dhrubo has been notified. He will unlock your account once payment is confirmed!");
+        alert("Notification sent! Check your email/WhatsApp for confirmation.");
     }
 
     async function startApply() {
@@ -174,33 +174,42 @@
         const file = document.getElementById('cv').files[0];
         if(!role || !file) return alert("Please fill all details!");
 
-        log("Finding jobs...");
+        log(`Searching JSearch API for ${role}...`);
         try {
+            // Fetching from JSearch
             const res = await fetch(`https://jsearch.p.rapidapi.com/search?query=${role}%20in%20${loc}`, {
-                headers: { 'x-rapidapi-key': RAPID_API_KEY, 'x-rapidapi-host': 'jsearch.p.rapidapi.com' }
+                headers: { 
+                    'x-rapidapi-key': RAPID_API_KEY, 
+                    'x-rapidapi-host': 'jsearch.p.rapidapi.com' 
+                }
             });
             const data = await res.json();
-            const jobs = data.data.slice(0, 3);
+            const jobs = data.data.slice(0, 3); // Take top 3 jobs
+
             const reader = new FileReader();
             reader.onload = async () => {
                 const base64CV = reader.result.split(',')[1];
                 for(let job of jobs) {
                     log(`Applying to ${job.employer_name}...`);
-                    const domain = job.employer_website ? job.employer_website.replace('www.', '').split('/')[0] : "hr.com";
+                    // Smart domain extraction for email
+                    const domain = job.employer_website ? job.employer_website.replace('www.', '').split('/')[0] : "hr-recruit.com";
                     await sendGmail(`careers@${domain}`, `Application: ${job.job_title}`, job.employer_name, base64CV, file.name);
+                    
                     await window.updateUsage(currentUser.email);
                     userData.usage++;
                     refreshUI();
                 }
-                log("✅ Done! 3 Applications sent.");
+                log("✅ Applications successfully sent!");
             };
             reader.readAsDataURL(file);
-        } catch (e) { log("Error. Check API Key."); }
+        } catch (e) { 
+            log("Search Error. Check your RapidAPI quota."); 
+        }
     }
 
     async function sendGmail(to, subject, company, cvData, cvName, customBody = null) {
         const boundary = "bndry";
-        let messageBody = customBody || `Hello,\n\nI am applying for the role at ${company}. CV attached.\n\nSent via Dhrubo AI.`;
+        let messageBody = customBody || `Hi,\n\nI am applying for the role at ${company}. CV attached.\n\nSent via Dhrubo AI.`;
         
         let emailParts = [
             `To: ${to}`,
