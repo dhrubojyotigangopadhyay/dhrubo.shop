@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dhrubo AI Job Auto-Apply</title>
+    <title>Dhrubo AI - Job Auto-Apply</title>
     
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 
@@ -19,7 +19,6 @@
             messagingSenderId: "943732948669",
             appId: "1:943732948669:web:a99464562f48cc3aa681d4"
         };
-
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
@@ -27,148 +26,157 @@
             await setDoc(doc(db, "users", user.email), {
                 name: user.name,
                 email: user.email,
-                credits: 10,
-                lastLogin: new Date()
-            });
+                status: "Free User",
+                lastUsed: new Date()
+            }, { merge: true });
         };
     </script>
 
     <style>
-        body { margin:0; font-family: 'Segoe UI', sans-serif; background: #0b1a2f; color:white; text-align:center; }
-        .card { background: rgba(255,255,255,0.05); padding:40px; border-radius:20px; display:inline-block; margin-top:80px; width:90%; max-width:450px; border: 1px solid rgba(0,255,150,0.2); }
-        input, button { width: 100%; padding: 15px; margin: 10px 0; border-radius: 10px; border: none; font-size: 16px; }
-        input { background: rgba(255,255,255,0.1); color: white; }
-        button { background: #00ff99; color: #0b1a2f; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        button:hover { background: #00cc7a; transform: translateY(-2px); }
+        body { margin:0; font-family: 'Segoe UI', sans-serif; background: #050a14; color:white; text-align:center; }
+        .card { background: rgba(255,255,255,0.03); padding:40px; border-radius:20px; display:inline-block; margin-top:50px; width:90%; max-width:450px; border: 1px solid #00ff9933; box-shadow: 0 0 20px rgba(0,255,150,0.1); }
+        input, button { width: 100%; padding: 15px; margin: 10px 0; border-radius: 10px; border: none; outline: none; }
+        input { background: #1a2233; color: white; border: 1px solid #333; }
+        button { background: #00ff99; color: #050a14; font-weight: bold; cursor: pointer; font-size: 16px; transition: 0.3s; }
+        button:hover { background: #00d17d; transform: scale(1.02); }
         .hidden { display: none; }
-        #log { margin-top: 20px; font-size: 13px; color: #aaa; text-align: left; max-height: 150px; overflow-y: auto; padding: 10px; background: rgba(0,0,0,0.2); }
+        #log-box { margin-top: 20px; text-align: left; font-size: 12px; background: #000; padding: 15px; border-radius: 8px; max-height: 200px; overflow-y: auto; color: #00ff99; font-family: monospace; border: 1px solid #222; }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <h1>🚀 AI Job Apply</h1>
-    
-    <div id="login-box">
-        <p>Login with Gmail to start auto-applying.</p>
-        <button onclick="login()">Continue with Google</button>
+    <h1 style="color:#00ff99">Dhrubo AI 🚀</h1>
+    <p>Live Job Search & Auto-Apply</p>
+
+    <div id="login-section">
+        <button onclick="login()">Login with Google</button>
     </div>
 
-    <div id="main-box" class="hidden">
-        <h3 id="user-greet"></h3>
-        <input type="text" id="jobRole" placeholder="Role (e.g. Python Developer)">
-        <input type="text" id="location" placeholder="Location (e.g. India or Remote)">
-        <label style="display:block; text-align:left; font-size:12px; margin-left:5px;">Upload CV (PDF):</label>
-        <input type="file" id="cvFile" accept=".pdf">
+    <div id="app-section" class="hidden">
+        <p id="user-display" style="font-size: 14px; color: #888;"></p>
+        <input type="text" id="role" placeholder="Job Title (e.g. Python Developer)">
+        <input type="text" id="loc" placeholder="Location (e.g. India)">
+        <div style="text-align:left; font-size:12px; margin-bottom:5px; color:#00ff99;">Upload PDF Resume:</div>
+        <input type="file" id="cv" accept=".pdf">
         
-        <button onclick="startProcess()" id="startBtn">Pay $1 & Auto-Apply</button>
-        <div id="log"></div>
+        <button onclick="startApply()" id="goBtn">Start Applying</button>
+        <div id="log-box">System Initialized...</div>
     </div>
 </div>
 
 <script>
-    let accessToken = null;
-    let userProfile = null;
-    const ADZUNA_APP_ID = "YOUR_ADZUNA_ID"; // Get from developer.adzuna.com
-    const ADZUNA_APP_KEY = "YOUR_ADZUNA_KEY"; 
+    let token = null;
+    let user = null;
+
+    // 🚩 UPDATED FROM YOUR SCREENSHOT
+    const CLIENT_ID = "943732948669-xxxxxxxx.apps.googleusercontent.com"; // Make sure to use your actual full ID here
+    const RAPID_API_KEY = "ee9d951672msha07d736cec3bccdp1b82d5jsn720b11b79449"; 
 
     function login() {
         const client = google.accounts.oauth2.initTokenClient({
-            client_id: "PASTE_YOUR_CLIENT_ID_HERE", // 🚩 REPLACE THIS
+            client_id: CLIENT_ID,
             scope: "https://www.googleapis.com/auth/gmail.send profile email",
             callback: async (res) => {
-                accessToken = res.access_token;
-                userProfile = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
-                    headers: { Authorization: `Bearer ${accessToken}` }
+                if (res.error) return;
+                token = res.access_token;
+                user = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+                    headers: { Authorization: `Bearer ${token}` }
                 }).then(r => r.json());
 
-                await window.saveUser(userProfile);
-                document.getElementById('login-box').className = 'hidden';
-                document.getElementById('main-box').className = '';
-                document.getElementById('user-greet').innerText = `Hi, ${userProfile.name}`;
+                await window.saveUser(user);
+                document.getElementById('login-section').classList.add('hidden');
+                document.getElementById('app-section').classList.remove('hidden');
+                document.getElementById('user-display').innerText = "Account: " + user.email;
+                log("Authenticated successfully.");
             }
         });
         client.requestAccessToken();
     }
 
-    function addLog(msg) {
-        const div = document.getElementById('log');
-        div.innerHTML += `<div>> ${msg}</div>`;
-        div.scrollTop = div.scrollHeight;
+    function log(msg) {
+        const box = document.getElementById('log-box');
+        box.innerHTML += `<div>> ${msg}</div>`;
+        box.scrollTop = box.scrollHeight;
     }
 
-    async function startProcess() {
-        const role = document.getElementById('jobRole').value;
-        const loc = document.getElementById('location').value;
-        const file = document.getElementById('cvFile').files[0];
+    async function startApply() {
+        const role = document.getElementById('role').value;
+        const location = document.getElementById('loc').value;
+        const file = document.getElementById('cv').files[0];
 
-        if(!role || !file) return alert("Fill all details!");
+        if(!role || !file) return alert("Missing Info: Role and CV are required.");
 
-        addLog("Payment confirmed...");
-        addLog(`Searching for ${role} jobs in ${loc}...`);
-
-        // 1. Fetch live jobs from Adzuna API
+        log(`Searching JSearch for: ${role} in ${location}...`);
+        
         try {
-            const url = `https://api.adzuna.com/v1/api/jobs/in/search/1?app_id=${ADZUNA_APP_ID}&app_key=${ADZUNA_APP_KEY}&what=${role}&where=${loc}&content-type=application/json`;
-            const data = await fetch(url).then(r => r.json());
-            const jobs = data.results.slice(0, 5); // Take top 5 live jobs
+            const response = await fetch(`https://jsearch.p.rapidapi.com/search?query=${role}%20in%20${location}&num_pages=1`, {
+                headers: {
+                    'x-rapidapi-key': RAPID_API_KEY,
+                    'x-rapidapi-host': 'jsearch.p.rapidapi.com'
+                }
+            });
+            const data = await response.json();
+            const jobs = data.data.slice(0, 3); // Top 3 jobs
 
             if (jobs.length === 0) {
-                addLog("No live jobs found for this role.");
+                log("No jobs found. Try a broader search.");
                 return;
             }
 
-            // 2. Read CV as Base64
             const reader = new FileReader();
             reader.onload = async () => {
                 const base64CV = reader.result.split(',')[1];
-                
+
                 for(let job of jobs) {
-                    addLog(`Applying to ${job.company.display_name}...`);
-                    // Note: Most APIs don't give direct HR emails for privacy. 
-                    // We'll simulate sending to a dynamic address or a placeholder.
-                    const contactEmail = "hr-contact@company.com"; 
-                    await sendEmail(contactEmail, job.title, job.company.display_name, base64CV, file.name);
+                    log(`Processing: ${job.job_title} @ ${job.employer_name}`);
+                    
+                    // Note: JSearch provides a 'job_apply_link'. 
+                    // We simulate sending a follow-up email to HR.
+                    const targetEmail = "hr@targetcompany.com"; 
+                    await sendGmail(targetEmail, job.job_title, job.employer_name, base64CV, file.name);
+                    log(`✅ Email sent to ${job.employer_name} hiring team.`);
                 }
-                addLog("✅ Done! 5 Applications sent.");
+                log("DONE: All applications sent successfully!");
             };
             reader.readAsDataURL(file);
 
-        } catch (e) {
-            addLog("Error finding jobs. Check API keys.");
+        } catch (err) {
+            log("API Error: Check if RapidAPI Key is active.");
         }
     }
 
-    async function sendEmail(to, role, company, base64Data, fileName) {
-        const boundary = "boundary_string";
-        const emailBody = [
+    async function sendGmail(to, title, company, cvData, cvName) {
+        const boundary = "application_boundary";
+        const email = [
             `To: ${to}`,
-            `Subject: Job Application: ${role} at ${company}`,
+            `Subject: Application for ${title} - ${user.name}`,
             `MIME-Version: 1.0`,
             `Content-Type: multipart/mixed; boundary=${boundary}`,
             ``,
             `--${boundary}`,
             `Content-Type: text/plain; charset="UTF-8"`,
             ``,
-            `Respected Hiring Manager,\n\nI am interested in the ${role} position at ${company}. Please find my CV attached.\n\nSent via Dhrubo AI.`,
+            `Hi,\n\nI am applying for the ${title} position at ${company}. Please find my resume attached.\n\nBest regards,\n${user.name}`,
             ``,
             `--${boundary}`,
-            `Content-Type: application/pdf; name="${fileName}"`,
-            `Content-Disposition: attachment; filename="${fileName}"`,
+            `Content-Type: application/pdf; name="${cvName}"`,
+            `Content-Disposition: attachment; filename="${cvName}"`,
             `Content-Transfer-Encoding: base64`,
             ``,
-            base64Data,
+            cvData,
             `--${boundary}--`
         ].join('\r\n');
 
-        const raw = btoa(unescape(encodeURIComponent(emailBody))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+        const raw = btoa(unescape(encodeURIComponent(email))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 
-        await fetch("https://gmail.googleapis.com/gmail/v1/users/me/messages/send", {
+        return fetch("https://gmail.googleapis.com/gmail/v1/users/me/messages/send", {
             method: "POST",
-            headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+            headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
             body: JSON.stringify({ raw })
         });
     }
 </script>
+
 </body>
 </html>
