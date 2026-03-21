@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dhrubo AI | Universal Job Automator</title>
+    <title>Dhrubo AI | Universal Automator</title>
     
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 
@@ -26,7 +26,7 @@
             const userRef = doc(db, "users", user.email);
             const userSnap = await getDoc(userRef);
             if (!userSnap.exists()) {
-                const newData = { name: user.name, email: user.email, usage: 0, paid: false };
+                const newData = { name: user.name, email: user.email, usage: 0, paid: false, pendingApproval: false };
                 await setDoc(userRef, newData); return newData;
             }
             return userSnap.data();
@@ -34,59 +34,47 @@
         window.updateUsage = async (email) => {
             await updateDoc(doc(db, "users", email), { usage: increment(1) });
         };
+        window.requestApproval = async (email) => {
+            await updateDoc(doc(db, "users", email), { pendingApproval: true });
+        };
     </script>
 
     <style>
         body { 
-            margin: 0; 
-            font-family: 'Inter', -apple-system, sans-serif; 
-            background: #0b0c14; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh;
+            margin: 0; font-family: 'Inter', Arial, sans-serif; 
+            background: #0b0c14; display: flex; justify-content: center; 
+            align-items: center; min-height: 100vh;
             background-image: radial-gradient(circle at center, #1a1b2e 0%, #0b0c14 100%);
         }
         
-        /* The Professional Popup UI from your Screenshot */
+        /* Premium Popup UI (Match Screenshot #2) */
         .popup-card {
             background: linear-gradient(165deg, #2d1b4d 0%, #15162b 100%);
-            width: 340px; 
-            padding: 45px 35px; 
-            border-radius: 30px;
-            text-align: center; 
-            box-shadow: 0 25px 80px rgba(0,0,0,0.9);
+            width: 340px; padding: 45px 35px; border-radius: 30px;
+            text-align: center; box-shadow: 0 25px 80px rgba(0,0,0,0.9);
             border: 1px solid rgba(255,255,255,0.08);
-            position: relative;
         }
 
-        h3 { margin: 0 0 8px; font-size: 24px; font-weight: 700; color: #ffffff; letter-spacing: -0.5px; }
-        p { color: #b8b0e6; font-size: 14px; margin-bottom: 30px; line-height: 1.5; }
+        h3 { margin: 0 0 8px; font-size: 24px; font-weight: 700; color: #ffffff; }
+        p { color: #cfc3ff; font-size: 14px; margin-bottom: 30px; line-height: 1.5; }
 
         .input-box {
-            width: 100%; 
-            padding: 16px; 
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.1); 
-            border-radius: 14px;
-            color: white; 
-            margin-bottom: 18px; 
-            outline: none; 
-            text-align: center;
-            font-size: 15px;
-            transition: all 0.3s;
+            width: 100%; padding: 16px; background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 14px;
+            color: white; margin-bottom: 18px; outline: none; text-align: center; font-size: 15px;
         }
-        .input-box:focus { border-color: #50e3c2; background: rgba(80, 227, 194, 0.05); }
 
         .btn-row { display: flex; gap: 12px; margin-top: 10px; }
         .btn { flex: 1; padding: 15px; border-radius: 14px; border: none; font-weight: 700; cursor: pointer; transition: 0.2s; font-size: 15px; }
-        .btn-cancel { background: rgba(255,255,255,0.05); color: #b8b0e6; }
+        .btn-cancel { background: #3c345c; color: #cfc3ff; }
         .btn-start { background: #50e3c2; color: #000; box-shadow: 0 8px 20px rgba(80, 227, 194, 0.3); }
-        .btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
-        .btn:disabled { opacity: 0.4; transform: none; cursor: not-allowed; }
+        .btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-        #log { margin-top: 25px; font-size: 11px; color: #50e3c2; font-family: 'SF Mono', monospace; height: 30px; opacity: 0.8; }
+        #log { margin-top: 25px; font-size: 11px; color: #50e3c2; font-family: monospace; height: 30px; opacity: 0.8; }
         .hidden { display: none; }
+        
+        #payment-area { background: white; color: black; padding: 20px; border-radius: 20px; margin-top: 15px; }
+        #payment-area img { width: 100%; max-width: 180px; border-radius: 10px; margin: 10px 0; }
     </style>
 </head>
 <body>
@@ -94,73 +82,100 @@
 <div class="container">
     <div id="login-section" class="popup-card">
         <h3>Dhrubo AI</h3>
-        <p>Unlock Universal Job Automation</p>
-        <button class="btn btn-start" onclick="login()">Sign in with Google</button>
+        <p>Sign in with Google to access the Universal Job Engine.</p>
+        <button class="btn btn-start" onclick="login()">Login</button>
     </div>
 
     <div id="app-section" class="popup-card hidden">
-        <h3 id="ui-title">Auto <span style="color:#50e3c2">Email</span> Setup</h3>
-        <p id="ui-tagline">Enter job title or search query</p>
-        
-        <input type="text" class="input-box" id="role" placeholder="e.g. Cloud Engineer">
-        <input type="text" class="input-box" id="loc" placeholder="Location (e.g. Kolkata)">
-        
-        <div style="font-size: 10px; color: #777; margin-bottom: 8px; font-weight: bold;">ATTACH RESUME (PDF)</div>
-        <input type="file" id="cv" accept=".pdf" style="font-size: 11px; color: #888; margin-bottom: 20px;">
+        <div id="ui-main">
+            <h3>Auto <span style="color:#50e3c2">Email</span> Setup</h3>
+            <p>Enter job title or search query</p>
+            
+            <input type="text" class="input-box" id="role" placeholder="e.g. Cloud Engineer">
+            <input type="text" class="input-box" id="loc" placeholder="City (e.g. Kolkata)">
+            
+            <div style="font-size: 10px; color: #777; margin-bottom: 8px;">ATTACH RESUME (PDF)</div>
+            <input type="file" id="cv" accept=".pdf" style="font-size: 11px; margin-bottom: 20px;">
 
-        <div class="btn-row">
-            <button class="btn btn-cancel" onclick="location.reload()">Cancel</button>
-            <button class="btn btn-start" id="goBtn" onclick="startAutomation()">Start</button>
+            <div class="btn-row">
+                <button class="btn btn-cancel" onclick="location.reload()">Cancel</button>
+                <button class="btn btn-start" id="goBtn" onclick="startAutomation()">Start</button>
+            </div>
         </div>
 
-        <div id="log">System Standby...</div>
+        <div id="payment-section" class="hidden">
+            <div id="payment-area">
+                <h4 style="margin:0">Limit Reached</h4>
+                <p style="color:#666; font-size:12px; margin:5px 0;">₹49 for 50 more applies.</p>
+                <img src="Gpayqr.jpeg" alt="QR Code">
+                <button class="btn btn-start" onclick="notifyAdmin()">Notify Dhrubo</button>
+            </div>
+        </div>
+
+        <div id="log">> System Standby...</div>
     </div>
 </div>
 
 <script>
-    let token = null, currentUser = null;
+    let token = null, currentUser = null, userData = null;
 
-    // ✅ KEYS FROM YOUR GOOGLE DASHBOARD
+    // ✅ YOUR GOOGLE CREDENTIALS
     const GOOGLE_API_KEY = "AIzaSyAGqXNVcf67mqKylU2AiksSVWyWUDF5m0U"; 
     const GOOGLE_CX = "855a248eb0a8e4f1a"; 
     const CLIENT_ID = "943732948669-5q4kg3iersrk9rmiclr7e4l6tqdlpj6e.apps.googleusercontent.com";
+    const ADMIN_EMAIL = "dhrubojyoti.gangopadhyay@gmail.com";
 
     async function login() {
         const client = google.accounts.oauth2.initTokenClient({
             client_id: CLIENT_ID,
             scope: "https://www.googleapis.com/auth/gmail.send profile email",
             callback: async (res) => {
-                if (res.error) return;
                 token = res.access_token;
                 currentUser = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {headers:{Authorization:`Bearer ${token}`}}).then(r=>r.json());
-                await window.checkUserAndLoad(currentUser);
+                userData = await window.checkUserAndLoad(currentUser);
                 document.getElementById('login-section').classList.add('hidden');
                 document.getElementById('app-section').classList.remove('hidden');
+                checkUsage();
             }
         });
         client.requestAccessToken();
+    }
+
+    function checkUsage() {
+        const limit = userData.paid ? 60 : 10;
+        if (userData.usage >= limit) {
+            document.getElementById('ui-main').classList.add('hidden');
+            document.getElementById('payment-section').classList.remove('hidden');
+        }
+    }
+
+    async function notifyAdmin() {
+        updateLog("Notifying Admin...");
+        await window.requestApproval(currentUser.email);
+        await sendGmail(ADMIN_EMAIL, "PAYMENT ALERT", null, null, `Verify ₹49 for ${currentUser.email}`);
+        alert("Admin notified! App will unlock after verification.");
     }
 
     async function startAutomation() {
         const role = document.getElementById('role').value;
         const loc = document.getElementById('loc').value;
         const file = document.getElementById('cv').files[0];
-        
-        if(!role || !file) return alert("Select Profession & Upload Resume!");
+        if(!role || !file) return alert("Fill all fields!");
 
         const btn = document.getElementById('goBtn');
         btn.disabled = true;
-        updateLog("🔍 Locating job postings...");
+        updateLog("📡 Accessing Indian Job Nodes...");
 
         try {
-            // 1. UNIVERSAL JOB SEARCH (Every industry)
-            const q = `${role} vacancy ${loc} India "email" OR "contact"`;
+            // 🚀 THE AGGRESSIVE SEARCH: Finds direct hiring posts with emails
+            const q = `${role} jobs in ${loc} India (hiring OR vacancy OR "apply to") "@"`;
             const res = await fetch(`https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${GOOGLE_CX}&q=${encodeURIComponent(q)}`);
             const data = await res.json();
             const jobs = data.items ? data.items.slice(0, 10) : [];
 
             if(jobs.length === 0) {
-                updateLog("❌ No direct hits. Try broader title.");
+                updateLog("⚠️ No hits. Opening Manual Search...");
+                window.open(`https://www.google.com/search?q=${role}+jobs+in+${loc}+India+HR+email`, '_blank');
                 btn.disabled = false; return;
             }
 
@@ -169,60 +184,35 @@
                 const b64 = reader.result.split(',')[1];
                 
                 for(let i=0; i<jobs.length; i++){
-                    let domain = jobs[i].displayLink.replace('www.', '');
-                    updateLog(`✨ Analyzing ${domain}...`);
+                    let snippet = jobs[i].snippet;
+                    updateLog(`🔍 Extracting from: ${jobs[i].displayLink}`);
                     
-                    // 2. SEQUENTIAL EMAIL SCRAPING
-                    const eQ = `site:${domain} "email" OR "hr" OR "careers"`;
-                    const eRes = await fetch(`https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${GOOGLE_CX}&q=${encodeURIComponent(eQ)}`);
-                    const eData = await eRes.json();
-                    
-                    let target = `hr@${domain}`; // Default fallback
-                    if(eData.items) {
-                        for(let item of eData.items.slice(0,3)){
-                            const match = item.snippet.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/gi);
-                            if(match) { target = match[0]; break; }
-                        }
-                    }
+                    // Extract email directly from snippet if possible
+                    let emailMatch = snippet.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/gi);
+                    let target = emailMatch ? emailMatch[0] : `hr@${jobs[i].displayLink.replace('www.', '')}`;
 
-                    // 3. APPLY AUTOMATICALLY
                     updateLog(`📤 Mailing ${target}...`);
                     try {
-                        await sendEmail(target, `Application: ${role}`, b64, file.name);
+                        await sendGmail(target, `Application for ${role} position`, b64, file.name, `Dear Team,\n\nI am applying for the ${role} position in ${loc}. CV attached.\n\nBest,\n${userData.name}`);
                         await window.updateUsage(currentUser.email);
-                    } catch(e) { console.log("Email skip"); }
+                        userData.usage++;
+                        checkUsage();
+                    } catch(e) { console.log("Skip"); }
                     
-                    // Delay to look natural
                     await new Promise(r => setTimeout(r, 4000));
                 }
-                updateLog("✅ BATCH COMPLETE. Check Sent folder.");
+                updateLog("✅ Done! 10 Applications Sent.");
                 btn.disabled = false;
             };
             reader.readAsDataURL(file);
-        } catch(e) { updateLog("❌ API Failure."); btn.disabled = false; }
+        } catch(e) { updateLog("❌ API Error."); btn.disabled = false; }
     }
 
-    async function sendEmail(to, sub, cv, cvName) {
-        const boundary = "bndry";
-        let parts = [
-            `To: ${to}`,
-            `Subject: ${sub}`,
-            `MIME-Version: 1.0`,
-            `Content-Type: multipart/mixed; boundary=${boundary}`,
-            ``,
-            `--${boundary}`,
-            `Content-Type: text/plain; charset="UTF-8"`,
-            ``,
-            `Respected Hiring Team,\n\nI am applying for the current opening at your organization. Please find my CV attached.\n\nBest regards,\n${currentUser.name}`,
-            ``,
-            `--${boundary}`,
-            `Content-Type: application/pdf; name="${cvName}"`,
-            `Content-Disposition: attachment; filename="${cvName}"`,
-            `Content-Transfer-Encoding: base64`,
-            ``,
-            cv,
-            `--${boundary}--`
-        ];
+    async function sendGmail(to, sub, cv, cvName, body) {
+        const b = "boundary_text";
+        let parts = [`To: ${to}`, `Subject: ${sub}`, `MIME-Version: 1.0`, `Content-Type: multipart/mixed; boundary=${b}`, ``, `--${b}`, `Content-Type: text/plain; charset="UTF-8"`, ``, body];
+        if(cv) parts.push(``, `--${b}`, `Content-Type: application/pdf; name="${cvName}"`, `Content-Disposition: attachment; filename="${cvName}"`, `Content-Transfer-Encoding: base64`, ``, cv);
+        parts.push(`--${b}--`);
         const raw = btoa(unescape(encodeURIComponent(parts.join('\r\n')))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
         return fetch("https://gmail.googleapis.com/gmail/v1/users/me/messages/send", {
             method: "POST", 
