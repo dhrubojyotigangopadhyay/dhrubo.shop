@@ -1,103 +1,188 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>AI Job Auto Apply</title>
-  <style>
-    body {
-      font-family: Arial;
-      background: #0b1220;
-      color: white;
-      text-align: center;
-      padding: 30px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dhrubo AI Job Apply</title>
 
-    h1 {
-      font-size: 32px;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #020617, #0f172a);
+  color: white;
+}
 
-    .card {
-      background: #111a2e;
-      padding: 20px;
-      margin: 20px auto;
-      border-radius: 12px;
-      width: 300px;
-    }
+.container {
+  max-width: 420px;
+  margin: auto;
+  padding: 30px;
+  text-align: center;
+}
 
-    button {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      background: #22c55e;
-      color: black;
-      cursor: pointer;
-      margin-top: 10px;
-    }
+.card {
+  background: rgba(255,255,255,0.05);
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 20px;
+}
 
-    input {
-      padding: 10px;
-      border-radius: 6px;
-      border: none;
-      width: 80%;
-    }
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: none;
+  background: #22c55e;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-    .plans {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-  </style>
+input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+.plan {
+  background: #111827;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+</style>
 </head>
 
 <body>
 
+<div class="container">
+
 <h1>🚀 AI Job Auto Apply</h1>
-<p>Upload CV & apply to jobs automatically</p>
+<p>Apply to jobs automatically using AI</p>
 
-<button onclick="login()">Login with Google</button>
+<!-- LOGIN -->
+<div class="card">
+<button onclick="login()">🔐 Login with Google</button>
+<p id="user"></p>
+</div>
 
-<br><br>
-
+<!-- UPLOAD + APPLY -->
+<div class="card">
 <input type="file" id="cv">
-<br>
 <input type="text" id="role" placeholder="Enter job role">
-
-<br>
 <button onclick="apply()">Auto Apply</button>
+<p id="msg"></p>
+</div>
 
-<h2>💰 Plans</h2>
-
-<div class="plans">
-
+<!-- PLANS -->
 <div class="card">
-  <h3>Free</h3>
-  <p>3 Jobs</p>
-</div>
+<h3>💰 Plans</h3>
 
-<div class="card">
-  <h3>₹9</h3>
-  <p>10 Jobs</p>
-  <img src="upi.png" width="150">
-</div>
+<div class="plan">Free → 3 Jobs</div>
+<div class="plan">₹9 → 10 Jobs</div>
+<div class="plan">₹49 → 50 Jobs</div>
+<div class="plan">₹99 → Unlimited</div>
 
-<div class="card">
-  <h3>₹49</h3>
-  <p>50 Jobs</p>
-</div>
-
-<div class="card">
-  <h3>₹99</h3>
-  <p>Unlimited</p>
+<img src="upi.png" width="180">
+<p>Scan & Pay → Then click confirm</p>
+<button onclick="paid()">I Paid</button>
 </div>
 
 </div>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
 <script>
-function login(){
-  alert("Login connected (Firebase)");
+const firebaseConfig = {
+  apiKey: "AIzaSyBiq6QmLQkTiHfNajx9k10RIWssE6NJmIQ",
+  authDomain: "job-automation-by-dg.firebaseapp.com",
+  projectId: "job-automation-by-dg"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+let currentUser = null;
+
+// LOGIN
+async function login() {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  const result = await auth.signInWithPopup(provider);
+  currentUser = result.user;
+
+  document.getElementById("user").innerText =
+    "Logged in: " + currentUser.email;
+
+  // Create user if not exists
+  const userRef = db.collection("users").doc(currentUser.uid);
+  const doc = await userRef.get();
+
+  if (!doc.exists) {
+    await userRef.set({
+      email: currentUser.email,
+      credits: 3,
+      paid: false
+    });
+  }
 }
 
-function apply(){
-  alert("Applying to jobs...");
+// APPLY
+async function apply() {
+  if (!currentUser) {
+    alert("Login first");
+    return;
+  }
+
+  const role = document.getElementById("role").value;
+
+  const userRef = db.collection("users").doc(currentUser.uid);
+  const userDoc = await userRef.get();
+  const data = userDoc.data();
+
+  if (data.credits <= 0) {
+    alert("No credits. Please pay.");
+    return;
+  }
+
+  document.getElementById("msg").innerText =
+    "🚀 Applying to jobs...";
+
+  // Save job request
+  await db.collection("jobs").add({
+    user: currentUser.uid,
+    role: role,
+    time: new Date()
+  });
+
+  // Deduct credit
+  await userRef.update({
+    credits: data.credits - 1
+  });
+
+  document.getElementById("msg").innerText =
+    "✅ Application submitted!";
+}
+
+// PAYMENT (manual)
+async function paid() {
+  if (!currentUser) return;
+
+  const userRef = db.collection("users").doc(currentUser.uid);
+
+  await userRef.update({
+    credits: 10,
+    paid: true
+  });
+
+  alert("Credits added! (Demo)");
 }
 </script>
 
