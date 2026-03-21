@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dhrubo AI | Automated Job Hunter</title>
+    <title>Dhrubo AI | Auto Hunter v2.0</title>
     
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script type="module">
@@ -37,14 +37,15 @@
 
     <style>
         body { margin: 0; font-family: 'Inter', sans-serif; background: #0b0c14; display: flex; justify-content: center; align-items: center; min-height: 100vh; color: white; }
-        .popup-card { background: linear-gradient(165deg, #2d1b4d 0%, #15162b 100%); width: 350px; padding: 40px; border-radius: 30px; text-align: center; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 80px rgba(0,0,0,0.8); }
-        h3 { margin: 0 0 10px; font-size: 24px; font-weight: 700; }
-        p { color: #cfc3ff; font-size: 14px; margin-bottom: 25px; line-height: 1.4; }
-        .input-box { width: 100%; padding: 15px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; margin-bottom: 15px; text-align: center; outline: none; font-size: 15px; }
-        .btn { width: 100%; padding: 16px; border-radius: 14px; border: none; font-weight: 800; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+        .popup-card { background: linear-gradient(165deg, #2d1b4d 0%, #15162b 100%); width: 360px; padding: 45px 35px; border-radius: 30px; text-align: center; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 25px 80px rgba(0,0,0,0.9); }
+        h3 { margin: 0 0 8px; font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
+        p { color: #b8b0e6; font-size: 14px; margin-bottom: 30px; line-height: 1.5; }
+        .input-box { width: 100%; padding: 16px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; color: white; margin-bottom: 12px; text-align: center; outline: none; font-size: 15px; transition: 0.3s; }
+        .input-box:focus { border-color: #50e3c2; background: rgba(80, 227, 194, 0.05); }
+        .btn { width: 100%; padding: 16px; border-radius: 14px; border: none; font-weight: 800; cursor: pointer; margin-top: 10px; font-size: 15px; transition: 0.2s; }
         .btn-start { background: #50e3c2; color: #000; box-shadow: 0 8px 20px rgba(80, 227, 194, 0.3); }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        #log-box { margin-top: 25px; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 15px; font-size: 11px; color: #50e3c2; text-align: left; height: 100px; overflow-y: auto; font-family: monospace; border: 1px solid rgba(255,255,255,0.05); }
+        .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+        #log-box { margin-top: 25px; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 16px; font-size: 11px; color: #50e3c2; text-align: left; height: 130px; overflow-y: auto; font-family: 'SF Mono', monospace; border: 1px solid rgba(255,255,255,0.05); }
         .hidden { display: none; }
     </style>
 </head>
@@ -52,22 +53,22 @@
 
 <div id="login-section" class="popup-card">
     <h3>Dhrubo AI</h3>
-    <p>Universal Career Automation</p>
+    <p>Sign in to start mass automation.</p>
     <button class="btn btn-start" onclick="login()">Sign in with Google</button>
 </div>
 
 <div id="app-section" class="popup-card hidden">
-    <h3>Auto <span style="color:#50e3c2">Email</span> Setup</h3>
-    <p>Finding Jobs ➡️ Scraping Emails ➡️ Applying</p>
+    <h3>Auto <span style="color:#50e3c2">Hunter</span> v2</h3>
+    <p>Search Jobs ➡️ Grab Emails ➡️ Mass Apply</p>
     
-    <input type="text" id="role" class="input-box" placeholder="Profession (e.g. Cloud Engineer)">
+    <input type="text" id="role" class="input-box" placeholder="Target Role (Teacher, Dr, Eng)">
     <input type="text" id="loc" class="input-box" placeholder="City (e.g. Kolkata)">
     
-    <div style="font-size: 10px; color: #777; margin-bottom: 5px; font-weight: bold;">SELECT RESUME (PDF)</div>
-    <input type="file" id="cv" accept=".pdf" style="font-size: 11px; margin-bottom: 15px;">
+    <div style="font-size: 10px; color: #777; margin-bottom: 8px; font-weight: bold;">ATTACH CV (PDF)</div>
+    <input type="file" id="cv" accept=".pdf" style="font-size: 11px; margin-bottom: 15px; color: #888;">
     
-    <button class="btn btn-start" id="goBtn" onclick="startAutomation()">Start Hunting</button>
-    <div id="log-box">> System Standby...</div>
+    <button class="btn btn-start" id="goBtn" onclick="startAutomation()">Run Universal Hunter</button>
+    <div id="log-box">> System Ready. Whitelist Active.</div>
 </div>
 
 <script>
@@ -80,6 +81,7 @@
             client_id: "943732948669-5q4kg3iersrk9rmiclr7e4l6tqdlpj6e.apps.googleusercontent.com",
             scope: "https://www.googleapis.com/auth/gmail.send profile email",
             callback: async (res) => {
+                if(res.error) return;
                 token = res.access_token;
                 currentUser = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {headers:{Authorization:`Bearer ${token}`}}).then(r=>r.json());
                 await window.checkUserAndLoad(currentUser);
@@ -94,84 +96,84 @@
         const role = document.getElementById('role').value;
         const loc = document.getElementById('loc').value;
         const file = document.getElementById('cv').files[0];
-        if(!role || !file) return alert("Select Role & PDF!");
+        if(!role || !file) return alert("Fill everything!");
 
         const btn = document.getElementById('goBtn');
         btn.disabled = true;
-        updateLog("🔍 Opening Google Jobs tab...");
+        updateLog("🔍 Initializing Global Search Node...");
 
         try {
-            // 1. FIND THE JOBS (LIKE THE SEARCH SCREENSHOT)
-            const q = `${role} vacancy in ${loc} India "email" OR "contact"`;
+            // 📡 STEP 1: Aggressive Search for Job Postings (Matching your Screenshot)
+            const q = `${role} jobs in ${loc} India "email" OR "contact" OR "hiring"`;
             const res = await fetch(`https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${GOOGLE_CX}&q=${encodeURIComponent(q)}`);
             const data = await res.json();
-            const jobs = data.items || [];
+            const items = data.items || [];
 
-            if(jobs.length === 0) {
-                updateLog("❌ No jobs found. Try broader role.");
+            if(items.length === 0) {
+                updateLog("⚠️ No hits. Opening Manual engine...");
+                window.open(`https://www.google.com/search?q=${role}+jobs+in+${loc}+India+HR+email`, '_blank');
                 btn.disabled = false; return;
             }
 
             const reader = new FileReader();
             reader.onload = async () => {
                 const b64 = reader.result.split(',')[1];
-                let foundEmails = [];
+                let targets = new Set();
 
-                // 2. FOR EACH JOB: OPEN "VIRTUAL TAB" AND FIND EMAIL
-                for(let i=0; i < Math.min(jobs.length, 10); i++) {
-                    let domain = jobs[i].displayLink.replace('www.', '');
-                    updateLog(`📄 Opening tab: ${domain}...`);
+                // 📡 STEP 2: "OPEN TABS" - Scrape each result specifically for HR
+                for(let item of items) {
+                    let domain = item.displayLink.replace('www.', '');
+                    updateLog(`🛡️ Crawling: ${domain}...`);
 
+                    // Scan snippet first
+                    let m = item.snippet.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/gi);
+                    if(m) m.forEach(e => targets.add(e.toLowerCase()));
+
+                    // Deep Search domain contact page
                     const eQ = `site:${domain} "email" OR "hr" OR "careers" India`;
                     const eRes = await fetch(`https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${GOOGLE_CX}&q=${encodeURIComponent(eQ)}`);
                     const eData = await eRes.json();
                     
-                    let target = null;
                     if(eData.items) {
-                        for(let item of eData.items.slice(0,3)) {
-                            const m = item.snippet.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/gi);
-                            if(m) { target = m[0]; break; }
-                        }
+                        eData.items.forEach(ei => {
+                            let em = ei.snippet.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/gi);
+                            if(em) em.forEach(e => targets.add(e.toLowerCase()));
+                        });
                     }
-
-                    if(target) {
-                        updateLog(`✅ Email grabbed: ${target}`);
-                        foundEmails.push(target);
-                    } else {
-                        updateLog(`❌ No email at ${domain}. Closing tab.`);
-                    }
-                    await new Promise(r => setTimeout(r, 2000)); // Delay for "Human" behavior
+                    updateLog(`✅ Closed tab. Grabbed ${targets.size} unique IDs.`);
+                    await new Promise(r => setTimeout(r, 2000));
                 }
 
-                // 3. SEND MAIL TO ALL GRABBED JOBS
-                updateLog(`📤 Batch sending ${foundEmails.length} applications...`);
-                for(let email of foundEmails) {
+                // 📡 STEP 3: MASS MAIL - Fire to all grabbed contacts
+                const emailArr = Array.from(targets);
+                updateLog(`📤 Batch processing ${emailArr.length} applications...`);
+
+                for(let email of emailArr) {
                     try {
                         await sendEmail(email, `Application for ${role}`, b64, file.name);
                         await window.updateUsage(currentUser.email);
-                        updateLog(`✔️ Sent to ${email}`);
-                    } catch(e) { updateLog(`⚠️ Failed: ${email}`); }
-                    await new Promise(r => setTimeout(r, 3000));
+                        updateLog(`✔️ Applied: ${email}`);
+                    } catch(e) { updateLog(`⚠️ Delivery Fail: ${email}`); }
+                    await new Promise(r => setTimeout(r, 3500));
                 }
 
-                updateLog("🚀 SUCCESS! All tabs closed. Done.");
+                updateLog("🚀 AUTOMATION COMPLETE. Check Sent folder.");
                 btn.disabled = false;
             };
             reader.readAsDataURL(file);
-        } catch(e) { updateLog("❌ Error connecting."); btn.disabled = false; }
+        } catch(e) { updateLog("❌ Fatal API Error."); btn.disabled = false; }
     }
 
     async function sendEmail(to, sub, cv, cvName) {
-        const b = "boundary";
-        let p = [`To: ${to}`, `Subject: ${sub}`, `MIME-Version: 1.0`, `Content-Type: multipart/mixed; boundary=${b}`, ``, `--${b}`, `Content-Type: text/plain; charset="UTF-8"`, ``, `Respected Hiring Team,\n\nI am applying for the position. Please find my CV attached.\n\nBest,\n${currentUser.name}`, ``, `--${b}`, `Content-Type: application/pdf; name="${cvName}"`, `Content-Disposition: attachment; filename="${cvName}"`, `Content-Transfer-Encoding: base64`, ``, cv, `--${b}--` ];
+        const b = "bndry";
+        let p = [`To: ${to}`, `Subject: ${sub}`, `MIME-Version: 1.0`, `Content-Type: multipart/mixed; boundary=${b}`, ``, `--${b}`, `Content-Type: text/plain; charset="UTF-8"`, ``, `Respected Hiring Team,\n\nI am applying for the position of ${sub.split(':')[1]}. My CV is attached for your review.\n\nBest,\n${currentUser.name}`, ``, `--${b}`, `Content-Type: application/pdf; name="${cvName}"`, `Content-Disposition: attachment; filename="${cvName}"`, `Content-Transfer-Encoding: base64`, ``, cv, `--${b}--` ];
         const raw = btoa(unescape(encodeURIComponent(p.join('\r\n')))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
         return fetch("https://gmail.googleapis.com/gmail/v1/users/me/messages/send", {method:"POST", headers:{Authorization:`Bearer ${token}`, 'Content-Type':'application/json'}, body:JSON.stringify({raw})});
     }
 
     function updateLog(m) { 
         const lb = document.getElementById('log-box');
-        lb.innerHTML += `<div>> ${m}</div>`;
-        lb.scrollTop = lb.scrollHeight;
+        lb.innerHTML += `<div>> ${m}</div>`; lb.scrollTop = lb.scrollHeight;
     }
 </script>
 </body>
