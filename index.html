@@ -22,6 +22,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        // Core Data Functions
         window.checkUserAndLoad = async (user) => {
             const userRef = doc(db, "users", user.email);
             const userSnap = await getDoc(userRef);
@@ -50,67 +51,22 @@
     </script>
 
     <style>
-        :root { 
-            --primary: #00ff99; 
-            --bg: #05060f; 
-            --card: rgba(22, 24, 33, 0.9);
-            --input: #1b1d29;
-            --text: #ffffff;
-            --text-dim: #888;
-        }
-
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
-        body { 
-            margin: 0; font-family: 'Inter', -apple-system, sans-serif; 
-            background: var(--bg); color: var(--text); 
-            display: flex; justify-content: center; padding: 20px; min-height: 100vh;
-            background-image: radial-gradient(circle at 50% 0%, #1a1c2c 0%, #05060f 100%);
-        }
-
+        :root { --accent: #00ffa3; --bg: #05060a; --card: rgba(23, 25, 35, 0.9); --input: #1c1f2e; }
+        * { box-sizing: border-box; font-family: 'Inter', -apple-system, sans-serif; }
+        body { margin: 0; background: var(--bg); color: white; display: flex; justify-content: center; padding: 20px; min-height: 100vh; background-image: radial-gradient(circle at 50% 0%, #1a1c2c 0%, #05060f 100%); }
         .container { width: 100%; max-width: 420px; }
-
-        .card { 
-            background: var(--card); backdrop-filter: blur(15px);
-            padding: 30px; border-radius: 28px; 
-            border: 1px solid rgba(255,255,255,0.06); 
-            text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.6); 
-        }
-
-        h1 { font-size: 26px; color: var(--primary); margin: 0 0 5px 0; letter-spacing: -1px; }
-        .tagline { font-size: 13px; color: var(--text-dim); margin-bottom: 25px; }
-
-        .badge { background: rgba(0, 255, 153, 0.1); color: var(--primary); padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; margin-bottom: 20px; display: inline-block; }
-
-        input { 
-            width: 100%; padding: 15px; background: var(--input); 
-            border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; 
-            color: white; margin-top: 10px; outline: none; font-size: 15px;
-            transition: border 0.3s;
-        }
-        input:focus { border-color: var(--primary); }
-
-        button { 
-            width: 100%; padding: 16px; background: var(--primary); 
-            color: #000; border: none; border-radius: 14px; 
-            font-weight: 700; cursor: pointer; margin-top: 18px; font-size: 16px;
-            box-shadow: 0 4px 15px rgba(0, 255, 153, 0.2);
-        }
+        .card { background: var(--card); backdrop-filter: blur(15px); padding: 30px; border-radius: 28px; border: 1px solid rgba(255,255,255,0.1); text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        h1 { font-size: 26px; color: var(--accent); margin: 0; letter-spacing: -1px; }
+        .usage-badge { background: rgba(0, 255, 163, 0.1); color: var(--accent); padding: 6px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; display: inline-block; margin: 15px 0; }
+        input { width: 100%; padding: 15px; background: var(--input); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; color: white; margin-top: 10px; outline: none; transition: 0.3s; }
+        input:focus { border-color: var(--accent); }
+        button { width: 100%; padding: 18px; background: var(--accent); color: black; border: none; border-radius: 16px; font-weight: 800; cursor: pointer; margin-top: 20px; font-size: 16px; box-shadow: 0 8px 15px rgba(0, 255, 163, 0.2); }
         button:disabled { background: #2c2e3a; color: #555; cursor: not-allowed; box-shadow: none; }
-
-        #log-box { 
-            margin-top: 25px; background: rgba(0,0,0,0.4); 
-            padding: 15px; border-radius: 16px; font-size: 11px; 
-            color: var(--primary); text-align: left; height: 140px; 
-            overflow-y: auto; font-family: 'Courier New', monospace;
-            border: 1px solid rgba(255,255,255,0.03);
-        }
-
-        #payment-section { background: #fff; color: #000; padding: 25px; border-radius: 24px; margin-top: 15px; }
-        #payment-section img { width: 100%; max-width: 200px; border-radius: 12px; margin: 15px 0; }
-
+        #log-box { margin-top: 25px; background: #000; padding: 15px; border-radius: 16px; font-size: 11px; color: var(--accent); text-align: left; height: 140px; overflow-y: auto; font-family: 'Courier New', monospace; border: 1px solid #222; }
         .hidden { display: none; }
-        .pending-msg { background: rgba(243, 156, 18, 0.1); color: #f39c12; padding: 20px; border-radius: 18px; margin-top: 15px; border: 1px solid #f39c12; }
+        #payment-section { background: white; color: black; padding: 25px; border-radius: 24px; margin-top: 15px; }
+        #payment-section img { width: 100%; max-width: 190px; border-radius: 12px; margin: 15px 0; border: 1px solid #eee; }
+        .pending-msg { background: rgba(243, 156, 18, 0.1); color: #f39c12; padding: 20px; border-radius: 18px; margin-top: 15px; border: 1px solid #f39c12; font-size: 13px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -118,46 +74,46 @@
 <div class="container">
     <div class="card">
         <h1>Dhrubo AI 🚀</h1>
-        <div class="tagline">India's Smartest Career Automator</div>
+        <p style="color:#888; font-size:13px; margin-top:5px;">India's Automated Career Engine</p>
 
         <div id="login-section">
             <button onclick="login()">Sign in with Google</button>
         </div>
 
         <div id="app-section" class="hidden">
-            <div class="badge" id="usage-stats">Credits: 0 / 10</div>
+            <div class="usage-badge" id="usage-stats">Credits: 0 / 10</div>
             
             <div id="inputs-wrapper">
-                <input type="text" id="role" placeholder="Target Role (e.g. Sales Manager)">
+                <input type="text" id="role" placeholder="Target Role (e.g. Sales Officer)">
                 <input type="text" id="loc" placeholder="City (e.g. Kolkata)">
-                <div style="text-align:left; font-size:11px; color:var(--primary); margin:15px 0 0 5px; font-weight:bold;">ATTACH RESUME (PDF)</div>
-                <input type="file" id="cv" accept=".pdf">
+                <div style="text-align:left; font-size:11px; color:var(--accent); margin:18px 0 0 5px; font-weight:bold;">ATTACH RESUME (PDF)</div>
+                <input type="file" id="cv" accept=".pdf" style="font-size:12px;">
                 <button onclick="startApply()" id="goBtn">Apply to 10 Jobs Now</button>
             </div>
 
             <div id="payment-section" class="hidden">
                 <h3 style="margin:0;">Limit Reached!</h3>
-                <p style="font-size:13px; opacity:0.7;">Get 50 more applies for ₹49.</p>
+                <p style="font-size:13px; opacity:0.7;">Upgrade for 50 more applies.</p>
                 <img src="Gpayqr.jpeg" alt="GPay QR">
-                <button style="background:#25D366; color:white;" onclick="handlePaymentNotification()">Verify Payment via WhatsApp</button>
+                <button style="background:#25D366; color:white;" onclick="handlePaymentNotification()">Verify Payment (₹49)</button>
             </div>
 
-            <div id="pending-section" class="hidden" class="pending-msg">
+            <div id="pending-section" class="hidden">
                 <div class="pending-msg">
-                    ⏳ Verifying Payment...<br>
-                    <span style="font-weight:normal; font-size:11px;">Admin is checking your transaction. Unlocking soon.</span>
+                    ⏳ Payment Verification Pending...<br>
+                    <span style="font-weight:normal; font-size:11px; color:#888;">Admin is checking your ₹49 transaction. This will unlock soon.</span>
                 </div>
             </div>
 
-            <div id="log-box">> System Active. Ready for Indian Job Scrape.</div>
+            <div id="log-box">> System Active. Ready for deep scrape.</div>
         </div>
     </div>
 </div>
 
 <script>
     let token = null, currentUser = null, userData = {usage:0, paid:false, pendingApproval:false, welcomeSent:false};
-    
-    // ✅ PRODUCTION KEYS
+
+    // ✅ VERIFIED KEYS (DO NOT CHANGE)
     const GOOGLE_API_KEY = "AIzaSyAGqXNVcf67mqKylU2AiksSVWyWUDF5m0U"; 
     const GOOGLE_CX = "855a248eb0a8e4f1a"; 
     const CLIENT_ID = "943732948669-5q4kg3iersrk9rmiclr7e4l6tqdlpj6e.apps.googleusercontent.com"; 
@@ -170,6 +126,7 @@
             client_id: CLIENT_ID,
             scope: "https://www.googleapis.com/auth/gmail.send profile email",
             callback: async (res) => {
+                if (res.error) return;
                 token = res.access_token;
                 currentUser = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {headers:{Authorization:`Bearer ${token}`}}).then(r=>r.json());
                 userData = await window.checkUserAndLoad(currentUser);
@@ -185,32 +142,34 @@
         let limit = userData.paid ? 60 : 10;
         document.getElementById('usage-stats').innerText = `Credits: ${userData.usage} / ${limit}`;
         
+        // Welcome Pro User
         if (userData.paid && !userData.pendingApproval && !userData.welcomeSent) {
-            log("🎉 Pro Access Unlocked!");
+            log("🎉 Upgrade Verified! Welcome to Pro.");
             try {
-                await sendGmail(currentUser.email, "Pro Active!", "Dhrubo AI", null, null, "Payment verified! You have 50 extra credits.");
+                await sendGmail(currentUser.email, "Pro Status Active 🚀", "Dhrubo AI", null, null, "Your payment is verified. 50 extra credits added!");
                 await window.markWelcomeSent(currentUser.email);
                 userData.welcomeSent = true;
             } catch(e) {}
         }
 
-        document.getElementById('pending-section').classList.toggle('hidden', !userData.pendingApproval);
+        // Logic for showing screens
+        const pSec = document.getElementById('pending-section'), 
+              paySec = document.getElementById('payment-section'), 
+              inWrap = document.getElementById('inputs-wrapper');
+
         if (userData.pendingApproval) {
-            document.getElementById('inputs-wrapper').classList.add('hidden');
-            document.getElementById('payment-section').classList.add('hidden');
+            inWrap.classList.add('hidden'); paySec.classList.add('hidden'); pSec.classList.remove('hidden');
         } else if (userData.usage >= limit) {
-            document.getElementById('inputs-wrapper').classList.add('hidden');
-            document.getElementById('payment-section').classList.remove('hidden');
+            inWrap.classList.add('hidden'); paySec.classList.remove('hidden'); pSec.classList.add('hidden');
         } else {
-            document.getElementById('inputs-wrapper').classList.remove('hidden');
-            document.getElementById('payment-section').classList.add('hidden');
+            inWrap.classList.remove('hidden'); paySec.classList.add('hidden'); pSec.classList.add('hidden');
         }
     }
 
     async function handlePaymentNotification() {
         log("Alerting Admin...");
         await window.requestApproval(currentUser.email);
-        await sendGmail(ADMIN_EMAIL, "PAYMENT VERIFICATION", "System", null, null, `Verify ₹49 for ${currentUser.email}`);
+        await sendGmail(ADMIN_EMAIL, "PAYMENT VERIFICATION", "System", null, null, `Verify ₹49 for ${currentUser.email}\nApprove: https://console.firebase.google.com/project/job-automation-by-dg/firestore/data/~2Fusers~2F${currentUser.email}`);
         userData.pendingApproval = true;
         refreshUI();
     }
@@ -218,19 +177,24 @@
     async function startApply() {
         const role = document.getElementById('role').value, loc = document.getElementById('loc').value, file = document.getElementById('cv').files[0];
         if(!role || !file) return alert("Fill all fields.");
-        document.getElementById('goBtn').disabled = true;
+        
+        const btn = document.getElementById('goBtn');
+        btn.disabled = true;
+        btn.innerText = "Deep-Scraping India...";
         log(`🔍 Accessing India Whitelist for ${role}...`);
 
         try {
-            // 📡 Search Query Optimized for India & Job Portals
+            // 📡 1. Find Jobs in Indian Whitelist
             const q = `"${role}" jobs in ${loc} India (site:linkedin.com/jobs OR site:naukri.com OR site:foundit.in OR site:indeed.co.in)`;
             const res = await fetch(`https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${GOOGLE_CX}&q=${encodeURIComponent(q)}`);
             const data = await res.json();
             const jobs = data.items ? data.items.slice(0, 10) : [];
             
             if(!jobs.length) { 
-                log("No jobs found. Try 'Sales' or 'Developer'."); 
-                document.getElementById('goBtn').disabled = false; return; 
+                log("No jobs found. Opening Fallback Search..."); 
+                window.open(`https://www.google.com/search?q=${role}+jobs+in+${loc}+India+HR+email`, '_blank');
+                btn.disabled = false; btn.innerText = "Apply to 10 Jobs Now";
+                return; 
             }
 
             const reader = new FileReader();
@@ -240,33 +204,33 @@
                     let domain = jobs[i].displayLink.replace('www.', '');
                     log(`🎯 Analyzing ${domain}...`);
                     
-                    // Deep Scrape for Indian HR contact
+                    // 📡 2. Scrape HR ID
                     const eQ = `site:${domain} "email" OR "HR" OR "careers" India`;
                     const eRes = await fetch(`https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${GOOGLE_CX}&q=${encodeURIComponent(eQ)}`);
                     const eData = await eRes.json();
                     
-                    let email = `hr@${domain}`;
+                    let target = `hr@${domain}`;
                     if(eData.items) {
                         for(let item of eData.items.slice(0,3)){
                             const m = item.snippet.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/gi);
-                            if(m) { email = m[0]; log(`✨ Real ID Found: ${email}`); break; }
+                            if(m) { target = m[0]; log(`✨ Real ID Found: ${target}`); break; }
                         }
                     }
                     
-                    log(`📤 Applying to ${email}...`);
+                    log(`📤 Applying to ${target}...`);
                     try {
-                        await sendGmail(email, `Job Application: ${role}`, domain, b64, file.name, `Dear Team,\n\nApplying for ${role} role in ${loc}. CV attached.\n\nBest,\n${userData.name}`);
+                        await sendGmail(target, `Job Application: ${role}`, domain, b64, file.name, `Dear Team,\n\nI am applying for the ${role} position. CV attached.\n\nBest,\n${userData.name}`);
                         await window.updateUsage(currentUser.email);
                         userData.usage++;
                         refreshUI();
-                    } catch(e) { log(`⚠️ Delivery error.`); }
+                    } catch(e) { log(`⚠️ Skipped ${domain}`); }
                     await sleep(3500);
                 }
-                log("🚀 BATCH COMPLETE! Check Sent Folder.");
-                document.getElementById('goBtn').disabled = false;
+                log("🚀 BATCH COMPLETE! Check your Gmail Sent folder.");
+                btn.disabled = false; btn.innerText = "Apply to 10 Jobs Now";
             };
             reader.readAsDataURL(file);
-        } catch(e) { log("API Connection Error."); document.getElementById('goBtn').disabled = false; }
+        } catch(e) { log("API Connection Error."); btn.disabled = false; }
     }
 
     async function sendGmail(to, sub, comp, cv, cvName, body) {
@@ -275,7 +239,11 @@
         if(cv) p.push(``, `--${b}`, `Content-Type: application/pdf; name="${cvName}"`, `Content-Disposition: attachment; filename="${cvName}"`, `Content-Transfer-Encoding: base64`, ``, cv);
         p.push(`--${b}--`);
         const raw = btoa(unescape(encodeURIComponent(p.join('\r\n')))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-        return fetch("https://gmail.googleapis.com/gmail/v1/users/me/messages/send", {method:"POST", headers:{Authorization:`Bearer ${token}`, 'Content-Type':'application/json'}, body:JSON.stringify({raw})});
+        return fetch("https://gmail.googleapis.com/gmail/v1/users/me/messages/send", {
+            method: "POST", 
+            headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ raw })
+        });
     }
 
     function log(m) { const b = document.getElementById('log-box'); b.innerHTML += `<div>> ${m}</div>`; b.scrollTop = b.scrollHeight; }
