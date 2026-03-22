@@ -15,33 +15,31 @@ body {
 }
 
 .container {
-  padding:25px 15px;
+  padding:20px;
   max-width:420px;
   margin:auto;
 }
 
 h1 {
   font-size:26px;
-  margin-bottom:5px;
 }
 
 .sub {
   color:#50e3c2;
   font-size:13px;
-  margin-bottom:20px;
+  margin-bottom:15px;
 }
 
 .card {
   background:#1e2038;
-  padding:18px;
-  border-radius:18px;
-  margin:12px 0;
-  box-shadow:0 0 15px rgba(80,227,194,0.1);
+  padding:16px;
+  border-radius:16px;
+  margin:10px 0;
   transition:0.25s;
 }
 
 .card:hover {
-  transform:scale(1.04);
+  transform:scale(1.03);
 }
 
 button {
@@ -51,29 +49,20 @@ button {
   border-radius:10px;
   background:#50e3c2;
   font-weight:bold;
-  font-size:15px;
   margin-top:10px;
 }
 
 .desc {
   font-size:12px;
   color:#ccc;
-  margin-top:6px;
 }
 
-.glow {
-  animation:glow 2s infinite alternate;
-}
-
-@keyframes glow {
-  from { text-shadow:0 0 5px #50e3c2; }
-  to { text-shadow:0 0 20px #50e3c2; }
-}
-
-.footer {
-  margin-top:25px;
-  font-size:11px;
-  color:#888;
+.search {
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  margin-bottom:15px;
 }
 </style>
 </head>
@@ -82,54 +71,68 @@ button {
 
 <div class="container">
 
-<h1 class="glow">🚀 AI Tools Hub</h1>
-<div class="sub">3 Powerful Tools. 1 Click Away.</div>
+<h1>🚀 AI Tools Hub</h1>
+<div class="sub">New AI tools added daily</div>
 
-<!-- JOB MATCH AI -->
-<div class="card">
-  <h3>🎯 JobMatch AI</h3>
-  <div class="desc">
-    Upload CV → Get top 5 high-match jobs with links & recruiter access.
-  </div>
-  <button onclick="openJob()">Find Jobs</button>
-</div>
+<input class="search" placeholder="Search tools..." onkeyup="filterTools(this.value)">
 
-<!-- RESUME BUILDER -->
-<div class="card">
-  <h3>📄 AI Resume Builder</h3>
-  <div class="desc">
-    Create ATS-friendly resume with 80+ score in minutes.
-  </div>
-  <button onclick="openResume()">Build Resume</button>
-</div>
-
-<!-- PET PUJA -->
-<div class="card">
-  <h3>🍲 Pet Puja AI</h3>
-  <div class="desc">
-    Smart food & meal assistant powered by AI.
-  </div>
-  <button onclick="openFood()">Explore</button>
-</div>
-
-<div class="footer">
-  Built for speed ⚡ Designed for results 🚀
-</div>
+<div id="tools"></div>
 
 </div>
 
 <script>
-function openJob(){
-  window.open("https://chatgpt.com/g/g-69bef073f0c08191aedbf87d2b695260-jobmatch-ai","_blank");
+
+// 🔥 ADD NEW GPTs HERE ONLY
+const tools = [
+  {
+    name: "JobMatch AI",
+    desc: "Find top matching jobs from your CV",
+    link: "https://chatgpt.com/g/g-69bef073f0c08191aedbf87d2b695260-jobmatch-ai"
+  },
+  {
+    name: "AI Resume Builder",
+    desc: "Create ATS resume with 80+ score",
+    link: "https://chatgpt.com/g/g-69be1bbd56cc819194c3c3f2e4366eb5-free-ai-ats-resume-generator-80-score"
+  },
+  {
+    name: "Pet Puja AI",
+    desc: "Smart AI food assistant",
+    link: "https://chatgpt.com/g/g-69bd502f74588191afd6c35edff18f37-pet-puja-ai"
+  }
+];
+
+// RENDER
+function render(list){
+  const container=document.getElementById("tools");
+  container.innerHTML="";
+
+  list.forEach(t=>{
+    container.innerHTML += `
+      <div class="card">
+        <h3>${t.name}</h3>
+        <div class="desc">${t.desc}</div>
+        <button onclick="openTool('${t.link}')">Open</button>
+      </div>
+    `;
+  });
 }
 
-function openResume(){
-  window.open("https://chatgpt.com/g/g-69be1bbd56cc819194c3c3f2e4366eb5-free-ai-ats-resume-generator-80-score","_blank");
+// OPEN
+function openTool(link){
+  window.open(link,"_blank");
 }
 
-function openFood(){
-  window.open("https://chatgpt.com/g/g-69bd502f74588191afd6c35edff18f37-pet-puja-ai","_blank");
+// SEARCH
+function filterTools(q){
+  const filtered = tools.filter(t =>
+    t.name.toLowerCase().includes(q.toLowerCase())
+  );
+  render(filtered);
 }
+
+// INIT
+render(tools);
+
 </script>
 
 </body>
