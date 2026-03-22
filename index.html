@@ -3,192 +3,132 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dhrubo AI</title>
-
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+<title>AI Tools Hub</title>
 
 <style>
 body {
   margin:0;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background:#0b0c14;
+  font-family:-apple-system, sans-serif;
+  background:linear-gradient(135deg,#0b0c14,#15162b);
   color:white;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  min-height:100vh;
-}
-
-.card {
-  width:92%;
-  max-width:420px;
-  background:#15162b;
-  padding:25px;
-  border-radius:20px;
   text-align:center;
 }
 
-h2 { margin-bottom:10px; }
+.container {
+  padding:25px 15px;
+  max-width:420px;
+  margin:auto;
+}
 
-input, button {
-  width:100%;
-  padding:16px;
-  margin:8px 0;
-  border-radius:12px;
-  border:none;
-  font-size:16px;
+h1 {
+  font-size:26px;
+  margin-bottom:5px;
+}
+
+.sub {
+  color:#50e3c2;
+  font-size:13px;
+  margin-bottom:20px;
+}
+
+.card {
+  background:#1e2038;
+  padding:18px;
+  border-radius:18px;
+  margin:12px 0;
+  box-shadow:0 0 15px rgba(80,227,194,0.1);
+  transition:0.25s;
+}
+
+.card:hover {
+  transform:scale(1.04);
 }
 
 button {
-  background:#50e3c2;
-  font-weight:700;
-}
-
-#log {
-  margin-top:10px;
-  height:120px;
-  overflow:auto;
-  background:#000;
-  font-size:12px;
-  padding:10px;
+  width:100%;
+  padding:14px;
+  border:none;
   border-radius:10px;
-  text-align:left;
+  background:#50e3c2;
+  font-weight:bold;
+  font-size:15px;
+  margin-top:10px;
 }
 
-.hidden { display:none; }
+.desc {
+  font-size:12px;
+  color:#ccc;
+  margin-top:6px;
+}
+
+.glow {
+  animation:glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow:0 0 5px #50e3c2; }
+  to { text-shadow:0 0 20px #50e3c2; }
+}
+
+.footer {
+  margin-top:25px;
+  font-size:11px;
+  color:#888;
+}
 </style>
 </head>
 
 <body>
 
-<div id="login" class="card">
-<h2>Dhrubo AI 🚀</h2>
-<p>Auto Apply Jobs in Seconds</p>
-<button onclick="login()">Continue with Google</button>
+<div class="container">
+
+<h1 class="glow">🚀 AI Tools Hub</h1>
+<div class="sub">3 Powerful Tools. 1 Click Away.</div>
+
+<!-- JOB MATCH AI -->
+<div class="card">
+  <h3>🎯 JobMatch AI</h3>
+  <div class="desc">
+    Upload CV → Get top 5 high-match jobs with links & recruiter access.
+  </div>
+  <button onclick="openJob()">Find Jobs</button>
 </div>
 
-<div id="app" class="card hidden">
-<h2>Auto Hunter</h2>
-
-<input id="role" placeholder="e.g. Cloud Engineer">
-<input id="loc" placeholder="e.g. Kolkata">
-<input type="file" id="cv" accept=".pdf">
-
-<button onclick="start()">Find & Apply</button>
-
-<div id="log"></div>
+<!-- RESUME BUILDER -->
+<div class="card">
+  <h3>📄 AI Resume Builder</h3>
+  <div class="desc">
+    Create ATS-friendly resume with 80+ score in minutes.
+  </div>
+  <button onclick="openResume()">Build Resume</button>
 </div>
 
-<div id="pay" class="card hidden">
-<h2>Unlock 🚀</h2>
-<p>You've unlocked real job leads.<br><b>Continue for ₹49</b></p>
+<!-- PET PUJA -->
+<div class="card">
+  <h3>🍲 Pet Puja AI</h3>
+  <div class="desc">
+    Smart food & meal assistant powered by AI.
+  </div>
+  <button onclick="openFood()">Explore</button>
+</div>
 
-<img src="Gpayqr.jpeg" style="width:70%;border-radius:12px">
+<div class="footer">
+  Built for speed ⚡ Designed for results 🚀
+</div>
 
-<input id="upi" placeholder="Enter UPI Ref ID">
-<button onclick="unlock()">Unlock Now</button>
 </div>
 
 <script>
-let token=null;
-let usage=0;
-let paid=false;
-
-async function login(){
-  const client=google.accounts.oauth2.initTokenClient({
-    client_id:"YOUR_GOOGLE_CLIENT_ID",
-    scope:"https://www.googleapis.com/auth/gmail.send profile email",
-    callback:(res)=>{
-      token=res.access_token;
-      document.getElementById("login").classList.add("hidden");
-      document.getElementById("app").classList.remove("hidden");
-    }
-  });
-  client.requestAccessToken();
+function openJob(){
+  window.open("https://chatgpt.com/g/g-69bef073f0c08191aedbf87d2b695260-jobmatch-ai","_blank");
 }
 
-async function start(){
-
-  if(usage>=10 && !paid){
-    document.getElementById("app").classList.add("hidden");
-    document.getElementById("pay").classList.remove("hidden");
-    return;
-  }
-
-  const role=document.getElementById("role").value;
-  const loc=document.getElementById("loc").value;
-
-  log("🔍 Searching jobs...");
-
-  let jobs=[];
-
-  // 🔥 JOOBLE
-  try{
-    let j=await fetch("https://jooble.org/api/YOUR_JOOBLE_KEY",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({keywords:role,location:loc})
-    }).then(r=>r.json());
-
-    if(j.jobs){
-      jobs=jobs.concat(j.jobs.map(x=>x.link));
-    }
-    log("Jooble: "+jobs.length);
-  }catch{}
-
-  // 🔥 ADZUNA
-  try{
-    let a=await fetch(`https://api.adzuna.com/v1/api/jobs/in/search/1?app_id=YOUR_ID&app_key=YOUR_KEY&what=${role}&where=${loc}`)
-    .then(r=>r.json());
-
-    if(a.results){
-      jobs=jobs.concat(a.results.map(x=>x.redirect_url));
-    }
-    log("Adzuna added");
-  }catch{}
-
-  // 🔥 RAPIDAPI
-  try{
-    let r=await fetch(`https://jsearch.p.rapidapi.com/search?query=${role}%20${loc}`,{
-      headers:{
-        "X-RapidAPI-Key":"YOUR_RAPID_KEY",
-        "X-RapidAPI-Host":"jsearch.p.rapidapi.com"
-      }
-    }).then(r=>r.json());
-
-    if(r.data){
-      jobs=jobs.concat(r.data.map(x=>x.job_apply_link));
-    }
-    log("RapidAPI added");
-  }catch{}
-
-  // remove duplicates
-  jobs=[...new Set(jobs)];
-
-  log("Total jobs: "+jobs.length);
-
-  // 🔥 OPEN LINKS (REAL APPLY)
-  for(let j of jobs){
-    window.open(j,"_blank");
-    await sleep(2000);
-  }
-
-  usage++;
-  log("Done 🚀");
+function openResume(){
+  window.open("https://chatgpt.com/g/g-69be1bbd56cc819194c3c3f2e4366eb5-free-ai-ats-resume-generator-80-score","_blank");
 }
 
-function unlock(){
-  paid=true;
-  alert("Unlocked 🚀");
-  location.reload();
-}
-
-function log(t){
-  document.getElementById("log").innerHTML+="<div>"+t+"</div>";
-}
-
-function sleep(ms){
-  return new Promise(r=>setTimeout(r,ms));
+function openFood(){
+  window.open("https://chatgpt.com/g/g-69bd502f74588191afd6c35edff18f37-pet-puja-ai","_blank");
 }
 </script>
 
