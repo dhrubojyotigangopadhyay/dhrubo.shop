@@ -3,7 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Tools Hub</title>
+
+<title>AI Tools Hub - Mock Interview, Resume Builder & Job Match AI</title>
+
+<meta name="description" content="Practice mock interviews with AI, get job matches from your CV, and build ATS resumes instantly. Free AI tools for career growth.">
+<meta name="keywords" content="AI mock interview, resume builder AI, job match AI, interview practice online">
+<meta name="author" content="Dhrubo">
+
+<meta property="og:title" content="AI Tools Hub 🚀">
+<meta property="og:description" content="Crack interviews with AI in 2 minutes">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dhrubo.shop">
+
+<!-- 🔥 GOOGLE ANALYTICS -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -104,7 +123,7 @@ body{
 <body>
 
 <div class="header">
-  <div class="title">AI Tools 🚀</div>
+  <h1 class="title">AI Tools 🚀</h1>
 </div>
 
 <input class="search" placeholder="Search tools..." onkeyup="filterTools(this.value)">
@@ -146,13 +165,19 @@ function render(list){
         <div class="name">${t.name}</div>
         <div class="desc">${t.desc}</div>
         <div class="badge">⚡ AI Powered</div>
-        <button class="btn" onclick="openTool('${t.link}')">Open</button>
+        <button class="btn" onclick="openTool('${t.link}','${t.name}')">Start 🚀</button>
       </div>
     `;
   });
 }
 
-function openTool(link){
+function openTool(link, name){
+  // 🔥 TRACK CLICK
+  if(typeof gtag !== "undefined"){
+    gtag('event', 'tool_click', {
+      'tool_name': name
+    });
+  }
   window.open(link,"_blank");
 }
 
