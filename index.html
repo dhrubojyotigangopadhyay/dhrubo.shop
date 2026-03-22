@@ -6,131 +6,166 @@
 <title>AI Tools Hub</title>
 
 <style>
-body {
-  margin:0;
-  font-family:-apple-system, sans-serif;
-  background:linear-gradient(135deg,#0b0c14,#15162b);
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  font-family:-apple-system, BlinkMacSystemFont, sans-serif;
+  background: radial-gradient(circle at top, #1a1c2e, #0b0c14);
   color:white;
+}
+
+/* HEADER */
+.header{
+  position:sticky;
+  top:0;
+  backdrop-filter:blur(20px);
+  background:rgba(20,22,40,0.7);
+  padding:15px;
   text-align:center;
+  border-bottom:1px solid rgba(255,255,255,0.05);
 }
 
-.container {
-  padding:20px;
-  max-width:420px;
-  margin:auto;
+.title{
+  font-size:20px;
+  font-weight:700;
+  background:linear-gradient(90deg,#50e3c2,#7aa2ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
 
-h1 {
-  font-size:26px;
-}
-
-.sub {
-  color:#50e3c2;
-  font-size:13px;
-  margin-bottom:15px;
-}
-
-.card {
-  background:#1e2038;
-  padding:16px;
-  border-radius:16px;
-  margin:10px 0;
-  transition:0.25s;
-}
-
-.card:hover {
-  transform:scale(1.03);
-}
-
-button {
-  width:100%;
+/* SEARCH */
+.search{
+  margin:10px;
   padding:14px;
+  width:calc(100% - 20px);
   border:none;
-  border-radius:10px;
-  background:#50e3c2;
-  font-weight:bold;
-  margin-top:10px;
+  border-radius:14px;
+  background:#15162b;
+  color:white;
+  font-size:14px;
 }
 
-.desc {
+/* GRID */
+.container{
+  padding:10px;
+}
+
+/* CARD */
+.card{
+  background:rgba(30,32,56,0.6);
+  backdrop-filter:blur(15px);
+  border-radius:18px;
+  padding:16px;
+  margin-bottom:12px;
+  transition:0.25s ease;
+  border:1px solid rgba(255,255,255,0.05);
+}
+
+.card:active{
+  transform:scale(0.97);
+}
+
+/* TEXT */
+.name{
+  font-size:16px;
+  font-weight:600;
+}
+
+.desc{
   font-size:12px;
-  color:#ccc;
+  color:#aaa;
+  margin-top:5px;
 }
 
-.search {
+/* BUTTON */
+.btn{
+  margin-top:10px;
   width:100%;
   padding:12px;
-  border-radius:10px;
   border:none;
-  margin-bottom:15px;
+  border-radius:12px;
+  background:linear-gradient(90deg,#50e3c2,#7aa2ff);
+  color:#000;
+  font-weight:600;
+  font-size:14px;
+}
+
+/* BADGE */
+.badge{
+  font-size:10px;
+  color:#50e3c2;
+  margin-top:5px;
+}
+
+/* ANIMATION */
+.fade{
+  animation:fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:translateY(0)}
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-
-<h1>🚀 AI Tools Hub</h1>
-<div class="sub">New AI tools added daily</div>
+<div class="header">
+  <div class="title">AI Tools 🚀</div>
+</div>
 
 <input class="search" placeholder="Search tools..." onkeyup="filterTools(this.value)">
 
-<div id="tools"></div>
-
-</div>
+<div class="container" id="tools"></div>
 
 <script>
 
-// 🔥 ADD NEW GPTs HERE ONLY
 const tools = [
   {
-    name: "JobMatch AI",
-    desc: "Find top matching jobs from your CV",
-    link: "https://chatgpt.com/g/g-69bef073f0c08191aedbf87d2b695260-jobmatch-ai"
+    name:"JobMatch AI",
+    desc:"Get top job matches from your CV",
+    link:"https://chatgpt.com/g/g-69bef073f0c08191aedbf87d2b695260-jobmatch-ai"
   },
   {
-    name: "AI Resume Builder",
-    desc: "Create ATS resume with 80+ score",
-    link: "https://chatgpt.com/g/g-69be1bbd56cc819194c3c3f2e4366eb5-free-ai-ats-resume-generator-80-score"
+    name:"AI Resume Builder",
+    desc:"Create ATS resume instantly",
+    link:"https://chatgpt.com/g/g-69be1bbd56cc819194c3c3f2e4366eb5-free-ai-ats-resume-generator-80-score"
   },
   {
-    name: "Pet Puja AI",
-    desc: "Smart AI food assistant",
-    link: "https://chatgpt.com/g/g-69bd502f74588191afd6c35edff18f37-pet-puja-ai"
+    name:"Pet Puja AI",
+    desc:"Smart food & meal assistant",
+    link:"https://chatgpt.com/g/g-69bd502f74588191afd6c35edff18f37-pet-puja-ai"
   }
 ];
 
-// RENDER
 function render(list){
   const container=document.getElementById("tools");
   container.innerHTML="";
 
   list.forEach(t=>{
-    container.innerHTML += `
-      <div class="card">
-        <h3>${t.name}</h3>
+    container.innerHTML+=`
+      <div class="card fade">
+        <div class="name">${t.name}</div>
         <div class="desc">${t.desc}</div>
-        <button onclick="openTool('${t.link}')">Open</button>
+        <div class="badge">⚡ AI Powered</div>
+        <button class="btn" onclick="openTool('${t.link}')">Open</button>
       </div>
     `;
   });
 }
 
-// OPEN
 function openTool(link){
   window.open(link,"_blank");
 }
 
-// SEARCH
 function filterTools(q){
-  const filtered = tools.filter(t =>
+  const filtered=tools.filter(t=>
     t.name.toLowerCase().includes(q.toLowerCase())
   );
   render(filtered);
 }
 
-// INIT
 render(tools);
 
 </script>
