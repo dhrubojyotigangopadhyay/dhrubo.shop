@@ -7,7 +7,7 @@
 <title>AI Tools Hub - Mock Interview, Resume Builder & Job Match AI</title>
 
 <meta name="description" content="Practice mock interviews with AI, get job matches from your CV, and build ATS resumes instantly. Free AI tools for career growth.">
-<meta name="keywords" content="AI mock interview, resume builder AI, job match AI, interview practice online">
+<meta name="keywords" content="AI tools, finance AI, cooking AI, job AI">
 <meta name="author" content="Dhrubo">
 
 <meta property="og:title" content="AI Tools Hub 🚀">
@@ -15,6 +15,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://dhrubo.shop">
 
+<!-- GOOGLE ANALYTICS -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-1M1HKNCHYB"></script>
 <script>
 window.dataLayer = window.dataLayer || [];
@@ -32,7 +33,7 @@ body{
   font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background:#f3f6f8;
   color:#1f2937;
-  padding-bottom:80px;
+  padding-bottom:100px;
 }
 
 /* HEADER */
@@ -61,7 +62,7 @@ body{
   background:#fff;
 }
 
-/* CARD */
+/* CARDS */
 .container{padding:12px;}
 
 .card{
@@ -70,11 +71,6 @@ body{
   padding:16px;
   margin-bottom:12px;
   border:1px solid #e5e7eb;
-  transition:0.2s;
-}
-
-.card:hover{
-  box-shadow:0 4px 14px rgba(0,0,0,0.08);
 }
 
 .name{font-size:17px;font-weight:600;}
@@ -90,21 +86,12 @@ body{
   background:#0a66c2;
   color:#fff;
   font-weight:600;
-  cursor:pointer;
-}
-
-/* FOOTER */
-.footer{
-  text-align:center;
-  font-size:12px;
-  color:#6b7280;
-  padding:20px;
 }
 
 /* FLOAT BUTTON */
 .fab{
   position:fixed;
-  bottom:80px;
+  bottom:20px;
   right:16px;
   background:#0a66c2;
   color:#fff;
@@ -115,26 +102,28 @@ body{
   box-shadow:0 6px 20px rgba(0,0,0,0.2);
 }
 
-/* BOTTOM NAV */
-.bottom-nav{
-  position:fixed;
-  bottom:0;
-  width:100%;
-  background:#fff;
-  border-top:1px solid #e5e7eb;
+/* SOCIAL */
+.social-links{
   display:flex;
-  justify-content:space-around;
-  padding:10px 0;
+  justify-content:center;
+  gap:20px;
+  margin-top:20px;
 }
 
-.nav-item{
-  font-size:12px;
+.social-links a{
+  font-size:22px;
+  text-decoration:none;
+  background:#fff;
+  padding:10px 14px;
+  border-radius:12px;
+  border:1px solid #e5e7eb;
+}
+
+.footer{
+  text-align:center;
+  font-size:13px;
   color:#6b7280;
-}
-
-.nav-item.active{
-  color:#0a66c2;
-  font-weight:600;
+  padding:20px;
 }
 </style>
 </head>
@@ -149,19 +138,21 @@ body{
 
 <div class="container" id="tools"></div>
 
+<!-- SOCIAL LINKS -->
+<div class="social-links">
+  <a href="https://www.instagram.com/aibabahq" target="_blank">📸</a>
+  <a href="https://youtube.com/@aibabahq" target="_blank">▶️</a>
+  <a href="https://www.facebook.com/AIBabaHq/" target="_blank">📘</a>
+</div>
+
 <div class="footer">
-📩 Contact: dhrubo@dhrubo.shop
+💡 Want your own AI like this? <br>
+📩 dhrubo@dhrubo.shop
 </div>
 
+<!-- TELEGRAM BUTTON -->
 <div class="fab" onclick="window.open('https://t.me/druboG','_blank')">
-  💬 Ping For Custom AI Agent 
-</div>
-
-<div class="bottom-nav">
-<div class="nav-item active">🏠 Home</div>
-<div class="nav-item">🔥 Tools</div>
-<div class="nav-item">📊 Track</div>
-<div class="nav-item">👤 Profile</div>
+🚀 Free AI Tools
 </div>
 
 <script>
@@ -174,22 +165,22 @@ const tools = [
   },
   {
     name:"AI Rasoi Baba 🔥",
-    desc:"An AI-powered cooking assistant that transforms your ingredients into complete recipes.",
+    desc:"Cooking assistant from your ingredients",
     link:"https://chatgpt.com/g/g-69c10556d7a88191983fa1f6e7e7040c-ai-rasoi-baba"
   },
   {
     name:"Future Batao AI 😳",
-    desc:"Find out how many years it will take to achieve your financial goals with smart AI planning.",
+    desc:"Know your future goals timeline instantly",
     link:"https://chatgpt.com/g/g-69c12fac01dc8191bece6a749da33821-future-batao-ai"
   },
   {
     name:"MockMate AI 🔥",
-    desc:"Practice real mock interviews with AI (2 min)",
+    desc:"Practice mock interviews with AI",
     link:"https://chatgpt.com/g/g-69bf838dee94819189ac44df8403a9b7-mockmate-ai"
   },
   {
     name:"JobMatch AI",
-    desc:"Get top job matches from your CV",
+    desc:"Get job matches from your CV",
     link:"https://chatgpt.com/g/g-69bef073f0c08191aedbf87d2b695260-jobmatch-ai"
   },
   {
@@ -199,12 +190,12 @@ const tools = [
   },
   {
     name:"Pet Puja AI",
-    desc:"Smart food & meal assistant",
+    desc:"Smart meal assistant",
     link:"https://chatgpt.com/g/g-69bd502f74588191afd6c35edff18f37-pet-puja-ai"
   },
   {
     name:"Medicine Safety AI",
-    desc:"A multilingual, safety-first health guidance assistant",
+    desc:"Safety-first health guidance assistant",
     link:"https://chatgpt.com/g/g-69bfe6934eec8191ace30162fe07a441-medicine-safety-ai"
   }
 ];
