@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>AI Tools Hub</title>
+<title>AIBaba | AI for the common man</title>
 
-<meta name="description" content="Free AI tools for finance, business, cooking & lifestyle">
+<meta name="description" content="AIBaba: Free AI tools for finance, business, cooking, and everyday life.">
 <meta name="author" content="Dhrubo">
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-1M1HKNCHYB"></script>
@@ -39,150 +39,162 @@ body{
   line-height: 1.5;
 }
 
+/* ANIMATIONS */
+@keyframes pulseLogo {
+  0% { transform: scale(1); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+  50% { transform: scale(1.05); box-shadow: 0 12px 30px rgba(10, 102, 194, 0.2); }
+  100% { transform: scale(1); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* HEADER */
 .header{
   background: var(--card-bg);
-  padding: 30px 16px;
+  padding: 40px 16px 30px;
   text-align: center;
   box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-}
-.title{
-  color: var(--primary);
-  font-size: 1.8rem;
-  font-weight: 800;
-  letter-spacing: -1px;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  animation: fadeInUp 0.8s ease-out;
 }
 
-/* DROPDOWN & SEARCH */
+/* LOGO IN CIRCLE WITH ANIMATION */
+.logo-circle {
+  width: 95px;
+  height: 95px;
+  margin: 0 auto 15px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #fff;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulseLogo 3s infinite ease-in-out;
+}
+.logo-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.title{
+  color: var(--primary);
+  font-size: 2.2rem;
+  font-weight: 900;
+  letter-spacing: -1.5px;
+  text-transform: uppercase;
+}
+.tagline {
+  font-size: 14px; 
+  color: var(--text-muted); 
+  margin-top: 4px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* UI ELEMENTS */
 .dropdown-toggle{
-  margin: 25px 16px 10px;
-  padding: 16px;
+  margin: 30px 16px 10px;
+  padding: 18px;
   background: var(--accent-gradient);
   color: #fff;
-  border-radius: 16px;
+  border-radius: 20px;
   text-align: center;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 8px 15px rgba(10, 102, 194, 0.2);
-  transition: transform 0.2s ease;
+  box-shadow: 0 8px 20px rgba(10, 102, 194, 0.25);
+  transition: transform 0.2s;
 }
-.dropdown-toggle:active { transform: scale(0.96); }
+.dropdown-toggle:active { transform: scale(0.97); }
 
 .search{
   margin: 10px 16px;
-  padding: 16px;
+  padding: 18px;
   width: calc(100% - 32px);
   border: 2px solid #e2e8f0;
-  border-radius: 16px;
+  border-radius: 20px;
   outline: none;
   font-size: 16px;
+  background: #fff;
   transition: border-color 0.3s;
 }
 .search:focus { border-color: var(--primary); }
 
-/* CARDS CONTAINER */
 .container{ padding: 16px; }
-
 .card{
   background: var(--card-bg);
-  border-radius: 24px;
+  border-radius: 28px;
   padding: 24px;
   margin-bottom: 20px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.04);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
   border: 1px solid rgba(226, 232, 240, 0.8);
+  animation: fadeInUp 0.5s ease-out forwards;
 }
-
-.name{ font-size: 1.2rem; font-weight: 700; color: var(--text-main); }
-.desc{ font-size: 14px; color: var(--text-muted); margin-top: 6px; }
+.name{ font-size: 1.25rem; font-weight: 800; color: var(--text-main); }
+.desc{ font-size: 15px; color: var(--text-muted); margin-top: 8px; }
 .badge{ 
   display: inline-block;
-  font-size: 11px; 
-  font-weight: 800;
-  text-transform: uppercase;
-  color: var(--primary); 
-  background: #eff6ff;
-  padding: 5px 12px;
-  border-radius: 50px;
-  margin-top: 12px;
+  font-size: 11px; font-weight: 800; color: var(--primary); 
+  background: #eff6ff; padding: 6px 14px; border-radius: 50px; margin-top: 14px;
 }
-
 .btn{
-  margin-top: 20px;
-  width: 100%;
-  padding: 15px;
-  border: none;
-  background: var(--accent-gradient);
-  color: #fff;
-  border-radius: 14px;
-  font-weight: 700;
-  font-size: 16px;
-  cursor: pointer;
+  margin-top: 22px; width: 100%; padding: 16px; border: none;
+  background: var(--accent-gradient); color: #fff; border-radius: 16px;
+  font-weight: 700; font-size: 16px; cursor: pointer;
   box-shadow: 0 4px 12px rgba(10, 102, 194, 0.2);
-  transition: filter 0.2s;
 }
-.btn:hover { filter: brightness(1.1); }
 
-/* SOCIAL LINKS */
-.social-links{
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 40px;
-}
+/* SOCIALS */
+.social-links{ display: flex; justify-content: center; gap: 15px; margin-top: 40px; }
 .social-links a{
-  width: 50px; height: 50px;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 18px;
-  color: #fff;
-  text-decoration: none;
-  font-size: 24px;
-  transition: all 0.3s;
+  width: 54px; height: 54px; display: flex; align-items: center; justify-content: center;
+  border-radius: 20px; color: #fff; font-size: 26px; text-decoration: none;
+  transition: transform 0.3s;
 }
-.social-links a:hover { transform: translateY(-5px) rotate(5deg); }
+.social-links a:hover { transform: translateY(-5px); }
 
 .insta{ background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
 .yt{ background: #FF0000; }
 .fb{ background: #1877F2; }
 
 /* FOOTER */
-.footer{ text-align: center; padding: 40px 20px; font-size: 15px; color: var(--text-main); line-height: 1.6; }
-.footer strong { color: var(--primary); font-size: 1.1rem; }
+.footer{ text-align: center; padding: 50px 20px; font-size: 15px; color: var(--text-main); line-height: 1.7; }
+.footer strong { color: var(--primary); }
 
-/* FLOATING ASK US BUTTON */
+/* FLOATING ASK US */
 .floating-btn{
-  position: fixed;
-  bottom: 30px;
-  right: 20px;
-  background: #000; /* Sleek black for contrast */
-  color: #fff;
-  padding: 16px 28px;
-  border-radius: 50px;
-  font-weight: 700;
-  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  z-index: 1000;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: fixed; bottom: 30px; right: 20px; background: #1a1a1a; color: #fff;
+  padding: 18px 32px; border-radius: 60px; font-weight: 800;
+  display: flex; align-items: center; gap: 12px; z-index: 1000;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+  transition: all 0.3s;
 }
-.floating-btn:hover { transform: scale(1.05); }
+.floating-btn:hover { background: #000; transform: translateY(-3px); }
 </style>
 </head>
 
 <body>
 
 <div class="header">
-  <h2 class="title">AI Tools Hub 🚀</h2>
-  <p style="font-size: 14px; color: var(--text-muted); margin-top: 5px;">Your daily AI companions</p>
+  <div class="logo-circle">
+    <img src="AIBABA.jpeg" alt="AIBaba Logo">
+  </div>
+  <h2 class="title">AIBaba 🚀</h2>
+  <p class="tagline">AI FOR THE COMMON MAN</p>
 </div>
 
 <div class="dropdown-toggle" onclick="toggleTools()">
-  ✨ Explore All AI Tools
+  ✨ EXPLORE SMART TOOLS
 </div>
 
 <div id="toolsWrapper" style="display:none;">
-  <input class="search" placeholder="Search for tools (e.g. Cooking, Finance...)" onkeyup="filterTools(this.value)">
+  <input class="search" placeholder="Ask AIBaba something..." onkeyup="filterTools(this.value)">
   <div class="container" id="tools"></div>
 </div>
 
@@ -193,13 +205,13 @@ body{
 </div>
 
 <div class="footer">
-  💡 Want a custom AI for <strong>yourself</strong> or your <strong>business</strong>?<br>
-  Let's build it together.<br>
+  💡 Want a custom AI for <strong>yourself</strong> or your <strong>team</strong>?<br>
+  Crafted with care by <strong>Dhrubo</strong>.<br>
   <strong>dhrubo@dhrubo.shop</strong>
 </div>
 
 <div class="floating-btn" onclick="window.open('https://t.me/druboG','_blank')">
-  <i class="fa-brands fa-telegram"></i> Ask Us
+  <i class="fa-brands fa-telegram"></i> ASK US
 </div>
 
 <script>
@@ -209,14 +221,14 @@ function toggleTools(){
 }
 
 const tools=[
-  {name:"Dealer Mitra AI 🔥",desc:"Smart automation for business management.",link:"https://chatgpt.com/g/g-69c0dbf69ab88191886d35a8c26d92d8-dealer-mitra-ai"},
-  {name:"AI Rasoi Baba 🔥",desc:"Your 24/7 personal chef for perfect recipes.",link:"https://chatgpt.com/g/g-69c10556d7a88191983fa1f6e7e7040c-ai-rasoi-baba"},
-  {name:"Future Batao AI 😳",desc:"Predict your financial future & grow wealth.",link:"https://chatgpt.com/g/g-69c12fac01dc8191bece6a749da33821-future-batao-ai"},
-  {name:"MockMate AI 🔥",desc:"Personal coach to ace your next job interview.",link:"https://chatgpt.com/g/g-69bf838dee94819189ac44df8403a9b7-mockmate-ai"},
-  {name:"JobMatch AI",desc:"Find career opportunities tailored to you.",link:"https://chatgpt.com/g/g-69bef073f0c08191aedbf87d2b695260-jobmatch-ai"},
-  {name:"AI Resume Builder",desc:"Stand out with a high-scoring personal resume.",link:"https://chatgpt.com/g/g-69be1bbd56cc819194c3c3f2e4366eb5-free-ai-ats-resume-generator-80-score"},
-  {name:"Pet Puja AI",desc:"Your ultimate companion for food and cravings.",link:"https://chatgpt.com/g/g-69bd502f74588191afd6c35edff18f37-pet-puja-ai"},
-  {name:"Medicine Safety AI",desc:"Keep yourself and your family healthy.",link:"https://chatgpt.com/g/g-69bfe6934eec8191ace30162fe07a441-medicine-safety-ai"}
+  {name:"Dealer Mitra AI 🔥",desc:"Empower your business with smart management and automation.",link:"https://chatgpt.com/g/g-69c0dbf69ab88191886d35a8c26d92d8-dealer-mitra-ai"},
+  {name:"AI Rasoi Baba 🔥",desc:"Your master chef for delicious, simple Indian recipes.",link:"https://chatgpt.com/g/g-69c10556d7a88191983fa1f6e7e7040c-ai-rasoi-baba"},
+  {name:"Future Batao AI 😳",desc:"Predict your financial growth and master your money.",link:"https://chatgpt.com/g/g-69c12fac01dc8191bece6a749da33821-future-batao-ai"},
+  {name:"MockMate AI 🔥",desc:"Practice with AI to crack your next dream job interview.",link:"https://chatgpt.com/g/g-69bf838dee94819189ac44df8403a9b7-mockmate-ai"},
+  {name:"JobMatch AI",desc:"Find high-paying careers perfectly suited for your skills.",link:"https://chatgpt.com/g/g-69bef073f0c08191aedbf87d2b695260-jobmatch-ai"},
+  {name:"AI Resume Builder",desc:"Generate professional, ATS-friendly resumes in minutes.",link:"https://chatgpt.com/g/g-69be1bbd56cc819194c3c3f2e4366eb5-free-ai-ats-resume-generator-80-score"},
+  {name:"Pet Puja AI",desc:"Your go-to assistant for satisfying all your food cravings.",link:"https://chatgpt.com/g/g-69bd502f74588191afd6c35edff18f37-pet-puja-ai"},
+  {name:"Medicine Safety AI",desc:"Quick, reliable information on health and medicine safety.",link:"https://chatgpt.com/g/g-69bfe6934eec8191ace30162fe07a441-medicine-safety-ai"}
 ];
 
 function render(list){
@@ -227,8 +239,8 @@ function render(list){
     <div class="card">
       <div class="name">${t.name}</div>
       <div class="desc">${t.desc}</div>
-      <div class="badge">Verified AI</div>
-      <button class="btn" onclick="window.open('${t.link}','_blank')">Start Exploring</button>
+      <div class="badge">AIBaba Verified</div>
+      <button class="btn" onclick="window.open('${t.link}','_blank')">Start Solving</button>
     </div>`;
   });
 }
