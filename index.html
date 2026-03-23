@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>AI Baba | AI for the common man</title>
+<title>AI Baba | AI for the Common Man</title>
 
-<meta name="description" content="AIBaba: Free AI tools for finance, business, cooking, and everyday life.">
+<meta name="description" content="AI Baba: Free AI tools for finance, business, cooking, and everyday life.">
 <meta name="author" content="Dhrubo">
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-1M1HKNCHYB"></script>
@@ -62,7 +62,7 @@ body{
   animation: fadeInUp 0.8s ease-out;
 }
 
-/* LOGO IN CIRCLE WITH ANIMATION */
+/* LOGO IN CIRCLE */
 .logo-circle {
   width: 95px;
   height: 95px;
@@ -86,7 +86,7 @@ body{
   color: var(--primary);
   font-size: 2.2rem;
   font-weight: 900;
-  letter-spacing: -1.5px;
+  letter-spacing: -0.5px; /* Fixed: Reduced negative spacing for readability */
   text-transform: uppercase;
 }
 .tagline {
@@ -126,6 +126,7 @@ body{
 }
 .search:focus { border-color: var(--primary); }
 
+/* CARDS */
 .container{ padding: 16px; }
 .card{
   background: var(--card-bg);
@@ -183,9 +184,9 @@ body{
 
 <div class="header">
   <div class="logo-circle">
-    <img src="AIBABA.jpeg" alt="AIBaba Logo">
+    <img src="AIBABA.jpeg" alt="AI Baba Logo">
   </div>
-  <h2 class="title">AIBaba 🚀</h2>
+  <h2 class="title">AI&nbsp;Baba 🚀</h2>
   <p class="tagline">AI FOR THE COMMON MAN</p>
 </div>
 
@@ -194,7 +195,7 @@ body{
 </div>
 
 <div id="toolsWrapper" style="display:none;">
-  <input class="search" placeholder="Ask AIBaba something..." onkeyup="filterTools(this.value)">
+  <input class="search" placeholder="Search for recipes, finance, jobs..." onkeyup="filterTools(this.value)">
   <div class="container" id="tools"></div>
 </div>
 
@@ -205,7 +206,7 @@ body{
 </div>
 
 <div class="footer">
-  💡 Want a custom AI for <strong>yourself</strong> or your <strong>team</strong>?<br>
+  💡 Need a custom AI solution for <strong>yourself</strong> or your <strong>team</strong>?<br>
   Crafted with care by <strong>Dhrubo</strong>.<br>
   <strong>dhrubo@dhrubo.shop</strong>
 </div>
@@ -239,7 +240,7 @@ function render(list){
     <div class="card">
       <div class="name">${t.name}</div>
       <div class="desc">${t.desc}</div>
-      <div class="badge">AIBaba Verified</div>
+      <div class="badge">AI Baba Verified</div>
       <button class="btn" onclick="window.open('${t.link}','_blank')">Start Solving</button>
     </div>`;
   });
