@@ -15,33 +15,31 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://dhrubo.shop">
 
-<!-- 🔥 GOOGLE ANALYTICS (FIXED) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-1M1HKNCHYB"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-1M1HKNCHYB', {
-    page_title: 'AI Tools Hub',
-    page_location: window.location.href
-  });
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-1M1HKNCHYB');
 </script>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 
+html{scroll-behavior:smooth;}
+
 body{
   font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background:#f3f6f8;
   color:#1f2937;
+  padding-bottom:80px;
 }
 
 /* HEADER */
 .header{
   position:sticky;
   top:0;
-  background:#ffffff;
+  background:#fff;
   padding:16px;
   text-align:center;
   border-bottom:1px solid #e5e7eb;
@@ -60,72 +58,39 @@ body{
   width:calc(100% - 24px);
   border:1px solid #e5e7eb;
   border-radius:12px;
-  background:#ffffff;
-  color:#111827;
-  font-size:14px;
-  outline:none;
-}
-
-.search:focus{
-  border-color:#0a66c2;
-}
-
-/* CONTAINER */
-.container{
-  padding:12px;
+  background:#fff;
 }
 
 /* CARD */
+.container{padding:12px;}
+
 .card{
-  background:#ffffff;
+  background:#fff;
   border-radius:14px;
   padding:16px;
   margin-bottom:12px;
-  transition:0.2s ease;
   border:1px solid #e5e7eb;
+  transition:0.2s;
 }
 
 .card:hover{
   box-shadow:0 4px 14px rgba(0,0,0,0.08);
 }
 
-/* TEXT */
-.name{
-  font-size:16px;
-  font-weight:600;
-  color:#111827;
-}
+.name{font-size:17px;font-weight:600;}
+.desc{font-size:14px;color:#6b7280;margin-top:6px;}
+.badge{font-size:11px;color:#0a66c2;margin-top:6px;}
 
-.desc{
-  font-size:13px;
-  color:#6b7280;
-  margin-top:6px;
-  line-height:1.4;
-}
-
-.badge{
-  font-size:11px;
-  color:#0a66c2;
-  margin-top:6px;
-  font-weight:500;
-}
-
-/* BUTTON */
 .btn{
   margin-top:12px;
   width:100%;
-  padding:12px;
+  padding:14px;
   border:none;
   border-radius:10px;
   background:#0a66c2;
-  color:#ffffff;
+  color:#fff;
   font-weight:600;
-  font-size:14px;
   cursor:pointer;
-}
-
-.btn:active{
-  transform:scale(0.97);
 }
 
 /* FOOTER */
@@ -136,14 +101,40 @@ body{
   padding:20px;
 }
 
-/* ANIMATION */
-.fade{
-  animation:fadeIn 0.3s ease;
+/* FLOAT BUTTON */
+.fab{
+  position:fixed;
+  bottom:80px;
+  right:16px;
+  background:#0a66c2;
+  color:#fff;
+  padding:14px 16px;
+  border-radius:50px;
+  font-size:14px;
+  font-weight:600;
+  box-shadow:0 6px 20px rgba(0,0,0,0.2);
 }
 
-@keyframes fadeIn{
-  from{opacity:0;transform:translateY(6px)}
-  to{opacity:1;transform:translateY(0)}
+/* BOTTOM NAV */
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  background:#fff;
+  border-top:1px solid #e5e7eb;
+  display:flex;
+  justify-content:space-around;
+  padding:10px 0;
+}
+
+.nav-item{
+  font-size:12px;
+  color:#6b7280;
+}
+
+.nav-item.active{
+  color:#0a66c2;
+  font-weight:600;
 }
 </style>
 </head>
@@ -159,7 +150,18 @@ body{
 <div class="container" id="tools"></div>
 
 <div class="footer">
-  📩 Contact: dhrubo@dhrubo.shop
+📩 Contact: dhrubo@dhrubo.shop
+</div>
+
+<div class="fab" onclick="window.open('https://dhrubo.shop','_self')">
+🚀 Try AI
+</div>
+
+<div class="bottom-nav">
+<div class="nav-item active">🏠 Home</div>
+<div class="nav-item">🔥 Tools</div>
+<div class="nav-item">📊 Track</div>
+<div class="nav-item">👤 Profile</div>
 </div>
 
 <script>
@@ -167,7 +169,7 @@ body{
 const tools = [
   {
     name:"Dealer Mitra AI 🔥",
-    desc:"AI Business Consultant for Indian Dealers/Sub Dealers/Wholesalers/Retailers/CFA/Distributors/Agents",
+    desc:"AI Business Consultant for Indian Dealers/Sub Dealers/Wholesalers/Retailers",
     link:"https://chatgpt.com/g/g-69c0dbf69ab88191886d35a8c26d92d8-dealer-mitra-ai"
   },
   {
@@ -210,10 +212,9 @@ const tools = [
 function render(list){
   const container=document.getElementById("tools");
   container.innerHTML="";
-
   list.forEach(t=>{
     container.innerHTML+=`
-      <div class="card fade">
+      <div class="card">
         <div class="name">${t.name}</div>
         <div class="desc">${t.desc}</div>
         <div class="badge">⚡ AI Powered</div>
@@ -223,19 +224,15 @@ function render(list){
   });
 }
 
-function openTool(link, name){
-  if(typeof gtag !== "undefined"){
-    gtag('event', 'tool_click', {
-      'tool_name': name
-    });
+function openTool(link,name){
+  if(typeof gtag!=="undefined"){
+    gtag('event','tool_click',{tool_name:name});
   }
   window.open(link,"_blank");
 }
 
 function filterTools(q){
-  const filtered=tools.filter(t=>
-    t.name.toLowerCase().includes(q.toLowerCase())
-  );
+  const filtered=tools.filter(t=>t.name.toLowerCase().includes(q.toLowerCase()));
   render(filtered);
 }
 
