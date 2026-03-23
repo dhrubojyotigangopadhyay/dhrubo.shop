@@ -4,18 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>AI Tools Hub - Mock Interview, Resume Builder & Job Match AI</title>
+<title>AI Tools Hub</title>
 
-<meta name="description" content="Practice mock interviews with AI, get job matches from your CV, and build ATS resumes instantly. Free AI tools for career growth.">
-<meta name="keywords" content="AI tools, finance AI, cooking AI, job AI">
+<meta name="description" content="Free AI tools for finance, business, cooking & jobs">
 <meta name="author" content="Dhrubo">
 
-<meta property="og:title" content="AI Tools Hub 🚀">
-<meta property="og:description" content="Crack interviews with AI in 2 minutes">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://dhrubo.shop">
-
-<!-- GOOGLE ANALYTICS -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-1M1HKNCHYB"></script>
 <script>
 window.dataLayer = window.dataLayer || [];
@@ -24,32 +17,36 @@ gtag('js', new Date());
 gtag('config', 'G-1M1HKNCHYB');
 </script>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 
-html{scroll-behavior:smooth;}
-
 body{
-  font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family:-apple-system,Segoe UI,Roboto;
   background:#f3f6f8;
-  color:#1f2937;
   padding-bottom:100px;
 }
 
 /* HEADER */
 .header{
-  position:sticky;
-  top:0;
   background:#fff;
   padding:16px;
   text-align:center;
   border-bottom:1px solid #e5e7eb;
 }
+.title{color:#0a66c2;font-weight:700}
 
-.title{
-  font-size:20px;
-  font-weight:700;
-  color:#0a66c2;
+/* DROPDOWN BUTTON */
+.dropdown-toggle{
+  margin:12px;
+  padding:14px;
+  background:#0a66c2;
+  color:#fff;
+  border-radius:12px;
+  text-align:center;
+  font-weight:600;
+  cursor:pointer;
 }
 
 /* SEARCH */
@@ -59,12 +56,10 @@ body{
   width:calc(100% - 24px);
   border:1px solid #e5e7eb;
   border-radius:12px;
-  background:#fff;
 }
 
 /* CARDS */
 .container{padding:12px;}
-
 .card{
   background:#fff;
   border-radius:14px;
@@ -72,58 +67,49 @@ body{
   margin-bottom:12px;
   border:1px solid #e5e7eb;
 }
-
-.name{font-size:17px;font-weight:600;}
-.desc{font-size:14px;color:#6b7280;margin-top:6px;}
-.badge{font-size:11px;color:#0a66c2;margin-top:6px;}
+.name{font-weight:600}
+.desc{font-size:13px;color:#6b7280;margin-top:5px}
+.badge{font-size:11px;color:#0a66c2;margin-top:5px}
 
 .btn{
-  margin-top:12px;
+  margin-top:10px;
   width:100%;
-  padding:14px;
+  padding:12px;
   border:none;
-  border-radius:10px;
   background:#0a66c2;
   color:#fff;
-  font-weight:600;
-}
-
-/* FLOAT BUTTON */
-.fab{
-  position:fixed;
-  bottom:20px;
-  right:16px;
-  background:#0a66c2;
-  color:#fff;
-  padding:14px 16px;
-  border-radius:50px;
-  font-size:14px;
-  font-weight:600;
-  box-shadow:0 6px 20px rgba(0,0,0,0.2);
+  border-radius:8px;
 }
 
 /* SOCIAL */
 .social-links{
   display:flex;
   justify-content:center;
-  gap:20px;
+  gap:16px;
   margin-top:20px;
 }
-
 .social-links a{
-  font-size:22px;
-  text-decoration:none;
-  background:#fff;
-  padding:10px 14px;
-  border-radius:12px;
-  border:1px solid #e5e7eb;
+  width:44px;height:44px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:50%;
+  color:#fff;
 }
+.insta{background:#E1306C}
+.yt{background:#FF0000}
+.fb{background:#1877F2}
 
-.footer{
-  text-align:center;
-  font-size:13px;
-  color:#6b7280;
-  padding:20px;
+/* FOOTER */
+.footer{text-align:center;padding:20px;font-size:13px}
+
+/* TELEGRAM */
+.fab{
+  position:fixed;
+  bottom:20px;
+  right:16px;
+  background:#0a66c2;
+  color:#fff;
+  padding:14px;
+  border-radius:50px;
 }
 </style>
 </head>
@@ -131,73 +117,50 @@ body{
 <body>
 
 <div class="header">
-  <h1 class="title">AI Tools 🚀</h1>
+<h2 class="title">AI Tools 🚀</h2>
 </div>
 
+<div class="dropdown-toggle" onclick="toggleTools()">
+🔍 Browse AI Tools ⬇️
+</div>
+
+<div id="toolsWrapper" style="display:none;">
 <input class="search" placeholder="Search tools..." onkeyup="filterTools(this.value)">
-
 <div class="container" id="tools"></div>
+</div>
 
-<!-- SOCIAL LINKS -->
+<!-- SOCIAL -->
 <div class="social-links">
-  <a href="https://www.instagram.com/aibabahq" target="_blank">📸</a>
-  <a href="https://youtube.com/@aibabahq" target="_blank">▶️</a>
-  <a href="https://www.facebook.com/AIBabaHq/" target="_blank">📘</a>
+<a href="https://www.instagram.com/aibabahq" target="_blank" class="insta"><i class="fab fa-instagram"></i></a>
+<a href="https://youtube.com/@aibabahq" target="_blank" class="yt"><i class="fab fa-youtube"></i></a>
+<a href="https://www.facebook.com/AIBabaHq/" target="_blank" class="fb"><i class="fab fa-facebook-f"></i></a>
 </div>
 
 <div class="footer">
-💡 Want your own AI like this? <br>
+💡 Want your own AI?<br>
 📩 dhrubo@dhrubo.shop
 </div>
 
-<!-- TELEGRAM BUTTON -->
 <div class="fab" onclick="window.open('https://t.me/druboG','_blank')">
-🚀 Free AI Tools
+🚀 Free AI
 </div>
 
 <script>
 
-const tools = [
-  {
-    name:"Dealer Mitra AI 🔥",
-    desc:"AI Business Consultant for Indian Dealers/Sub Dealers/Wholesalers/Retailers",
-    link:"https://chatgpt.com/g/g-69c0dbf69ab88191886d35a8c26d92d8-dealer-mitra-ai"
-  },
-  {
-    name:"AI Rasoi Baba 🔥",
-    desc:"Cooking assistant from your ingredients",
-    link:"https://chatgpt.com/g/g-69c10556d7a88191983fa1f6e7e7040c-ai-rasoi-baba"
-  },
-  {
-    name:"Future Batao AI 😳",
-    desc:"Know your future goals timeline instantly",
-    link:"https://chatgpt.com/g/g-69c12fac01dc8191bece6a749da33821-future-batao-ai"
-  },
-  {
-    name:"MockMate AI 🔥",
-    desc:"Practice mock interviews with AI",
-    link:"https://chatgpt.com/g/g-69bf838dee94819189ac44df8403a9b7-mockmate-ai"
-  },
-  {
-    name:"JobMatch AI",
-    desc:"Get job matches from your CV",
-    link:"https://chatgpt.com/g/g-69bef073f0c08191aedbf87d2b695260-jobmatch-ai"
-  },
-  {
-    name:"AI Resume Builder",
-    desc:"Create ATS resume instantly",
-    link:"https://chatgpt.com/g/g-69be1bbd56cc819194c3c3f2e4366eb5-free-ai-ats-resume-generator-80-score"
-  },
-  {
-    name:"Pet Puja AI",
-    desc:"Smart meal assistant",
-    link:"https://chatgpt.com/g/g-69bd502f74588191afd6c35edff18f37-pet-puja-ai"
-  },
-  {
-    name:"Medicine Safety AI",
-    desc:"Safety-first health guidance assistant",
-    link:"https://chatgpt.com/g/g-69bfe6934eec8191ace30162fe07a441-medicine-safety-ai"
-  }
+function toggleTools(){
+  const el=document.getElementById("toolsWrapper");
+  el.style.display = el.style.display==="none"?"block":"none";
+}
+
+const tools=[
+{name:"Dealer Mitra AI 🔥",desc:"Business AI",link:"https://chatgpt.com/g/g-69c0dbf69ab88191886d35a8c26d92d8-dealer-mitra-ai"},
+{name:"AI Rasoi Baba 🔥",desc:"Cooking AI",link:"https://chatgpt.com/g/g-69c10556d7a88191983fa1f6e7e7040c-ai-rasoi-baba"},
+{name:"Future Batao AI 😳",desc:"Finance AI",link:"https://chatgpt.com/g/g-69c12fac01dc8191bece6a749da33821-future-batao-ai"},
+{name:"MockMate AI 🔥",desc:"Interview AI",link:"https://chatgpt.com/g/g-69bf838dee94819189ac44df8403a9b7-mockmate-ai"},
+{name:"JobMatch AI",desc:"Job AI",link:"https://chatgpt.com/g/g-69bef073f0c08191aedbf87d2b695260-jobmatch-ai"},
+{name:"AI Resume Builder",desc:"Resume AI",link:"https://chatgpt.com/g/g-69be1bbd56cc819194c3c3f2e4366eb5-free-ai-ats-resume-generator-80-score"},
+{name:"Pet Puja AI",desc:"Food AI",link:"https://chatgpt.com/g/g-69bd502f74588191afd6c35edff18f37-pet-puja-ai"},
+{name:"Medicine Safety AI",desc:"Health AI",link:"https://chatgpt.com/g/g-69bfe6934eec8191ace30162fe07a441-medicine-safety-ai"}
 ];
 
 function render(list){
@@ -205,26 +168,17 @@ function render(list){
   container.innerHTML="";
   list.forEach(t=>{
     container.innerHTML+=`
-      <div class="card">
-        <div class="name">${t.name}</div>
-        <div class="desc">${t.desc}</div>
-        <div class="badge">⚡ AI Powered</div>
-        <button class="btn" onclick="openTool('${t.link}','${t.name}')">Start 🚀</button>
-      </div>
-    `;
+    <div class="card">
+      <div class="name">${t.name}</div>
+      <div class="desc">${t.desc}</div>
+      <div class="badge">⚡ AI</div>
+      <button class="btn" onclick="window.open('${t.link}','_blank')">Start</button>
+    </div>`;
   });
 }
 
-function openTool(link,name){
-  if(typeof gtag!=="undefined"){
-    gtag('event','tool_click',{tool_name:name});
-  }
-  window.open(link,"_blank");
-}
-
 function filterTools(q){
-  const filtered=tools.filter(t=>t.name.toLowerCase().includes(q.toLowerCase()));
-  render(filtered);
+  render(tools.filter(t=>t.name.toLowerCase().includes(q.toLowerCase())));
 }
 
 render(tools);
