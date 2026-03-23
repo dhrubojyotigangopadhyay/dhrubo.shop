@@ -6,7 +6,7 @@
 
 <title>AI Tools Hub</title>
 
-<meta name="description" content="Free AI tools for finance, business, cooking & jobs">
+<meta name="description" content="Free AI tools for finance, business, cooking & lifestyle">
 <meta name="author" content="Dhrubo">
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-1M1HKNCHYB"></script>
@@ -20,147 +20,186 @@ gtag('config', 'G-1M1HKNCHYB');
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
+:root {
+  --primary: #0a66c2;
+  --bg: #f8fafc;
+  --card-bg: #ffffff;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --accent-gradient: linear-gradient(135deg, #0a66c2 0%, #00a0dc 100%);
+}
+
 *{margin:0;padding:0;box-sizing:border-box}
 
 body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  background:#f3f6f8;
-  padding-bottom:100px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text-main);
+  padding-bottom: 120px;
+  line-height: 1.5;
 }
 
 /* HEADER */
 .header{
-  background:#fff;
-  padding:16px;
-  text-align:center;
-  border-bottom:1px solid #e5e7eb;
+  background: var(--card-bg);
+  padding: 30px 16px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
 }
-.title{color:#0a66c2;font-weight:700}
+.title{
+  color: var(--primary);
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
 
-/* DROPDOWN BUTTON */
+/* DROPDOWN & SEARCH */
 .dropdown-toggle{
-  margin:12px;
-  padding:14px;
-  background:#0a66c2;
-  color:#fff;
-  border-radius:12px;
-  text-align:center;
-  font-weight:600;
-  cursor:pointer;
-}
-
-/* SEARCH */
-.search{
-  margin:12px;
-  padding:14px;
-  width:calc(100% - 24px);
-  border:1px solid #e5e7eb;
-  border-radius:12px;
-  outline: none;
-}
-
-/* CARDS */
-.container{padding:12px;}
-.card{
-  background:#fff;
-  border-radius:14px;
-  padding:16px;
-  margin-bottom:12px;
-  border:1px solid #e5e7eb;
-}
-.name{font-weight:600}
-.desc{font-size:13px;color:#6b7280;margin-top:5px}
-.badge{font-size:11px;color:#0a66c2;margin-top:5px}
-
-.btn{
-  margin-top:10px;
-  width:100%;
-  padding:12px;
-  border:none;
-  background:#0a66c2;
-  color:#fff;
-  border-radius:8px;
+  margin: 25px 16px 10px;
+  padding: 16px;
+  background: var(--accent-gradient);
+  color: #fff;
+  border-radius: 16px;
+  text-align: center;
   font-weight: 600;
   cursor: pointer;
+  box-shadow: 0 8px 15px rgba(10, 102, 194, 0.2);
+  transition: transform 0.2s ease;
+}
+.dropdown-toggle:active { transform: scale(0.96); }
+
+.search{
+  margin: 10px 16px;
+  padding: 16px;
+  width: calc(100% - 32px);
+  border: 2px solid #e2e8f0;
+  border-radius: 16px;
+  outline: none;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+.search:focus { border-color: var(--primary); }
+
+/* CARDS CONTAINER */
+.container{ padding: 16px; }
+
+.card{
+  background: var(--card-bg);
+  border-radius: 24px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.04);
+  border: 1px solid rgba(226, 232, 240, 0.8);
 }
 
-/* SOCIAL MEDIA BUTTONS FIX */
+.name{ font-size: 1.2rem; font-weight: 700; color: var(--text-main); }
+.desc{ font-size: 14px; color: var(--text-muted); margin-top: 6px; }
+.badge{ 
+  display: inline-block;
+  font-size: 11px; 
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--primary); 
+  background: #eff6ff;
+  padding: 5px 12px;
+  border-radius: 50px;
+  margin-top: 12px;
+}
+
+.btn{
+  margin-top: 20px;
+  width: 100%;
+  padding: 15px;
+  border: none;
+  background: var(--accent-gradient);
+  color: #fff;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(10, 102, 194, 0.2);
+  transition: filter 0.2s;
+}
+.btn:hover { filter: brightness(1.1); }
+
+/* SOCIAL LINKS */
 .social-links{
-  display:flex;
-  justify-content:center;
-  gap:16px;
-  margin-top:20px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 40px;
 }
 .social-links a{
-  width:44px;
-  height:44px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:50%;
-  color:#fff;
+  width: 50px; height: 50px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 18px;
+  color: #fff;
   text-decoration: none;
-  font-size: 20px;
+  font-size: 24px;
+  transition: all 0.3s;
 }
-.insta{background:#E1306C}
-.yt{background:#FF0000}
-.fb{background:#1877F2}
+.social-links a:hover { transform: translateY(-5px) rotate(5deg); }
+
+.insta{ background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+.yt{ background: #FF0000; }
+.fb{ background: #1877F2; }
 
 /* FOOTER */
-.footer{text-align:center;padding:20px;font-size:13px; color: #666;}
+.footer{ text-align: center; padding: 40px 20px; font-size: 15px; color: var(--text-main); line-height: 1.6; }
+.footer strong { color: var(--primary); font-size: 1.1rem; }
 
-/* FLOATING TELEGRAM BUTTON (Ask Us) */
+/* FLOATING ASK US BUTTON */
 .floating-btn{
-  position:fixed;
-  bottom:20px;
-  right:16px;
-  background:#0a66c2;
-  color:#fff;
-  padding:12px 24px;
-  border-radius:50px;
-  font-weight: bold;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  position: fixed;
+  bottom: 30px;
+  right: 20px;
+  background: #000; /* Sleek black for contrast */
+  color: #fff;
+  padding: 16px 28px;
+  border-radius: 50px;
+  font-weight: 700;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   z-index: 1000;
-  transition: transform 0.2s;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-.floating-btn:active {
-  transform: scale(0.95);
-}
+.floating-btn:hover { transform: scale(1.05); }
 </style>
 </head>
 
 <body>
 
 <div class="header">
-<h2 class="title">AI Tools 🚀</h2>
+  <h2 class="title">AI Tools Hub 🚀</h2>
+  <p style="font-size: 14px; color: var(--text-muted); margin-top: 5px;">Your daily AI companions</p>
 </div>
 
 <div class="dropdown-toggle" onclick="toggleTools()">
-🔍 Browse AI Tools ⬇️
+  ✨ Explore All AI Tools
 </div>
 
 <div id="toolsWrapper" style="display:none;">
-<input class="search" placeholder="Search tools..." onkeyup="filterTools(this.value)">
-<div class="container" id="tools"></div>
+  <input class="search" placeholder="Search for tools (e.g. Cooking, Finance...)" onkeyup="filterTools(this.value)">
+  <div class="container" id="tools"></div>
 </div>
 
 <div class="social-links">
-<a href="https://www.instagram.com/aibabahq" target="_blank" class="insta"><i class="fa-brands fa-instagram"></i></a>
-<a href="https://youtube.com/@aibabahq" target="_blank" class="yt"><i class="fa-brands fa-youtube"></i></a>
-<a href="https://www.facebook.com/AIBabaHq/" target="_blank" class="fb"><i class="fa-brands fa-facebook-f"></i></a>
+  <a href="https://www.instagram.com/aibabahq" target="_blank" class="insta"><i class="fa-brands fa-instagram"></i></a>
+  <a href="https://youtube.com/@aibabahq" target="_blank" class="yt"><i class="fa-brands fa-youtube"></i></a>
+  <a href="https://www.facebook.com/AIBabaHq/" target="_blank" class="fb"><i class="fa-brands fa-facebook-f"></i></a>
 </div>
 
 <div class="footer">
-💡 Want your own AI?<br>
-📩 dhrubo@dhrubo.shop
+  💡 Want a custom AI for <strong>yourself</strong> or your <strong>business</strong>?<br>
+  Let's build it together.<br>
+  <strong>dhrubo@dhrubo.shop</strong>
 </div>
 
 <div class="floating-btn" onclick="window.open('https://t.me/druboG','_blank')">
-<i class="fa-brands fa-telegram"></i> Ask Us
+  <i class="fa-brands fa-telegram"></i> Ask Us
 </div>
 
 <script>
@@ -170,14 +209,14 @@ function toggleTools(){
 }
 
 const tools=[
-{name:"Dealer Mitra AI 🔥",desc:"Business AI",link:"https://chatgpt.com/g/g-69c0dbf69ab88191886d35a8c26d92d8-dealer-mitra-ai"},
-{name:"AI Rasoi Baba 🔥",desc:"Cooking AI",link:"https://chatgpt.com/g/g-69c10556d7a88191983fa1f6e7e7040c-ai-rasoi-baba"},
-{name:"Future Batao AI 😳",desc:"Finance AI",link:"https://chatgpt.com/g/g-69c12fac01dc8191bece6a749da33821-future-batao-ai"},
-{name:"MockMate AI 🔥",desc:"Interview AI",link:"https://chatgpt.com/g/g-69bf838dee94819189ac44df8403a9b7-mockmate-ai"},
-{name:"JobMatch AI",desc:"Job AI",link:"https://chatgpt.com/g/g-69bef073f0c08191aedbf87d2b695260-jobmatch-ai"},
-{name:"AI Resume Builder",desc:"Resume AI",link:"https://chatgpt.com/g/g-69be1bbd56cc819194c3c3f2e4366eb5-free-ai-ats-resume-generator-80-score"},
-{name:"Pet Puja AI",desc:"Food AI",link:"https://chatgpt.com/g/g-69bd502f74588191afd6c35edff18f37-pet-puja-ai"},
-{name:"Medicine Safety AI",desc:"Health AI",link:"https://chatgpt.com/g/g-69bfe6934eec8191ace30162fe07a441-medicine-safety-ai"}
+  {name:"Dealer Mitra AI 🔥",desc:"Smart automation for business management.",link:"https://chatgpt.com/g/g-69c0dbf69ab88191886d35a8c26d92d8-dealer-mitra-ai"},
+  {name:"AI Rasoi Baba 🔥",desc:"Your 24/7 personal chef for perfect recipes.",link:"https://chatgpt.com/g/g-69c10556d7a88191983fa1f6e7e7040c-ai-rasoi-baba"},
+  {name:"Future Batao AI 😳",desc:"Predict your financial future & grow wealth.",link:"https://chatgpt.com/g/g-69c12fac01dc8191bece6a749da33821-future-batao-ai"},
+  {name:"MockMate AI 🔥",desc:"Personal coach to ace your next job interview.",link:"https://chatgpt.com/g/g-69bf838dee94819189ac44df8403a9b7-mockmate-ai"},
+  {name:"JobMatch AI",desc:"Find career opportunities tailored to you.",link:"https://chatgpt.com/g/g-69bef073f0c08191aedbf87d2b695260-jobmatch-ai"},
+  {name:"AI Resume Builder",desc:"Stand out with a high-scoring personal resume.",link:"https://chatgpt.com/g/g-69be1bbd56cc819194c3c3f2e4366eb5-free-ai-ats-resume-generator-80-score"},
+  {name:"Pet Puja AI",desc:"Your ultimate companion for food and cravings.",link:"https://chatgpt.com/g/g-69bd502f74588191afd6c35edff18f37-pet-puja-ai"},
+  {name:"Medicine Safety AI",desc:"Keep yourself and your family healthy.",link:"https://chatgpt.com/g/g-69bfe6934eec8191ace30162fe07a441-medicine-safety-ai"}
 ];
 
 function render(list){
@@ -188,8 +227,8 @@ function render(list){
     <div class="card">
       <div class="name">${t.name}</div>
       <div class="desc">${t.desc}</div>
-      <div class="badge">⚡ AI</div>
-      <button class="btn" onclick="window.open('${t.link}','_blank')">Start</button>
+      <div class="badge">Verified AI</div>
+      <button class="btn" onclick="window.open('${t.link}','_blank')">Start Exploring</button>
     </div>`;
   });
 }
