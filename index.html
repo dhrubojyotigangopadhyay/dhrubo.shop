@@ -23,7 +23,7 @@ gtag('config', 'G-1M1HKNCHYB');
 *{margin:0;padding:0;box-sizing:border-box}
 
 body{
-  font-family:-apple-system,Segoe UI,Roboto;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   background:#f3f6f8;
   padding-bottom:100px;
 }
@@ -56,6 +56,7 @@ body{
   width:calc(100% - 24px);
   border:1px solid #e5e7eb;
   border-radius:12px;
+  outline: none;
 }
 
 /* CARDS */
@@ -79,9 +80,11 @@ body{
   background:#0a66c2;
   color:#fff;
   border-radius:8px;
+  font-weight: 600;
+  cursor: pointer;
 }
 
-/* SOCIAL */
+/* SOCIAL MEDIA BUTTONS FIX */
 .social-links{
   display:flex;
   justify-content:center;
@@ -89,27 +92,43 @@ body{
   margin-top:20px;
 }
 .social-links a{
-  width:44px;height:44px;
-  display:flex;align-items:center;justify-content:center;
+  width:44px;
+  height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   border-radius:50%;
   color:#fff;
+  text-decoration: none;
+  font-size: 20px;
 }
 .insta{background:#E1306C}
 .yt{background:#FF0000}
 .fb{background:#1877F2}
 
 /* FOOTER */
-.footer{text-align:center;padding:20px;font-size:13px}
+.footer{text-align:center;padding:20px;font-size:13px; color: #666;}
 
-/* TELEGRAM */
-.fab{
+/* FLOATING TELEGRAM BUTTON (Ask Us) */
+.floating-btn{
   position:fixed;
   bottom:20px;
   right:16px;
   background:#0a66c2;
   color:#fff;
-  padding:14px;
+  padding:12px 24px;
   border-radius:50px;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 1000;
+  transition: transform 0.2s;
+}
+.floating-btn:active {
+  transform: scale(0.95);
 }
 </style>
 </head>
@@ -129,11 +148,10 @@ body{
 <div class="container" id="tools"></div>
 </div>
 
-<!-- SOCIAL -->
 <div class="social-links">
-<a href="https://www.instagram.com/aibabahq" target="_blank" class="insta"><i class="fab fa-instagram"></i></a>
-<a href="https://youtube.com/@aibabahq" target="_blank" class="yt"><i class="fab fa-youtube"></i></a>
-<a href="https://www.facebook.com/AIBabaHq/" target="_blank" class="fb"><i class="fab fa-facebook-f"></i></a>
+<a href="https://www.instagram.com/aibabahq" target="_blank" class="insta"><i class="fa-brands fa-instagram"></i></a>
+<a href="https://youtube.com/@aibabahq" target="_blank" class="yt"><i class="fa-brands fa-youtube"></i></a>
+<a href="https://www.facebook.com/AIBabaHq/" target="_blank" class="fb"><i class="fa-brands fa-facebook-f"></i></a>
 </div>
 
 <div class="footer">
@@ -141,12 +159,11 @@ body{
 📩 dhrubo@dhrubo.shop
 </div>
 
-<div class="fab" onclick="window.open('https://t.me/druboG','_blank')">
-🚀 Free AI
+<div class="floating-btn" onclick="window.open('https://t.me/druboG','_blank')">
+<i class="fa-brands fa-telegram"></i> Ask Us
 </div>
 
 <script>
-
 function toggleTools(){
   const el=document.getElementById("toolsWrapper");
   el.style.display = el.style.display==="none"?"block":"none";
@@ -182,7 +199,6 @@ function filterTools(q){
 }
 
 render(tools);
-
 </script>
 
 </body>
