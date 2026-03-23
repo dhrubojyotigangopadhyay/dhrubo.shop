@@ -113,6 +113,13 @@ body{
   margin-top:5px;
 }
 
+.footer{
+  text-align:center;
+  font-size:12px;
+  color:#aaa;
+  padding:20px;
+}
+
 .fade{
   animation:fadeIn 0.4s ease;
 }
@@ -134,6 +141,10 @@ body{
 
 <div class="container" id="tools"></div>
 
+<div class="footer">
+  📩 Contact: dhrubo@dhrubo.shop
+</div>
+
 <script>
 
 const tools = [
@@ -147,7 +158,12 @@ const tools = [
     desc:"An AI-powered cooking assistant that transforms your ingredients into complete recipes.",
     link:"https://chatgpt.com/g/g-69c10556d7a88191983fa1f6e7e7040c-ai-rasoi-baba"
   },
-   {
+  {
+    name:"Future Batao AI 😳",
+    desc:"Find out how many years it will take to achieve your financial goals with smart AI planning.",
+    link:"https://chatgpt.com/g/g-69c12fac01dc8191bece6a749da33821-future-batao-ai"
+  },
+  {
     name:"MockMate AI 🔥",
     desc:"Practice real mock interviews with AI (2 min)",
     link:"https://chatgpt.com/g/g-69bf838dee94819189ac44df8403a9b7-mockmate-ai"
@@ -191,7 +207,6 @@ function render(list){
 }
 
 function openTool(link, name){
-  // 🔥 TRACK CLICK
   if(typeof gtag !== "undefined"){
     gtag('event', 'tool_click', {
       'tool_name': name
