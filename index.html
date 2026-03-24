@@ -86,7 +86,7 @@ body{
   color: var(--primary);
   font-size: 2.2rem;
   font-weight: 900;
-  letter-spacing: -0.5px; /* Fixed: Reduced negative spacing for readability */
+  letter-spacing: -0.5px;
   text-transform: uppercase;
 }
 .tagline {
@@ -217,8 +217,12 @@ body{
 
 <script>
 function toggleTools(){
-  const el=document.getElementById("toolsWrapper");
-  el.style.display = el.style.display==="none"?"block":"none";
+  const el = document.getElementById("toolsWrapper");
+  if (el.style.display === "none") {
+    el.style.display = "block";
+  } else {
+    el.style.display = "none";
+  }
 }
 
 const tools=[
@@ -229,7 +233,7 @@ const tools=[
   {name:"JobMatch AI",desc:"Find high-paying careers perfectly suited for your skills.",link:"https://chatgpt.com/g/g-69bef073f0c08191aedbf87d2b695260-jobmatch-ai"},
   {name:"AI Resume Builder",desc:"Generate professional, ATS-friendly resumes in minutes.",link:"https://chatgpt.com/g/g-69be1bbd56cc819194c3c3f2e4366eb5-free-ai-ats-resume-generator-80-score"},
   {name:"Pet Puja AI",desc:"Your go-to assistant for satisfying all your food cravings.",link:"https://chatgpt.com/g/g-69bd502f74588191afd6c35edff18f37-pet-puja-ai"},
-  {name:"Medicine Safety AI",desc:"Quick, reliable information on health and medicine safety.",link:"https://chatgpt.com/g/g-69bfe6934eec8191ace30162fe07a441-medicine-safety-ai"}
+  {name:"Medicine Safety AI",desc:"Quick, reliable information on health and medicine safety.",link:"https://chatgpt.com/g/g-69bfe6934eec8191ace30162fe07a441-medicine-safety-ai"},
   {name:"AI Viral Content Director",desc:"Viral Content in 2 min.",link:"https://chatgpt.com/g/g-69c2139813f88191b0ed1fb87b9c7b56-ai-viral-content-director"}
 ];
 
@@ -251,6 +255,7 @@ function filterTools(q){
   render(tools.filter(t=>t.name.toLowerCase().includes(q.toLowerCase())));
 }
 
+// Initialize the list on page load
 render(tools);
 </script>
 
