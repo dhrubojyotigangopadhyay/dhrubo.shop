@@ -155,14 +155,17 @@ body{
 }
 
 /* SOCIALS */
-.social-links{ display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin-top: 40px; }
+.social-links{ display: flex; justify-content: center; gap: 10px; margin-top: 40px; flex-wrap: wrap; padding: 0 10px; }
 .social-links a{
-  width: 54px; height: 54px; display: flex; align-items: center; justify-content: center;
-  border-radius: 20px; color: #fff; font-size: 26px; text-decoration: none;
+  width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
+  border-radius: 18px; color: #fff; font-size: 22px; text-decoration: none;
   transition: transform 0.3s;
 }
 .social-links a:hover { transform: translateY(-5px); }
 
+.insta{ background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+.yt{ background: #FF0000; }
+.fb{ background: #1877F2; }
 .fiverr{ background: #1dbf73; }
 .upwork{ background: #14a800; }
 .linkedin{ background: #0a66c2; }
@@ -204,10 +207,14 @@ body{
 </div>
 
 <div class="social-links">
-  <a href="https://www.fiverr.com/s/P27DyAA" target="_blank" class="fiverr" title="Fiverr"><i class="fa-solid fa-f"></i></a>
-  <a href="https://www.upwork.com/freelancers/~019e029770a710a026?mp_source=share" target="_blank" class="upwork" title="Upwork"><i class="fa-brands fa-upwork"></i></a>
-  <a href="https://www.linkedin.com/in/dhrubojyoti-gangopadhyay/" target="_blank" class="linkedin" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-  <a href="https://github.com/dhrubojyotigangopadhyay/dhrubo.shop" target="_blank" class="github" title="GitHub"><i class="fa-brands fa-github"></i></a>
+  <a href="https://www.instagram.com/aibabahq" target="_blank" class="insta"><i class="fa-brands fa-instagram"></i></a>
+  <a href="https://youtube.com/@aibabahq" target="_blank" class="yt"><i class="fa-brands fa-youtube"></i></a>
+  <a href="https://www.facebook.com/AIBabaHq/" target="_blank" class="fb"><i class="fa-brands fa-facebook-f"></i></a>
+  
+  <a href="https://www.fiverr.com/s/P27DyAA" target="_blank" class="fiverr"><i class="fa-solid fa-f"></i></a>
+  <a href="https://www.upwork.com/freelancers/~019e029770a710a026?mp_source=share" target="_blank" class="upwork"><i class="fa-brands fa-upwork"></i></a>
+  <a href="https://www.linkedin.com/in/dhrubojyoti-gangopadhyay/" target="_blank" class="linkedin"><i class="fa-brands fa-linkedin-in"></i></a>
+  <a href="https://github.com/dhrubojyotigangopadhyay/dhrubo.shop" target="_blank" class="github"><i class="fa-brands fa-github"></i></a>
 </div>
 
 <div class="footer">
@@ -261,6 +268,7 @@ function filterTools(q){
   render(tools.filter(t=>t.name.toLowerCase().includes(q.toLowerCase())));
 }
 
+// Initialize the list on page load
 render(tools);
 </script>
 
