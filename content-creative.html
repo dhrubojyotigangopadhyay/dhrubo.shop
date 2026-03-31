@@ -32,7 +32,6 @@
         .social-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background-color: #080808; }
         .social-item { height: 90px; display: flex; align-items: center; justify-content: center; border-right: 1px solid var(--border); font-size: 1.8rem; }
         .social-item:last-child { border-right: none; }
-        .quote-text { font-style: italic; color: #888; font-size: 1.1rem; line-height: 1.6; }
     </style>
 </head>
 <body>
@@ -44,7 +43,9 @@
             </div>
         </a>
         <div class="hidden md:flex space-x-10 text-[10px] font-bold uppercase tracking-widest text-gray-500">
-            <a href="index.html" class="hover:text-white transition flex items-center gap-2"><i class="fa-solid fa-house text-[8px]"></i> HOME</a>
+            <a href="index.html" class="hover:text-white transition flex items-center gap-2">
+                <i class="fa-solid fa-house text-[8px]"></i> HOME
+            </a>
             <a href="marketing-demand.html" class="hover:text-white transition">MARKETING & DEMAND</a>
             <a href="content-creative.html" class="text-white">CONTENT & CREATIVE</a>
         </div>
@@ -70,22 +71,33 @@
     </section>
 
     <section class="section-padding bg-[#050505]">
-        <div class="max-w-3xl mx-auto space-y-24">
-            <div class="border-l-4 border-[#3db493] pl-10 text-left">
-                <p class="quote-text mb-6">"When we brought the idea that we solve revenue leak to the team—it was amazing to see them bring it to life through creative ads."</p>
-                <p class="text-xs font-black uppercase tracking-widest text-[#3db493]">SVP of Marketing</p>
+        <h2 class="accent-text mb-16">Methodology & Execution</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-1 max-w-7xl mx-auto">
+            <div class="card-dark">
+                <h3 class="text-xl font-black mb-4 uppercase text-[#3db493]">01. Assessment</h3>
+                <p class="text-gray-500 text-sm">Identifying revenue leaks and creative bottlenecks in your current workflow.</p>
             </div>
-            <div class="border-l-4 border-[#3db493] pl-10 text-left">
-                <p class="quote-text mb-6">"The quality of the creative work was above and beyond, and the communication has been concise and effective."</p>
-                <p class="text-xs font-black uppercase tracking-widest text-[#3db493]">Head of Growth Marketing</p>
+            <div class="card-dark">
+                <h3 class="text-xl font-black mb-4 uppercase text-[#3db493]">02. Creative Ads</h3>
+                <p class="text-gray-500 text-sm">Crafting messaging that causes a reaction, bringing your unique value proposition to life.</p>
+            </div>
+            <div class="card-dark">
+                <h3 class="text-xl font-black mb-4 uppercase text-[#3db493]">03. Optimization</h3>
+                <p class="text-gray-500 text-sm">Continuous testing across digital channels to ensure concise and effective communication.</p>
             </div>
         </div>
     </section>
 
     <section class="social-grid">
-        <a href="https://wa.me/918240801921" class="social-item text-green-500"><i class="fa-brands fa-whatsapp"></i></a>
-        <a href="https://www.linkedin.com/in/dhrubojyoti-gangopadhyay/" target="_blank" class="social-item text-blue-500"><i class="fa-brands fa-linkedin-in"></i></a>
-        <a href="https://www.behance.net/dhrubog" target="_blank" class="social-item text-white"><i class="fa-brands fa-behance"></i></a>
+        <a href="https://wa.me/918240801921" class="social-item text-green-500 hover:bg-white/5 transition">
+            <i class="fa-brands fa-whatsapp"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/dhrubojyoti-gangopadhyay/" target="_blank" class="social-item text-blue-500 hover:bg-white/5 transition">
+            <i class="fa-brands fa-linkedin-in"></i>
+        </a>
+        <a href="https://www.behance.net/dhrubog" target="_blank" class="social-item text-white hover:bg-white/5 transition">
+            <i class="fa-brands fa-behance"></i>
+        </a>
     </section>
 
     <footer class="py-24 px-6 flex flex-col items-center">
