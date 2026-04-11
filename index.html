@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <title>Dhrubo | Solopreneur & Vibe Coder</title>
-    <meta name="description" content="I build AI-powered content systems using vibe coding. Solopreneur. Developer. Systems Architect.">
+    <title>Dhrubo | Solopreneur & AI Automation</title>
+    <meta name="description" content="I build AI-powered content systems and automation for business. Solopreneur. Systems Architect.">
     
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2378499751962948" crossorigin="anonymous"></script>
 
@@ -23,9 +23,10 @@
     <style>
         :root {
             --aqua: #3db493;
-            --dark: #070707;
-            --card: rgba(255, 255, 255, 0.03);
+            --dark: #000000;
+            --card: rgba(255, 255, 255, 0.025);
             --whatsapp: #25D366;
+            --ln: #0077B5; --yt: #FF0000; --rd: #FF4500; --gh: #fff; --ig: #E4405F; --x: #fff; --fb: #1877F2;
         }
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
@@ -37,38 +38,52 @@
         .mono { font-family: 'Space Mono', monospace; }
         .text-glow { text-shadow: 0 0 20px rgba(61, 180, 147, 0.4); }
         
+        /* Bento Glass UI */
         .glass {
             background: var(--card);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 20px;
+            transition: 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .glass:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.12);
         }
         
-        /* Floating WhatsApp Button */
+        /* Primary CTA */
+        .cta-button {
+            background-color: var(--aqua);
+            color: #000;
+            font-weight: 800;
+            padding: 18px 36px;
+            border-radius: 16px;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            transition: 0.2s;
+            display: inline-block;
+        }
+        .cta-button:hover { transform: scale(1.05); }
+        
+        /* Floating WhatsApp */
         .whatsapp-float {
             position: fixed;
             bottom: 30px;
             right: 30px;
             background-color: var(--whatsapp);
             color: white;
-            width: 60px;
-            height: 60px;
+            width: 60px; height: 60px;
             border-radius: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             font-size: 30px;
             box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
             z-index: 1000;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .whatsapp-float:hover {
-            transform: scale(1.1);
         }
         .whatsapp-pulse {
             position: absolute;
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             background-color: var(--whatsapp);
             border-radius: 50%;
             z-index: -1;
@@ -77,15 +92,6 @@
         @keyframes pulse-wa {
             0% { transform: scale(1); opacity: 0.5; }
             100% { transform: scale(1.6); opacity: 0; }
-        }
-
-        .cta-pulse {
-            animation: pulse-glow 2s infinite;
-        }
-        @keyframes pulse-glow {
-            0% { box-shadow: 0 0 0 0 rgba(61, 180, 147, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(61, 180, 147, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(61, 180, 147, 0); }
         }
 
         .bento-grid {
@@ -98,20 +104,20 @@
         }
     </style>
 </head>
-<body class="p-4 md:p-10">
+<body class="p-4 md:p-10 selection:bg-[#3db493] selection:text-black">
 
-    <a href="https://wa.me/918240801921" class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
+    <a href="https://wa.me/918240801921" class="whatsapp-float" target="_blank">
         <div class="whatsapp-pulse"></div>
         <i class="fab fa-whatsapp"></i>
     </a>
 
     <nav class="fixed top-5 left-4 right-4 z-50 glass px-6 py-4 flex justify-between items-center max-w-3xl mx-auto">
         <div class="font-black text-[10px] tracking-[0.3em] uppercase">DHRUBO <span class="text-[#3db493]">G.</span></div>
-        <a href="mailto:dhrubo@dhrubo.shop" class="text-[9px] font-bold border border-white/10 px-4 py-2 rounded-full uppercase tracking-widest transition hover:bg-white hover:text-black">Email Me</a>
+        <a href="mailto:dhrubo@dhrubo.shop" class="text-[9px] font-bold border border-white/10 px-4 py-2 rounded-full uppercase tracking-widest hover:bg-white hover:text-black transition">Email Me</a>
     </nav>
 
     <header class="pt-32 pb-20 max-w-4xl mx-auto text-center md:text-left px-4">
-        <p class="mono text-[#3db493] text-[10px] mb-6 uppercase tracking-[0.4em] font-bold">Solopreneur • AI Systems</p>
+        <p class="mono text-[#3db493] text-[10px] mb-6 uppercase tracking-[0.4em] font-bold">Solopreneur • AI Automation</p>
         <h1 class="text-6xl md:text-9xl font-extrabold tracking-tighter mb-8 leading-[0.85]">
             BUILD <span class="text-gray-700">FASTER.</span><br>
             SCALE <span class="text-glow">HARDER.</span>
@@ -119,64 +125,67 @@
         <p class="text-gray-400 text-lg md:text-2xl max-w-2xl mb-12 leading-snug">
             I turn content into high-output <span class="text-white">growth engines</span> using Vibe Coding. One person, automated results.
         </p>
-        <div class="flex flex-col md:flex-row gap-4">
-            <a href="https://wa.me/918240801921" class="cta-pulse bg-[#3db493] text-black font-black py-5 px-12 rounded-2xl uppercase text-xs tracking-widest text-center transition hover:scale-105 active:scale-95">
-                Optimize My Growth
-            </a>
-        </div>
+        <a href="https://wa.me/918240801921" class="cta-button">Optimize My Growth</a>
     </header>
 
     <section class="bento-grid max-w-4xl mx-auto mb-20">
         <div class="glass p-8">
             <div class="mono text-[#3db493] text-xs mb-4">// 01</div>
-            <h3 class="font-extrabold text-xl mb-2 uppercase">Vibe Coding</h3>
-            <p class="text-gray-500 text-sm leading-relaxed">Prompts to production. Building AI agents that replace manual hours with seconds.</p>
-        </div>
-        <div class="glass p-8">
-            <div class="mono text-[#3db493] text-xs mb-4">// 02</div>
             <h3 class="font-extrabold text-xl mb-2 uppercase">Video Scaling</h3>
             <p class="text-gray-500 text-sm leading-relaxed">Automating the 5L → 1.5M monthly views pipeline for high-growth brands.</p>
         </div>
-        <div class="glass p-8 md:col-span-2 flex flex-col md:flex-row justify-between items-center gap-8">
-            <div>
-                <h3 class="font-extrabold text-xl mb-1 uppercase tracking-tight">Public Utilities</h3>
-                <p class="text-gray-500 text-sm italic">Dealer Mitra AI & Free ATS Resume Builder.</p>
+        <div class="glass p-8">
+            <div class="mono text-[#3db493] text-xs mb-4">// 02</div>
+            <h3 class="font-extrabold text-xl mb-2 uppercase">Vibe Coding</h3>
+            <p class="text-gray-500 text-sm leading-relaxed">Production-ready AI agents deployed at the speed of thought.</p>
+        </div>
+        <div class="glass p-10 md:col-span-2 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-center md:text-left">
+                <h3 class="font-extrabold text-2xl mb-2 uppercase tracking-tight">AI Automation for Business</h3>
+                <p class="text-gray-400 text-sm italic">Replacing manual bottlenecks with predictable, autonomous workflows.</p>
             </div>
-            <a href="https://dhrubo.shop" class="text-[10px] font-black uppercase tracking-widest border border-white/10 px-6 py-3 rounded-xl hover:bg-white hover:text-black transition">Explore Tools</a>
+            <a href="https://wa.me/918240801921" class="text-[10px] font-black uppercase tracking-widest border border-white/10 px-6 py-4 rounded-xl hover:bg-white hover:text-black transition">Explore Automation</a>
         </div>
     </section>
 
-    <section class="max-w-xl mx-auto mb-24 px-2">
-        <h2 class="text-center text-[10px] font-bold text-gray-700 uppercase tracking-[0.5em] mb-8">Access the Network</h2>
-        <div class="space-y-3">
-            <a href="https://www.linkedin.com/in/dhrubojyoti-gangopadhyay/" class="flex items-center justify-between p-5 glass hover:bg-white/5 transition group">
-                <span class="flex items-center gap-4 font-bold text-sm"><i class="fa-brands fa-linkedin-in text-blue-500"></i> LinkedIn</span>
-                <i class="fa-solid fa-arrow-right -rotate-45 text-gray-700 group-hover:text-white transition"></i>
+    <section class="max-w-4xl mx-auto mb-28 px-4">
+        <h2 class="text-center md:text-left text-[10px] font-bold text-gray-700 uppercase tracking-[0.5em] mb-12">Access the Network</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <a href="https://www.linkedin.com/in/dhrubojyoti-gangopadhyay/" target="_blank" class="flex items-center justify-between p-6 glass hover:border-l-4 hover:border-l-[var(--ln)]">
+                <span class="flex items-center gap-4 font-bold text-lg"><i class="fa-brands fa-linkedin-in text-[var(--ln)] text-2xl"></i> LinkedIn</span>
+                <i class="fa-solid fa-arrow-right -rotate-45 text-gray-700"></i>
             </a>
-            <a href="https://youtube.com/@aibabahq" class="flex items-center justify-between p-5 glass hover:bg-white/5 transition group">
-                <span class="flex items-center gap-4 font-bold text-sm"><i class="fa-brands fa-youtube text-red-500"></i> YouTube</span>
-                <i class="fa-solid fa-arrow-right -rotate-45 text-gray-700 group-hover:text-white transition"></i>
+            <a href="https://youtube.com/@aibabahq" target="_blank" class="flex items-center justify-between p-6 glass hover:border-l-4 hover:border-l-[var(--yt)]">
+                <span class="flex items-center gap-4 font-bold text-lg"><i class="fa-brands fa-youtube text-[var(--yt)] text-2xl"></i> YouTube</span>
+                <i class="fa-solid fa-arrow-right -rotate-45 text-gray-700"></i>
             </a>
-            <a href="https://www.reddit.com/user/AIBabaHq/" class="flex items-center justify-between p-5 glass hover:bg-white/5 transition group">
-                <span class="flex items-center gap-4 font-bold text-sm"><i class="fa-brands fa-reddit-alien text-[#FF4500]"></i> Reddit</span>
-                <i class="fa-solid fa-arrow-right -rotate-45 text-gray-700 group-hover:text-white transition"></i>
+            <a href="https://www.reddit.com/user/AIBabaHq/" target="_blank" class="flex items-center justify-between p-6 glass hover:border-l-4 hover:border-l-[var(--rd)]">
+                <span class="flex items-center gap-4 font-bold text-lg"><i class="fa-brands fa-reddit-alien text-[var(--rd)] text-2xl"></i> Reddit</span>
+                <i class="fa-solid fa-arrow-right -rotate-45 text-gray-700"></i>
             </a>
-            <a href="https://github.com/dhrubojyotigangopadhyay" class="flex items-center justify-between p-5 glass hover:bg-white/5 transition group">
-                <span class="flex items-center gap-4 font-bold text-sm"><i class="fa-brands fa-github"></i> GitHub</span>
-                <i class="fa-solid fa-arrow-right -rotate-45 text-gray-700 group-hover:text-white transition"></i>
+            <a href="https://github.com/dhrubojyotigangopadhyay" target="_blank" class="flex items-center justify-between p-6 glass hover:border-l-4 hover:border-l-[var(--gh)]">
+                <span class="flex items-center gap-4 font-bold text-lg"><i class="fa-brands fa-github text-[var(--gh)] text-2xl"></i> GitHub</span>
+                <i class="fa-solid fa-arrow-right -rotate-45 text-gray-700"></i>
             </a>
-            
-            <div class="grid grid-cols-3 gap-3 mt-3">
-                <a href="https://instagram.com/aibabahq" class="glass p-4 text-center hover:bg-white/5 transition"><i class="fa-brands fa-instagram text-pink-500"></i></a>
-                <a href="https://x.com/aibabahq" class="glass p-4 text-center hover:bg-white/5 transition"><i class="fa-brands fa-x-twitter"></i></a>
-                <a href="https://www.facebook.com/aibabahq" class="glass p-4 text-center hover:bg-white/5 transition"><i class="fa-brands fa-facebook-f text-blue-600"></i></a>
-            </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-4 mt-4">
+            <a href="https://instagram.com/aibabahq" target="_blank" class="glass p-8 text-center flex flex-col items-center gap-3 hover:border-b-4 hover:border-b-[var(--ig)]">
+                <i class="fa-brands fa-instagram text-[var(--ig)] text-3xl"></i>
+            </a>
+            <a href="https://x.com/aibabahq" target="_blank" class="glass p-8 text-center flex flex-col items-center gap-3 hover:border-b-4 hover:border-b-[var(--x)]">
+                <i class="fa-brands fa-x-twitter text-[var(--x)] text-3xl"></i>
+            </a>
+            <a href="https://www.facebook.com/aibabahq" target="_blank" class="glass p-8 text-center flex flex-col items-center gap-3 hover:border-b-4 hover:border-b-[var(--fb)]">
+                <i class="fa-brands fa-facebook-f text-[var(--fb)] text-3xl"></i>
+            </a>
         </div>
     </section>
 
     <footer class="text-center py-10 border-t border-white/5 max-w-4xl mx-auto">
         <div class="mono text-[8px] text-gray-600 uppercase tracking-widest mb-3">dhrubo@dhrubo.shop</div>
-        <div class="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em]">
+        <div class="text-[9px] font-black text-gray-700 uppercase tracking-[0.3em]">
             © 2026 SOLOPRENEUR ENGINE | VIBE CODED
         </div>
     </footer>
