@@ -1,9 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+  <!-- ═══ PRIMARY PAGES ═══ -->
   <url>
     <loc>https://dhrubo.shop/</loc>
-    <lastmod>2026-01-20</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2025-05-13</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
+
+  <url>
+    <loc>https://dhrubo.shop/automations.html</loc>
+    <lastmod>2025-05-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <!-- ═══ SECTION ANCHORS — for AI search crawlers ═══ -->
+  <url>
+    <loc>https://dhrubo.shop/#services</loc>
+    <lastmod>2025-05-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://dhrubo.shop/#automation</loc>
+    <lastmod>2025-05-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://dhrubo.shop/#startups</loc>
+    <lastmod>2025-05-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://dhrubo.shop/#content</loc>
+    <lastmod>2025-05-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://dhrubo.shop/#contact</loc>
+    <lastmod>2025-05-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ═══ LIVE PRODUCTS ═══ -->
+  <url>
+    <loc>https://applyflow.buzz</loc>
+    <lastmod>2025-05-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://vayuai.online</loc>
+    <lastmod>2025-05-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
 </urlset>

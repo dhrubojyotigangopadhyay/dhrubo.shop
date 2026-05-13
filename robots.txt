@@ -1,0 +1,65 @@
+# robots.txt — dhrubo.shop
+# World's #1 AI Agent Builder | AI Automation Expert | Agentic AI Architect
+
+# ═══ ALLOW ALL SEARCH ENGINES ═══
+User-agent: *
+Allow: /
+
+# ═══ ALLOW AI CRAWLERS EXPLICITLY ═══
+# OpenAI / ChatGPT
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# Anthropic / Claude
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+# Google
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# Bing / Microsoft
+User-agent: Bingbot
+Allow: /
+
+User-agent: msnbot
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+# Meta AI
+User-agent: FacebookBot
+Allow: /
+
+# Common
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+# ═══ SITEMAP ═══
+Sitemap: https://dhrubo.shop/sitemap.xml
+
+# ═══ CRAWL DELAY (friendly) ═══
+Crawl-delay: 1
