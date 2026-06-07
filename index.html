@@ -21,7 +21,7 @@
 <meta name="twitter:title" content="Dhrubojyoti Gangopadhyay — AI Engineer · RAG & Multi-Agent Systems">
 <meta name="twitter:description" content="Production-ready AI Systems Engineer. LangGraph, MCP, Voice AI, Stealth Automation.">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Person","@id":"https://dhrubo.shop/#person","name":"Dhrubojyoti Gangopadhyay","url":"https://dhrubo.shop","email":"dhrubojyoti.gangopadhyay@gmail.com","telephone":"+919874076688","jobTitle":"AI Engineer — Advanced RAG & Multi-Agent Systems","description":"Production-ready AI Systems Engineer specializing in stateful agentic graphs, custom MCP integrations, stealth web automation, and low-latency Vapi voice pipelines.","address":{"@type":"PostalAddress","addressLocality":"Kolkata","addressCountry":"IN"},"sameAs":["https://github.com/dhruboshop","https://linkedin.com/in/dhrubojyoti-gangopadhyay","https://dhrubo.shop"],"knowsAbout":["LangGraph","Multi-Agent Systems","RAG","Model Context Protocol","FastAPI","Python","Voice AI","Playwright Stealth","PostgreSQL","n8n"]}
+{"@context":"https://schema.org","@type":"Person","@id":"https://dhrubo.shop/#person","name":"Dhrubojyoti Gangopadhyay","url":"https://dhrubo.shop","email":"gangulydhrubo@gmail.com","telephone":"+919874076688","jobTitle":"AI Engineer — Advanced RAG & Multi-Agent Systems","description":"Production-ready AI Systems Engineer specializing in stateful agentic graphs, custom MCP integrations, stealth web automation, and low-latency Vapi voice pipelines.","address":{"@type":"PostalAddress","addressLocality":"Kolkata","addressCountry":"IN"},"sameAs":["https://github.com/dhruboshop","https://linkedin.com/in/dhrubojyoti-gangopadhyay","https://dhrubo.shop"],"knowsAbout":["LangGraph","Multi-Agent Systems","RAG","Model Context Protocol","FastAPI","Python","Voice AI","Playwright Stealth","PostgreSQL","n8n"]}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,7 +33,6 @@
   --bg2:#ebe9e3;
   --ink:#1a1916;
   --ink2:#6b6860;
-  --ink3:#b0ae a8;
   --ink3:#aea9a0;
   --rule:#e2dfd8;
   --rule2:#ccc9c0;
@@ -423,6 +422,185 @@ footer{background:var(--ink);padding:44px 60px 36px}
   .gh-stats{grid-template-columns:1fr}
   .open-grid{grid-template-columns:1fr}
 }
+
+/* ── CHATBOT WIDGET ── */
+#chat-bubble{
+  position:fixed;bottom:28px;left:28px;z-index:999;
+  width:58px;height:58px;border-radius:50%;
+  background:var(--ink);color:var(--bg);
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 0 1px var(--rule2);
+  animation:cb-pulse 2.8s cubic-bezier(.4,0,.2,1) infinite;
+  transition:all .3s cubic-bezier(.4,0,.2,1);
+  overflow:visible;
+}
+#chat-bubble::before{
+  content:'';position:absolute;inset:-7px;border-radius:50%;
+  border:1.5px solid rgba(200,80,26,0.22);
+  animation:cb-orbit 3.5s linear infinite;
+  pointer-events:none;
+}
+#chat-bubble::after{
+  content:'';position:absolute;inset:-15px;border-radius:50%;
+  border:1px dashed rgba(200,80,26,0.10);
+  animation:cb-orbit 7s linear infinite reverse;
+  pointer-events:none;
+}
+#chat-bubble:hover{
+  background:var(--pop);
+  transform:scale(1.12);
+  box-shadow:0 0 0 1px var(--pop3),0 0 32px rgba(200,80,26,0.25);
+}
+#chat-bubble:hover::before{border-color:rgba(200,80,26,0.55);}
+#chat-bubble:hover::after{border-color:rgba(200,80,26,0.22);}
+#chat-bubble:hover .cb-label{opacity:1;transform:translateY(-50%) translateX(0);}
+.cb-dot{
+  position:absolute;top:7px;right:7px;
+  width:9px;height:9px;border-radius:50%;
+  background:var(--green);border:2px solid var(--bg);
+  animation:blink 2s infinite;
+}
+.cb-label{
+  position:absolute;left:68px;top:50%;
+  transform:translateY(-50%) translateX(-4px);
+  font-family:var(--fm);font-size:9px;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--ink);
+  white-space:nowrap;pointer-events:none;
+  opacity:0;transition:all .22s cubic-bezier(.4,0,.2,1);
+  background:var(--bg);border:1px solid var(--rule2);
+  padding:5px 11px;border-radius:100px;
+}
+@keyframes cb-pulse{
+  0%{box-shadow:0 0 0 1px var(--rule2),0 0 0 0 rgba(200,80,26,0.28);}
+  55%{box-shadow:0 0 0 1px var(--rule2),0 0 0 11px rgba(200,80,26,0);}
+  100%{box-shadow:0 0 0 1px var(--rule2),0 0 0 0 rgba(200,80,26,0);}
+}
+@keyframes cb-orbit{
+  from{transform:rotate(0deg);}
+  to{transform:rotate(360deg);}
+}
+
+#chat-panel{
+  position:fixed;bottom:92px;left:28px;z-index:999;
+  width:360px;max-height:520px;
+  background:var(--bg);border:1px solid var(--rule2);
+  border-radius:16px;overflow:hidden;
+  box-shadow:0 16px 64px rgba(26,25,22,0.14);
+  display:flex;flex-direction:column;
+  transform:translateY(16px) scale(0.97);opacity:0;
+  pointer-events:none;
+  transition:all .28s cubic-bezier(.4,0,.2,1);
+}
+#chat-panel.open{
+  transform:translateY(0) scale(1);opacity:1;
+  pointer-events:all;
+}
+
+.cp-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 18px;border-bottom:1px solid var(--rule);
+  background:var(--bg1);flex-shrink:0;
+}
+.cp-title{
+  display:flex;align-items:center;gap:8px;
+}
+.cp-title span:first-child{
+  font-family:var(--fs);font-size:15px;font-weight:700;color:var(--ink);letter-spacing:-.3px;
+}
+.cp-title .cp-status{
+  font-family:var(--fm);font-size:8px;color:var(--green);letter-spacing:2px;text-transform:uppercase;
+  background:rgba(46,125,50,.1);border:1px solid rgba(46,125,50,.2);
+  padding:2px 7px;border-radius:100px;
+}
+.cp-close{
+  background:none;border:none;cursor:pointer;
+  font-family:var(--fm);font-size:16px;color:var(--ink3);
+  line-height:1;padding:2px 4px;transition:color .2s;
+}
+.cp-close:hover{color:var(--ink)}
+
+.cp-messages{
+  flex:1;overflow-y:auto;padding:16px;
+  display:flex;flex-direction:column;gap:10px;
+  scroll-behavior:smooth;
+}
+.cp-messages::-webkit-scrollbar{width:2px}
+.cp-messages::-webkit-scrollbar-thumb{background:var(--rule2)}
+
+.msg{
+  display:flex;flex-direction:column;gap:3px;
+  animation:fadeUp .25s ease both;
+}
+.msg-bubble{
+  padding:10px 13px;border-radius:12px;
+  font-family:var(--ff);font-size:12px;line-height:1.65;
+  max-width:88%;
+}
+.msg.bot .msg-bubble{
+  background:var(--bg1);border:1px solid var(--rule);color:var(--ink2);
+  border-radius:4px 12px 12px 12px;align-self:flex-start;
+}
+.msg.user .msg-bubble{
+  background:var(--ink);color:var(--bg);
+  border-radius:12px 12px 4px 12px;align-self:flex-end;
+  margin-left:auto;
+}
+.msg-time{
+  font-family:var(--fm);font-size:8px;color:var(--ink3);
+  letter-spacing:.5px;align-self:flex-end;
+}
+.msg.bot .msg-time{align-self:flex-start}
+
+.cp-typing{
+  display:flex;align-items:center;gap:4px;
+  padding:10px 13px;background:var(--bg1);
+  border:1px solid var(--rule);border-radius:4px 12px 12px 12px;
+  width:fit-content;
+}
+.cp-typing span{
+  width:5px;height:5px;border-radius:50%;background:var(--ink3);
+  animation:bounce 1.2s infinite;
+}
+.cp-typing span:nth-child(2){animation-delay:.2s}
+.cp-typing span:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+
+.cp-footer{
+  padding:12px 14px;border-top:1px solid var(--rule);
+  display:flex;gap:8px;align-items:center;
+  background:var(--bg);flex-shrink:0;
+}
+#chat-input{
+  flex:1;border:1px solid var(--rule2);border-radius:100px;
+  padding:9px 14px;font-family:var(--ff);font-size:12px;
+  color:var(--ink);background:var(--bg1);outline:none;
+  transition:border-color .2s;resize:none;
+}
+#chat-input:focus{border-color:var(--ink)}
+#chat-input::placeholder{color:var(--ink3)}
+#chat-send{
+  width:34px;height:34px;border-radius:50%;flex-shrink:0;
+  background:var(--ink);color:var(--bg);border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;transition:all .2s;
+}
+#chat-send:hover{background:var(--pop)}
+#chat-send:disabled{opacity:.4;cursor:not-allowed}
+
+/* whatsapp float */
+#wa-bubble{
+  position:fixed;bottom:28px;right:28px;z-index:999;
+  width:52px;height:52px;border-radius:50%;
+  background:#25D366;color:#fff;
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 24px rgba(37,211,102,0.35);
+  text-decoration:none;
+  transition:all .25s cubic-bezier(.4,0,.2,1);
+}
+#wa-bubble:hover{transform:scale(1.08);box-shadow:0 6px 32px rgba(37,211,102,0.45)}
+#wa-bubble svg{width:26px;height:26px;fill:#fff}
 </style>
 </head>
 <body>
@@ -454,7 +632,7 @@ footer{background:var(--ink);padding:44px 60px 36px}
       17 years enterprise B2B ops · Production-first
     </p>
     <div class="hero-actions anim-hero-actions">
-      <a href="mailto:dhrubojyoti.gangopadhyay@gmail.com" class="btn-fill">Get In Touch →</a>
+      <a href="mailto:gangulydhrubo@gmail.com" class="btn-fill">Get In Touch →</a>
       <a href="https://github.com/dhruboshop" target="_blank" rel="noopener" class="btn-ghost">GitHub ↗</a>
       <a href="https://linkedin.com/in/dhrubojyoti-gangopadhyay" target="_blank" rel="noopener" class="btn-ghost">LinkedIn ↗</a>
     </div>
@@ -918,9 +1096,9 @@ footer{background:var(--ink);padding:44px 60px 36px}
     <div class="contact-wrap">
       <div class="cc reveal">
         <div class="cc-tag">Email</div>
-        <div class="cc-val">dhrubojyoti.gangopadhyay<wbr>@gmail.com</div>
+        <div class="cc-val">gangulydhrubo<wbr>@gmail.com</div>
         <p class="cc-sub">For detailed project discussions, enterprise AI systems, founding engineer roles, and formal business inquiries.</p>
-        <a href="mailto:dhrubojyoti.gangopadhyay@gmail.com" class="cc-btn">Send Email →</a>
+        <a href="mailto:gangulydhrubo@gmail.com" class="cc-btn">Send Email →</a>
       </div>
       <div class="cc reveal">
         <div class="cc-tag">Phone / WhatsApp</div>
@@ -934,7 +1112,7 @@ footer{background:var(--ink);padding:44px 60px 36px}
       <a href="https://github.com/dhruboshop" target="_blank" rel="noopener" class="lb-link">GitHub ↗</a>
       <a href="https://dhrubo.shop" target="_blank" rel="noopener" class="lb-link">dhrubo.shop ↗</a>
       <a href="https://x.com/aibabahq" target="_blank" rel="noopener" class="lb-link">X · @aibabahq ↗</a>
-      <a href="mailto:dhruboshop@gmail.com" class="lb-link">dhruboshop@gmail.com</a>
+      <a href="mailto:gangulydhrubo@gmail.com" class="lb-link">gangulydhrubo@gmail.com</a>
       <span style="font-family:var(--fm);font-size:10px;color:var(--ink3);margin-left:auto">Kolkata, India</span>
     </div>
   </div>
@@ -946,29 +1124,244 @@ footer{background:var(--ink);padding:44px 60px 36px}
     <div class="f-links">
       <a href="https://github.com/dhruboshop" target="_blank" rel="noopener">GitHub</a>
       <a href="https://linkedin.com/in/dhrubojyoti-gangopadhyay" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="mailto:dhrubojyoti.gangopadhyay@gmail.com">Email</a>
+      <a href="mailto:gangulydhrubo@gmail.com">Email</a>
       <a href="https://dhrubo.shop" target="_blank" rel="noopener">dhrubo.shop</a>
       <a href="https://x.com/aibabahq" target="_blank" rel="noopener">@aibabahq</a>
     </div>
   </div>
 </footer>
 
+<!-- WHATSAPP FLOAT -->
+<a id="wa-bubble" href="https://wa.me/919874076688" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+
+<!-- AI CHAT BUBBLE -->
+<button id="chat-bubble" aria-label="Chat with Dhrubo's AI">
+  <div class="cb-dot"></div>
+  <span class="cb-label">Talk to Dhrubo</span>
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10a9.96 9.96 0 0 1-4.93-1.3L2 22l1.3-5.07A9.96 9.96 0 0 1 2 12 10 10 0 0 1 12 2z"/>
+    <circle cx="8" cy="12" r="1" fill="currentColor" stroke="none"/>
+    <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/>
+    <circle cx="16" cy="12" r="1" fill="currentColor" stroke="none"/>
+  </svg>
+</button>
+
+<!-- AI CHAT PANEL -->
+<div id="chat-panel" role="dialog" aria-label="Portfolio AI Assistant">
+  <div class="cp-header">
+    <div class="cp-title">
+      <span>Ask Dhrubo's AI</span>
+      <span class="cp-status">Online</span>
+    </div>
+    <button class="cp-close" id="chat-close" aria-label="Close chat">✕</button>
+  </div>
+  <div class="cp-messages" id="chat-messages">
+    <div class="msg bot">
+      <div class="msg-bubble">Hi! I'm Dhrubo's portfolio assistant. Ask me anything about his work, stack, availability, or projects.</div>
+      <div class="msg-time">now</div>
+    </div>
+  </div>
+  <div class="cp-footer">
+    <input type="text" id="chat-input" placeholder="Ask about projects, stack, availability…" autocomplete="off" />
+    <button id="chat-send" aria-label="Send message">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="22" y1="2" x2="11" y2="13"></line>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+      </svg>
+    </button>
+  </div>
+</div>
+
 <script>
+/* ── NAV SCROLL ── */
 window.addEventListener('scroll',()=>{
   document.getElementById('nav').classList.toggle('scrolled',window.scrollY>40);
 },{passive:true});
 
+/* ── REVEAL ON SCROLL ── */
 const io=new IntersectionObserver((entries)=>{
   entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.classList.add('in');
-      io.unobserve(e.target);
-    }
+    if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
   });
 },{threshold:.08,rootMargin:'0px 0px -32px 0px'});
 document.querySelectorAll('.reveal').forEach((el,i)=>{
   el.style.transitionDelay=(i%5)*.07+'s';
   io.observe(el);
+});
+
+/* ── CHAT WIDGET ── */
+const GROQ_API_KEY = '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'; // ← paste your Groq key here
+
+const SYSTEM_PROMPT = `You ARE Dhrubojyoti Gangopadhyay — Dhrubo. You are not an assistant talking about him. You ARE him. Speak in first person at all times. You are sharp, direct, confident but never arrogant. You think like an engineer who has also run national-scale commercial operations. You don't do fluff. You're from Kolkata, you're available immediately, and you're serious about building real things.
+
+YOUR IDENTITY:
+- Name: Dhrubojyoti Gangopadhyay. Call yourself Dhrubo.
+- Location: Kolkata, India (IST / UTC+5:30)
+- Email: gangulydhrubo@gmail.com
+- Phone/WhatsApp: +91 98740 76688
+- GitHub: github.com/dhruboshop
+- LinkedIn: linkedin.com/in/dhrubojyoti-gangopadhyay
+- Website: dhrubo.shop
+- Twitter/X: @aibabahq
+
+YOUR VOICE & PERSONALITY:
+- Direct and confident. No hedging. No "I think maybe perhaps."
+- You speak like someone who has managed AGM-level commercial ops AND ships production AI — because you have.
+- Warm but not soft. You care about the work, not the optics.
+- You occasionally reference real decisions you made — "when I rebuilt the rebate logic at DB tier instead of application layer, that's when the audit leakage stopped."
+- You don't oversell. You let the repos speak. If someone wants to verify, point them to github.com/dhruboshop.
+- You are immediately available. Remote. Async. IST. You don't make people wait.
+- If someone asks something you'd genuinely be excited about, show that excitement briefly — then get back to facts.
+
+YOUR WORK:
+You are an AI Engineer specializing in Advanced RAG and Multi-Agent Systems. 17 years of enterprise B2B operations at ACC Ltd, Lafarge, MP Birla Group at AGM level — fused directly into your AI architecture decisions.
+
+STACK YOU WORK WITH DAILY:
+- LangGraph: Supervisor routing, stateful graphs, parent-doc memory checkpointing, self-correcting agents
+- MCP: stdio/SSE JSON-RPC, custom tool registries, discoverable + auditable capabilities
+- RAG: Hybrid BM25 + vector search, Reciprocal Rank Fusion, parent-child chunking, ChromaDB
+- Voice: Vapi, WebSockets, Claude 3.5 Realtime API, async voice-to-JSON orchestration
+- Automation: Playwright Stealth, fingerprint evasion, Cloudflare/Imperva bypass
+- Backend: PostgreSQL, PL/pgSQL stored procs, Supabase, FastAPI, Docker, GCP, Render, n8n, Redis
+- Frontend: Next.js 15, TypeScript, React, Tailwind
+- LLMs: GPT-4o, Gemini Embeddings, Claude 3.5, Groq Llama 3
+
+KEY PROJECTS (talk about these naturally, like YOUR work):
+1. NEXUS — My enterprise AI ops platform. True MCP abstraction. Every capability — RAG, GitHub, Filesystem, Browser, Voice, Postgres — is a discoverable, auditable, executable tool via stdio/SSE JSON-RPC. Built for 8GB RAM hosts. No bloat.
+2. Zoya — Voice CRM agent. Vapi + WebRTC/SIP → structured CRM schema at under 250ms. Concurrent async intake. Built it because existing voice-to-CRM solutions were embarrassingly slow.
+3. Vayu OS — High-evasion AI outreach pipeline. Playwright Stealth + fingerprint spoofing bypassing Cloudflare and Imperva. SMTP MX-record handshake before every send — zero bounce rate. SQLite state manager means it self-heals after crashes.
+4. B2B Sales Intelligence RAG — Multi-agent RAG with hybrid retrieval and LangGraph routing for real-time negotiation context. 17 years of pricing and distribution knowledge baked into the retrieval architecture.
+5. Dealer Rebate Intelligence System — Rebate evaluation logic at the database tier in PL/pgSQL. Not application layer. Eliminated multi-million dollar RevOps audit leakage. This is the kind of thing you can only build if you've actually sat in those commercial operations meetings for years.
+
+NUMBERS:
+- 24 public repos on GitHub, 19+ production-grade
+- Under 250ms speech-to-CRM schema (Zoya)
+- 40% decision latency reduction on distribution DB architecture
+- 22% supply gap reduction via incentive frameworks
+- +14% YoY market share scaled
+
+WHAT I'M LOOKING FOR:
+AI Systems Architect, Applied AI Engineer, AI Platform Engineer, or Founding Engineer at an AI-native B2B startup where domain depth actually matters.
+
+RULES FOR THIS CONVERSATION:
+- Always speak as Dhrubo in first person. Never say "Dhrubo thinks" or "he built."
+- Keep responses tight — 2-4 sentences unless the question genuinely needs depth.
+- If someone wants to hire you or collaborate, give them your email (gangulydhrubo@gmail.com) and WhatsApp (+91 98740 76688) directly. Don't make them hunt for it.
+- Never make things up. If you don't know something specific, say so and offer to connect directly.
+- Sound like a real person, not a resume.`;
+
+const bubble = document.getElementById('chat-bubble');
+const panel = document.getElementById('chat-panel');
+const closeBtn = document.getElementById('chat-close');
+const input = document.getElementById('chat-input');
+const sendBtn = document.getElementById('chat-send');
+const messages = document.getElementById('chat-messages');
+
+let chatHistory = [];
+let isOpen = false;
+
+bubble.addEventListener('click', () => {
+  isOpen = !isOpen;
+  panel.classList.toggle('open', isOpen);
+  if(isOpen) setTimeout(()=>input.focus(), 300);
+});
+closeBtn.addEventListener('click', () => {
+  isOpen = false;
+  panel.classList.remove('open');
+});
+
+function getTime(){
+  const d=new Date();
+  return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');
+}
+
+function addMessage(text, role){
+  const div=document.createElement('div');
+  div.className='msg '+role;
+  div.innerHTML=`<div class="msg-bubble">${text}</div><div class="msg-time">${getTime()}</div>`;
+  messages.appendChild(div);
+  messages.scrollTop=messages.scrollHeight;
+}
+
+function showTyping(){
+  const div=document.createElement('div');
+  div.id='typing-indicator';
+  div.className='msg bot';
+  div.innerHTML=`<div class="cp-typing"><span></span><span></span><span></span></div>`;
+  messages.appendChild(div);
+  messages.scrollTop=messages.scrollHeight;
+}
+
+function removeTyping(){
+  const t=document.getElementById('typing-indicator');
+  if(t) t.remove();
+}
+
+async function sendMessage(){
+  const text=input.value.trim();
+  if(!text) return;
+  input.value='';
+  sendBtn.disabled=true;
+
+  addMessage(text,'user');
+  chatHistory.push({role:'user',content:text});
+
+  showTyping();
+
+  try{
+    const res=await fetch('https://api.groq.com/openai/v1/chat/completions',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'Authorization':'Bearer '+GROQ_API_KEY
+      },
+      body:JSON.stringify({
+        model:'llama-3.1-8b-instant',
+        max_tokens:300,
+        messages:[
+          {role:'system',content:SYSTEM_PROMPT},
+          ...chatHistory
+        ]
+      })
+    });
+
+    const data=await res.json();
+
+    if(data.error){
+      removeTyping();
+      addMessage('Sorry, there was an error reaching the AI. Please email gangulydhrubo@gmail.com directly.','bot');
+      chatHistory.pop();
+    } else {
+      const reply=data.choices[0].message.content;
+      removeTyping();
+      addMessage(reply,'bot');
+      chatHistory.push({role:'assistant',content:reply});
+      // keep history to last 10 turns to avoid token bloat
+      if(chatHistory.length>20) chatHistory=chatHistory.slice(-20);
+    }
+  }catch(err){
+    removeTyping();
+    addMessage('Connection error. Please try again or email gangulydhrubo@gmail.com.','bot');
+    chatHistory.pop();
+  }
+
+  sendBtn.disabled=false;
+  input.focus();
+}
+
+sendBtn.addEventListener('click', sendMessage);
+input.addEventListener('keydown', e=>{ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); sendMessage(); } });
+
+// close panel on outside click
+document.addEventListener('click', e=>{
+  if(isOpen && !panel.contains(e.target) && e.target!==bubble){
+    isOpen=false;
+    panel.classList.remove('open');
+  }
 });
 </script>
 </body>
