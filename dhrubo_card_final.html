@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dhrubojyoti Gangopadhyay</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #070910;
+    --surface: #0C0F1A;
+    --surface2: #111520;
+    --border: #1A1F2E;
+    --accent: #00C9A7;
+    --accent2: #6366F1;
+    --muted: #8892A4;
+    --dim: #3A4254;
+    --text: #D8E0EF;
+    --bright: #FFFFFF;
+    --font: 'Space Grotesk', sans-serif;
+    --mono: 'Space Mono', monospace;
+  }
+  html, body {
+    min-height: 100vh;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    font-family: var(--font);
+    color: var(--text);
+  }
+  .card {
+    width: 100%;
+    max-width: 420px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Top gradient bar */
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent2), var(--accent), var(--accent2));
+    background-size: 200% 100%;
+    animation: shift 4s linear infinite;
+  }
+  @keyframes shift {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 200% 0%; }
+  }
+
+  /* Hero section with photo */
+  .hero {
+    position: relative;
+    padding: 40px 28px 28px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .photo-wrap {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .photo {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center top;
+    border: 2px solid var(--border);
+    display: block;
+  }
+
+  .photo-ring {
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 1.5px solid transparent;
+    background: linear-gradient(var(--surface), var(--surface)) padding-box,
+                linear-gradient(135deg, var(--accent), var(--accent2)) border-box;
+  }
+
+  .hero-text {
+    flex: 1;
+    padding-top: 4px;
+  }
+
+  .available {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 6px var(--accent);
+    animation: blink 2s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.35} }
+  .available-text {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--accent);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+
+  .name {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--bright);
+    letter-spacing: -.02em;
+    line-height: 1.15;
+    margin-bottom: 6px;
+  }
+  .name em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  /* Role badges */
+  .roles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .role-badge {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 20px;
+    border: 1px solid;
+  }
+  .role-badge.ai {
+    border-color: #1A3A50;
+    color: #4DBBFF;
+    background: #0A1A26;
+  }
+  .role-badge.mkt {
+    border-color: #2A1A3A;
+    color: #A78BFA;
+    background: #130A20;
+  }
+  .role-badge.growth {
+    border-color: #0A2A22;
+    color: var(--accent);
+    background: #041A14;
+  }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0 28px;
+  }
+
+  /* Moat section */
+  .moat-section {
+    padding: 22px 28px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sec-label {
+    font-family: var(--mono);
+    font-size: 8px;
+    color: var(--dim);
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .moat-text {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .moat-text strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  /* What I do cards */
+  .services {
+    padding: 22px 28px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .svc {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .svc-icon {
+    font-size: 18px;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .svc-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--bright);
+    margin-bottom: 3px;
+  }
+  .svc-desc {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* Contact */
+  .contact-section {
+    padding: 20px 28px;
+  }
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .c-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 12.5px;
+    transition: color .18s;
+  }
+  .c-row:hover { color: var(--text); }
+  .c-key {
+    font-family: var(--mono);
+    font-size: 8.5px;
+    color: var(--dim);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    min-width: 52px;
+  }
+
+  /* Footer CTA */
+  .card-footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid var(--border);
+  }
+  .cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 15px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--muted);
+    background: transparent;
+    border: none;
+    font-family: var(--font);
+    cursor: pointer;
+    transition: background .18s, color .18s;
+  }
+  .cta:first-child { border-right: 1px solid var(--border); }
+  .cta:hover { background: #0E1420; color: var(--accent); }
+  .cta svg { width: 13px; height: 13px; }
+
+  .toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(16px);
+    background: var(--accent);
+    color: #070910;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    padding: 7px 18px;
+    border-radius: 6px;
+    opacity: 0;
+    transition: opacity .2s, transform .2s;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <div class="hero">
+    <div class="photo-wrap">
+      <div class="photo-ring"></div>
+      <img class="photo" src="https://dhrubojyotigangopadhyay.github.io/dhrubo.shop/profile.jpeg" alt="Dhrubojyoti Gangopadhyay">
+    </div>
+    <div class="hero-text">
+      <div class="available">
+        <div class="dot"></div>
+        <span class="available-text">Open to Work · Remote</span>
+      </div>
+      <div class="name">Dhrubojyoti<br><em>Gangopadhyay</em></div>
+      <div class="roles">
+        <span class="role-badge ai">AI Engineer</span>
+        <span class="role-badge mkt">Digital Marketer</span>
+        <span class="role-badge growth">Growth Hacker</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="moat-section">
+    <div class="sec-label">Who I Am</div>
+    <p class="moat-text">
+      I build <strong>AI systems that grow businesses</strong> — not just tech demos. 
+      <strong>17 years</strong> running enterprise revenue ops at ACC, Lafarge &amp; MP Birla, 
+      now deploying that domain depth into production-grade AI, automated marketing pipelines, 
+      and data-driven growth strategies.
+    </p>
+  </div>
+
+  <div class="services">
+    <div class="sec-label">What I Do</div>
+    <div class="svc">
+      <div class="svc-icon">🤖</div>
+      <div>
+        <div class="svc-title">AI Engineering</div>
+        <div class="svc-desc">Agentic systems, RAG pipelines, voice AI, MCP integrations — production-ready, not prototype.</div>
+      </div>
+    </div>
+    <div class="svc">
+      <div class="svc-icon">📈</div>
+      <div>
+        <div class="svc-title">Digital Marketing &amp; Growth</div>
+        <div class="svc-desc">AI-powered content engines, performance ads, SEO automation, WhatsApp &amp; email funnels.</div>
+      </div>
+    </div>
+    <div class="svc">
+      <div class="svc-icon">⚡</div>
+      <div>
+        <div class="svc-title">Growth Hacking</div>
+        <div class="svc-desc">Stealth scraping, lead gen automation, outreach pipelines, RevOps systems that eliminate leakage.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="contact-section">
+    <div class="sec-label">Contact</div>
+    <div class="contact-links">
+      <a class="c-row" href="mailto:dhrubo@dhrubo.shop">
+        <span class="c-key">Email</span>
+        <span>dhrubo@dhrubo.shop</span>
+      </a>
+      <a class="c-row" href="tel:+919874076688">
+        <span class="c-key">Mobile</span>
+        <span>+91 98740 76688</span>
+      </a>
+      <a class="c-row" href="https://dhrubo.shop" target="_blank">
+        <span class="c-key">Web</span>
+        <span>dhrubo.shop</span>
+      </a>
+      <a class="c-row" href="https://linkedin.com/in/dhrubojyoti-gangopadhyay" target="_blank">
+        <span class="c-key">LinkedIn</span>
+        <span>dhrubojyoti-gangopadhyay</span>
+      </a>
+      <a class="c-row" href="https://github.com/dhruboshop" target="_blank">
+        <span class="c-key">GitHub</span>
+        <span>dhruboshop</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <button class="cta" onclick="copyContact()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+      Copy Card
+    </button>
+    <a class="cta" href="mailto:dhrubo@dhrubo.shop">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Email Me
+    </a>
+  </div>
+
+</div>
+
+<div class="toast" id="toast">COPIED ✓</div>
+
+<script>
+function copyContact() {
+  const text = `Dhrubojyoti Gangopadhyay
+AI Engineer · Digital Marketer · Growth Hacker
+📧 dhrubo@dhrubo.shop
+📱 +91 98740 76688
+🌐 dhrubo.shop
+LinkedIn: linkedin.com/in/dhrubojyoti-gangopadhyay
+GitHub: github.com/dhruboshop`;
+  navigator.clipboard.writeText(text).then(() => {
+    const t = document.getElementById('toast');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2200);
+  });
+}
+</script>
+</body>
+</html>
