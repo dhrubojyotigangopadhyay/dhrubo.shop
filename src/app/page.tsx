@@ -1,4 +1,4 @@
-import { ArrowUpRight, Database, Github, Mail, Phone, RadioTower, ShieldCheck, Workflow } from "lucide-react";
+import { ArrowUpRight, BrainCircuit, Database, Github, Mail, Phone, RadioTower, ShieldCheck, Sparkles, TerminalSquare, Workflow, Zap } from "lucide-react";
 import AgentNetwork from "@/components/AgentNetwork";
 import AnimatedShell from "@/components/AnimatedShell";
 import ChatWidget from "@/components/ChatWidget";
@@ -6,6 +6,7 @@ import CustomCursor from "@/components/CustomCursor";
 import { heroBadges, moatCards, navItems, openTo, profile, projects, repos, stackGroups, stats, timeline } from "@/data/site";
 
 const icons = [Workflow, ShieldCheck, Database];
+const proofNodes = ["MCP tool fabric", "LangGraph supervisor", "Hybrid RAG memory", "Voice CRM parser", "Audit-grade traces"];
 
 function Tag({ children }: { children: React.ReactNode }) {
   return <span className="tag">{children}</span>;
@@ -29,9 +30,10 @@ export default function Home() {
           <div className="hero-grid">
             <div className="hero-copy" data-reveal>
               <div className="status-pill"><span />{profile.status}</div>
-              <h1>{profile.name}</h1>
-              <p className="hero-role">{profile.role}</p>
-              <p className="hero-tagline">{profile.tagline}</p>
+              <p className="hero-kicker">Dhrubojyoti Gangopadhyay · Dhrubo</p>
+              <h1>AI agent systems that survive production.</h1>
+              <p className="hero-role">Advanced RAG, MCP tooling, LangGraph orchestration, voice AI, and DB-tier logic for enterprise workflows.</p>
+              <p className="hero-tagline">17 years enterprise B2B operations fused with public, auditable AI engineering.</p>
               <div className="hero-actions">
                 <a className="button primary" href="#contact">Get In Touch <ArrowUpRight size={18} /></a>
                 <a className="button ghost" href={profile.github} target="_blank" rel="noreferrer">GitHub <ArrowUpRight size={18} /></a>
@@ -40,10 +42,19 @@ export default function Home() {
                 {heroBadges.map((badge) => <Tag key={badge}>{badge}</Tag>)}
               </div>
             </div>
-            <div className="hero-signal" data-reveal>
-              <div className="signal-top"><RadioTower size={18} /> Agent network live</div>
-              <div className="signal-grid">
-                {["RAG", "MCP", "Voice", "Ops", "DB", "Audit"].map((label) => <span key={label}>{label}</span>)}
+            <div className="hero-cockpit" data-reveal data-cursor="card">
+              <div className="cockpit-top">
+                <span><RadioTower size={18} /> Agent orchestration cockpit</span>
+                <strong>LIVE</strong>
+              </div>
+              <div className="orbit-map">
+                <div className="orbit-core"><BrainCircuit size={30} /><span>Supervisor</span></div>
+                {proofNodes.map((node, index) => <span className={`orbit-node node-${index + 1}`} key={node}>{node}</span>)}
+              </div>
+              <div className="console-lines">
+                <p><TerminalSquare size={15} /> route.intent = enterprise_rag</p>
+                <p><Zap size={15} /> voice.schema_latency &lt; 250ms</p>
+                <p><ShieldCheck size={15} /> tool.calls = auditable</p>
               </div>
             </div>
           </div>
@@ -61,6 +72,23 @@ export default function Home() {
               <p>{stat.detail}</p>
             </div>
           );})}
+        </section>
+
+        <section className="section thesis" data-reveal>
+          <div className="thesis-grid">
+            <div>
+              <p className="eyebrow">Why Dhrubo Is Different</p>
+              <h2>He does not just wrap APIs. He designs agent operating systems.</h2>
+            </div>
+            <div className="thesis-copy">
+              <p>Most AI portfolios stop at demos. Dhrubo’s work is built around the hard parts: tool discovery, memory routing, fallback loops, voice latency, DB-tier rules, audit trails, and deployment on constrained infrastructure.</p>
+              <div className="signature-strip">
+                <span><Sparkles size={16} /> Production-first</span>
+                <span><Database size={16} /> Database-tier logic</span>
+                <span><Workflow size={16} /> Multi-agent control</span>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section className="section moat" data-reveal>
@@ -108,7 +136,7 @@ export default function Home() {
         <section className="section projects" id="projects">
           <div className="section-head" data-reveal>
             <p className="eyebrow">Selected Production Projects</p>
-            <h2>Five auditable case studies.</h2>
+            <h2>Seven systems that prove the claim.</h2>
           </div>
           <div className="project-stack">
             {projects.map((project) => (
@@ -130,11 +158,11 @@ export default function Home() {
         <section className="section github" id="github">
           <div className="section-head" data-reveal>
             <p className="eyebrow">GitHub · dhruboshop</p>
-            <h2>24 repos. All live.</h2>
-            <p>Every line of code is public. No toy projects. Real architecture decisions on every commit.</p>
+            <h2>31 repos. Active AI systems, not portfolio filler.</h2>
+            <p>Every public build is evidence: agents, RAG, compliance intelligence, CRM, support automation, observability, and DB-tier logic.</p>
           </div>
           <div className="github-stats" data-reveal>
-            <span>24 Public Repos</span><span>55+ Contributions (12mo)</span><span>Jan &apos;25 Active Since</span>
+            <span>31 Public Repos</span><span>Latest builds updated this week</span><span>AI systems across Python, TypeScript, PL/pgSQL</span>
           </div>
           <div className="repo-grid">
             {repos.map(([name, language, updated, description]) => (
@@ -145,7 +173,7 @@ export default function Home() {
               </article>
             ))}
           </div>
-          <a className="wide-link" href={profile.github} target="_blank" rel="noreferrer">View All 24 Repositories on GitHub <ArrowUpRight size={18} /></a>
+          <a className="wide-link" href={profile.github} target="_blank" rel="noreferrer">View All 31 Repositories on GitHub <ArrowUpRight size={18} /></a>
         </section>
 
         <section className="section" id="experience">
@@ -171,7 +199,7 @@ export default function Home() {
         <section className="section open-to" data-reveal>
           <div className="section-head">
             <p className="eyebrow">Open To</p>
-            <h2>Roles where systems judgment matters.</h2>
+            <h2>Bring him where agents need to become infrastructure.</h2>
           </div>
           <div className="card-grid four">
             {openTo.map(([title, body]) => (

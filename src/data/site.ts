@@ -2,7 +2,7 @@ export const profile = {
   name: "Dhrubojyoti Gangopadhyay",
   handle: "Dhrubo",
   domain: "dhrubo.shop",
-  role: "AI Engineer — Advanced RAG & Multi-Agent Systems.",
+  role: "AI-Assisted System Builder — Advanced RAG & Multi-Agent Systems.",
   status: "Available · Remote / Async · IST · Immediate",
   tagline: "17 years enterprise B2B ops · Production-first",
   email: "gangulydhrubo@gmail.com",
@@ -35,9 +35,9 @@ export const heroBadges = [
 
 export const stats = [
   {
-    value: "19+",
-    label: "Production Repositories",
-    detail: "All public, all auditable, no toy projects",
+    value: "31",
+    label: "Public AI Systems",
+    detail: "Agentic workflows, RAG, compliance, voice, CRM, outreach",
   },
   {
     value: "17yr",
@@ -64,7 +64,7 @@ export const moatCards = [
   },
   {
     title: "Production systems, not prototypes",
-    body: "19+ public repos: stateful agentic graphs, custom MCP integrations, stealth automation, voice pipelines, optimized for resource-constrained 8GB hosts, scaled to production workloads. All publicly auditable at dhrubo.shop.",
+    body: "31 public repos: stateful agentic graphs, custom MCP integrations, stealth automation, voice pipelines, compliance systems, multilingual support agents, and production workloads. All publicly auditable at dhrubo.shop.",
     tags: ["LangGraph", "MCP stdio/SSE", "Vapi", "Playwright Stealth"],
   },
   {
@@ -104,6 +104,30 @@ export const stackGroups = [
 export const projects = [
   {
     n: "01",
+    title: "ComplianceGraph — Agentic Compliance Intelligence",
+    description: "Graph-minded compliance system for tracing obligations, controls, evidence, and reasoning paths instead of treating compliance as flat document search.",
+    tags: ["Python", "Knowledge Graph", "Compliance AI", "Agentic Reasoning", "Audit Trails"],
+    repo: "https://github.com/dhruboshop/ComplianceGraph",
+    details: [
+      "Architecture: compliance entity graph → retrieval layer → reasoning agent → evidence-backed answer path",
+      "Positioning: built for regulated workflows where traceability matters as much as answer quality",
+      "Why it matters: shows Dhrubo can translate business risk into AI system architecture",
+    ],
+  },
+  {
+    n: "02",
+    title: "SENTRA-AI — Operational Agent System",
+    description: "Current-generation AI operations build focused on agentic execution, workflow orchestration, and practical system behavior rather than static chat.",
+    tags: ["Python", "Agentic Workflows", "Automation", "System Builder", "Ops AI"],
+    repo: "https://github.com/dhruboshop/SENTRA-AI-",
+    details: [
+      "Architecture: task intake → agent plan → workflow execution → telemetry-ready outputs",
+      "Signal: newest public build in the portfolio, showing active production momentum",
+      "Constraint: designed for practical operators, not just prompt demos",
+    ],
+  },
+  {
+    n: "03",
     title: "NEXUS Enterprise AI Operations Platform",
     description: "True MCP abstraction layer — RAG, GitHub, Filesystem, Browser, Voice, Postgres as discoverable, auditable, executable tools via stdio/SSE JSON-RPC.",
     tags: ["Python", "LangGraph", "MCP", "Next.js 15", "Docker", "Gemini Embeddings"],
@@ -115,7 +139,7 @@ export const projects = [
     ],
   },
   {
-    n: "02",
+    n: "04",
     title: "Zoya Voice CRM Integration Agent",
     description: "Orchestrates Vapi to manage WebRTC/SIP telephony, bypassing raw audio socket streams. Parses speech → structured CRM schemas at sub-250ms latency under concurrent high-throughput load.",
     tags: ["Vapi", "WebSockets", "Claude 3.5 Realtime", "FastAPI", "Supabase"],
@@ -128,7 +152,7 @@ export const projects = [
     ],
   },
   {
-    n: "03",
+    n: "05",
     title: "Vayu OS — High-Evasion AI Outreach Pipeline",
     description: "High-evasion crawler with browser fingerprint spoofing bypassing Cloudflare/Imperva. Custom SMTP handshake engine validates mailboxes via MX records before transmission.",
     tags: ["Python", "Playwright Stealth", "Groq", "SQLite", "Google Sheets API"],
@@ -140,7 +164,7 @@ export const projects = [
     ],
   },
   {
-    n: "04",
+    n: "06",
     title: "B2B Sales Intelligence RAG",
     description: "Multi-agent RAG network analyzing competitor price sheets, hybrid vector retrieval, feeding live context into negotiation systems in real time.",
     tags: ["Python", "LangGraph", "Hybrid RAG", "FastAPI", "MIT License"],
@@ -152,7 +176,7 @@ export const projects = [
     ],
   },
   {
-    n: "05",
+    n: "07",
     title: "Dealer Rebate Intelligence System",
     description: "Real-time rebate evaluation logic at the database level, not application layer. Eliminated multi-million dollar RevOps audit leakage.",
     tags: ["PL/pgSQL", "PostgreSQL"],
@@ -166,15 +190,23 @@ export const projects = [
 ];
 
 export const repos = [
-  ["EDITH", "Python", "2 days ago", "Latest build, advanced AI operations system"],
-  ["NEXUS-Enterprise-AI-Platform", "Python", "last week", "MCP abstraction layer"],
-  ["signalstack-ai", "Python", "last week", "AI signal processing and intelligence stack"],
-  ["realtime-fraud-detection-agent", "Python", "last week", "Agentic reasoning, stateful graph evaluation"],
-  ["Zoya-Voice-Agent", "Python/MIT", "2 weeks ago", "Vapi + Claude 3.5 Realtime"],
-  ["Multi-Agent-RevOps-Orchestrator", "Python/MIT", "2 weeks ago", "LangGraph RevOps multi-agent system"],
-  ["b2b-sales-intelligence-rag", "Python", "2 weeks ago", "Hybrid RAG, competitor pricing"],
-  ["loyalty_intelligence_system", "PL/pgSQL", "2 weeks ago", "DB-tier rebate evaluation"],
-  ["vayu-os-frontend", "TypeScript", "3 weeks ago", "AI-native CRM platform, Next.js 15"],
+  ["Multilingual-Customer-Support-System", "Python", "3 days ago", "Multilingual AI support workflow"],
+  ["SENTRA-AI-", "Python", "4 days ago", "Operational agent system"],
+  ["ComplianceGraph", "Python", "5 days ago", "Compliance graph intelligence"],
+  ["ValidateX", "TypeScript", "3 weeks ago", "Validation-focused AI product surface"],
+  ["The-Salesman-Of-The-year-", "Python", "3 weeks ago", "AI sales agent system"],
+  ["EDITH", "Python", "Jun 5", "Advanced AI operations system"],
+  ["NEXUS-Enterprise-AI-Platform", "Python", "May 30", "MCP abstraction layer"],
+  ["signalstack-ai", "Python", "May 30", "AI signal processing and intelligence stack"],
+  ["nexus-os-RAG-LangGraph", "Python", "May 28", "RAG + LangGraph operating layer"],
+  ["realtime-fraud-detection-agent", "Python", "May 28", "Agentic reasoning, stateful graph evaluation"],
+  ["Enterprise-AI-Evaluation-and-Observability-Dashboard", "Python/MIT", "May 26", "Evaluation and observability dashboard"],
+  ["Multi-Agent-Revenue-Operations-Orchestrator-using-LangGraph", "Python/MIT", "May 26", "LangGraph RevOps multi-agent system"],
+  ["b2b-sales-intelligence-rag", "Python/MIT", "May 26", "Hybrid RAG, competitor pricing"],
+  ["Zoya-Voice-Agent", "AI Voice", "May 23", "Vapi + Claude realtime voice CRM"],
+  ["loyalty_intelligence_system", "PL/pgSQL", "May 22", "DB-tier rebate evaluation"],
+  ["Vayu_AI_Outreach_Pipeline", "Python", "May 21", "AI outreach pipeline"],
+  ["AI-native-CRM-platform-by-Dhrubo.Shop", "TypeScript", "May 20", "AI-native CRM platform"],
 ];
 
 export const timeline = [
@@ -183,7 +215,7 @@ export const timeline = [
     org: "Self-Employed · Remote",
     role: "Independent AI Engineer",
     bullets: [
-      "Shipped 19+ public production repos — stateful graphs, advanced RAG networks, custom agent tracing backends, low-latency API wrappers",
+      "Shipped 31 public AI systems — stateful graphs, advanced RAG networks, custom agent tracing backends, low-latency API wrappers, compliance intelligence, and agentic workflows",
       "Built Zoya Voice Intake Agent: Vapi + WebRTC/SIP → structured CRM schema at <250ms under load",
       "Engineered NEXUS — full MCP abstraction layer, discoverable/auditable tool registry via stdio/SSE",
       "Designed B2B RAG networks with LangGraph multi-agent routing for real-time negotiation context",
@@ -222,11 +254,11 @@ export const openTo = [
 export function getChatContext() {
   return [
     `Dhrubojyoti Gangopadhyay, goes by Dhrubo. Domain: ${profile.domain}.`,
-    "Positioning: AI Engineer specializing in Advanced RAG & Multi-Agent Systems. 17 years enterprise B2B operations experience at ACC Ltd., Lafarge, MP Birla Group at AGM/Senior Manager level. Pivoted into AI engineering Jan 2025-present, self-employed/remote. Production-first: 19+ public, auditable repos, no toy projects. Open to AI Systems Architect, Applied AI Engineer, AI Platform Engineer, and Founding Engineer roles. Available remote/async, IST, immediate.",
+    "Positioning: AI-Assisted System Builder and AI Engineer specializing in Advanced RAG & Multi-Agent Systems. 17 years enterprise B2B operations experience at ACC Ltd., Lafarge, MP Birla Group at AGM/Senior Manager level. Pivoted into AI engineering Jan 2025-present, self-employed/remote. Production-first: 31 public, auditable AI systems, no toy projects. Open to AI Systems Architect, Applied AI Engineer, AI Platform Engineer, and Founding Engineer roles. Available remote/async, IST, immediate.",
     `Stats: ${stats.map((s) => `${s.value} ${s.label}: ${s.detail}`).join("; ")}.`,
     `Core stack: ${stackGroups.map((g) => `${g.title}: ${g.items.join(", ")}`).join(" | ")}.`,
     `Projects: ${projects.map((p) => `${p.title}: ${p.description} ${p.details.join(" ")}`).join(" | ")}.`,
-    `GitHub: dhruboshop, 24 public repos, 55+ contributions in 12mo, active since Jan '25. Highlight repos: ${repos.map((r) => `${r[0]} (${r[1]}, ${r[2]}) - ${r[3]}`).join("; ")}.`,
+    `GitHub: dhruboshop, 31 public repos, active AI systems builder. Highlight repos: ${repos.map((r) => `${r[0]} (${r[1]}, ${r[2]}) - ${r[3]}`).join("; ")}.`,
     `Experience: ${timeline.map((t) => `${t.date}, ${t.org}, ${t.role}: ${t.bullets.join(" ")}`).join(" | ")}.`,
     `Open to: ${openTo.map((o) => `${o[0]} - ${o[1]}`).join(" | ")}.`,
     `Contact: email ${profile.email}; phone/WhatsApp ${profile.phone}; LinkedIn ${profile.linkedin}; GitHub ${profile.github}; X @aibabahq; Kolkata, India.`,
