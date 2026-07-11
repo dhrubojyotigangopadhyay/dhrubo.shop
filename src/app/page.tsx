@@ -91,6 +91,43 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="agent-lab" data-reveal>
+          <div className="lab-sticky">
+            <div className="lab-copy">
+              <p className="eyebrow">Signature System</p>
+              <h2>Agent OS Lab</h2>
+              <p>Watch the operating model: retrieve context, route tools, execute safely, and leave an audit trail. This is the difference between a chatbot and an enterprise agent system.</p>
+            </div>
+            <div className="lab-stage" data-cursor="card">
+              <div className="lab-grid-bg" />
+              <div className="lab-core">
+                <span>AGENT OS</span>
+                <strong>DHRUBO</strong>
+              </div>
+              <div className="lab-beam beam-a" />
+              <div className="lab-beam beam-b" />
+              <div className="lab-beam beam-c" />
+              {[
+                ["01", "Sense", "Hybrid RAG + domain memory"],
+                ["02", "Route", "LangGraph supervisor + MCP registry"],
+                ["03", "Act", "Voice, browser, database, CRM tools"],
+                ["04", "Audit", "Telemetry, traces, schema outputs"],
+              ].map(([num, title, detail], index) => (
+                <article className={`lab-node lab-node-${index + 1}`} key={title}>
+                  <span>{num}</span>
+                  <h3>{title}</h3>
+                  <p>{detail}</p>
+                </article>
+              ))}
+              <div className="lab-terminal">
+                <p><span>$</span> supervisor.route(intent)</p>
+                <p><span>→</span> mcp.tools.discover()</p>
+                <p><span>✓</span> action.output.schema_validated</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section className="section moat" data-reveal>
           <div className="section-head">
             <p className="eyebrow">The Moat</p>
