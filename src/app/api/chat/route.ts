@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
 
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) {
-    return new Response("Dhrubo's assistant is not configured yet. Please email gangulydhrubo@gmail.com.", { status: 503 });
+    return new Response("Dhrubo's assistant is not configured yet. Please email dhrubo@dhrubo.shop.", { status: 503 });
   }
 
   const body = await request.json().catch(() => null);
@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
   });
 
   if (!groqResponse.ok || !groqResponse.body) {
-    return new Response("The assistant service is temporarily unavailable. Please email gangulydhrubo@gmail.com.", { status: 502 });
+    return new Response("The assistant service is temporarily unavailable. Please email dhrubo@dhrubo.shop.", { status: 502 });
   }
 
   const encoder = new TextEncoder();

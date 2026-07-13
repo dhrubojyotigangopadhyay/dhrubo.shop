@@ -40,7 +40,7 @@ export default function ChatWidget() {
         setMessages([...nextMessages, { role: "assistant", content: assistant }]);
       }
     } catch {
-      setMessages([...nextMessages, { role: "assistant", content: "I couldn't reach the assistant service right now. Dhrubo is available at gangulydhrubo@gmail.com or WhatsApp +91 98740 76688." }]);
+      setMessages([...nextMessages, { role: "assistant", content: "I couldn't reach the assistant service right now. Dhrubo is available at dhrubo@dhrubo.shop or WhatsApp +91 82408 01921." }]);
     } finally {
       setLoading(false);
     }
