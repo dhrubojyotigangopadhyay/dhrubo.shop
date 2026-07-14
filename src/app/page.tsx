@@ -17,7 +17,10 @@ export default function Home() {
     <AnimatedShell>
       <CustomCursor />
       <header className="nav">
-        <a className="brand" href="#top">DHRUBO</a>
+        <a className="brand" href="#top" aria-label="Dhrubo home">
+          <img src="/dhrubo-logo.gif" alt="" />
+          <span>DHRUBO</span>
+        </a>
         <nav aria-label="Primary navigation">
           {navItems.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}
         </nav>
@@ -30,6 +33,10 @@ export default function Home() {
           <div className="hero-grid">
             <div className="hero-copy" data-reveal>
               <div className="status-pill"><span />{profile.status}</div>
+              <div className="hero-avatar" aria-hidden="true">
+                <img src="/dhrubo-logo.gif" alt="" />
+                <span>AI Systems Builder</span>
+              </div>
               <p className="hero-kicker">Dhrubojyoti Gangopadhyay · Dhrubo</p>
               <h1>AI agent systems that survive production.</h1>
               <p className="hero-role">Advanced RAG, MCP tooling, LangGraph orchestration, voice AI, and DB-tier logic for enterprise workflows.</p>
