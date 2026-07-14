@@ -1,0 +1,21 @@
+# Dhrubo
+
+URL: https://dhrubo.shop
+Person: Dhrubojyoti Gangopadhyay, also known as Dhrubo
+Role: Production AI Agent Systems Builder and AI Engineer
+Location: Kolkata, India
+Availability: Remote, async, IST, immediate
+Contact: dhrubo@dhrubo.shop
+WhatsApp: +91 82408 01921
+
+## What Dhrubo Builds
+
+Dhrubo builds production AI agent systems: advanced RAG, LangGraph multi-agent orchestration, MCP tool registries, voice AI pipelines, compliance intelligence, CRM automation, observability dashboards, and database-tier business logic.
+
+## Proof
+
+31 public AI systems on GitHub at https://github.com/dhruboshop. Enterprise B2B operations background across ACC Ltd., Lafarge, and MP Birla Group at AGM/Senior Manager level.
+
+## Best Fit Roles
+
+AI Systems Architect, Applied AI Engineer, AI Platform Engineer, Founding Engineer.

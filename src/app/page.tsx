@@ -1,4 +1,5 @@
 import { ArrowUpRight, BrainCircuit, Database, Github, Mail, Phone, RadioTower, ShieldCheck, Sparkles, TerminalSquare, Workflow, Zap } from "lucide-react";
+import Image from "next/image";
 import AgentNetwork from "@/components/AgentNetwork";
 import AnimatedShell from "@/components/AnimatedShell";
 import ChatWidget from "@/components/ChatWidget";
@@ -7,6 +8,95 @@ import { heroBadges, moatCards, navItems, openTo, profile, projects, repos, stac
 
 const icons = [Workflow, ShieldCheck, Database];
 const proofNodes = ["MCP tool fabric", "LangGraph supervisor", "Hybrid RAG memory", "Voice CRM parser", "Audit-grade traces"];
+const faqs = [
+  {
+    question: "Who is Dhrubo?",
+    answer: "Dhrubo is Dhrubojyoti Gangopadhyay, a production AI agent systems builder based in Kolkata, India with 17 years of enterprise B2B operations experience and 31 public AI systems.",
+  },
+  {
+    question: "What does Dhrubo build?",
+    answer: "Dhrubo builds production AI agents, advanced RAG systems, LangGraph multi-agent orchestration, MCP tool registries, voice AI pipelines, compliance intelligence, CRM automation, and database-tier business logic.",
+  },
+  {
+    question: "What roles is Dhrubo open to?",
+    answer: "Dhrubo is open to AI Systems Architect, Applied AI Engineer, AI Platform Engineer, and Founding Engineer roles, especially remote or async B2B AI work.",
+  },
+  {
+    question: "How can I contact Dhrubo?",
+    answer: "Email Dhrubo at dhrubo@dhrubo.shop or WhatsApp/call +91 82408 01921.",
+  },
+];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://dhrubo.shop/#person",
+      name: "Dhrubojyoti Gangopadhyay",
+      alternateName: "Dhrubo",
+      url: "https://dhrubo.shop",
+      image: "https://dhrubo.shop/og-image.png",
+      email: "mailto:dhrubo@dhrubo.shop",
+      telephone: "+918240801921",
+      jobTitle: "Production AI Agent Systems Builder",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Kolkata",
+        addressCountry: "IN",
+      },
+      sameAs: [
+        "https://github.com/dhruboshop",
+        "https://www.linkedin.com/in/dhrubojyoti-gangopadhyay/",
+        "https://x.com/aibabahq",
+      ],
+      knowsAbout: [
+        "Production AI agents",
+        "Advanced RAG",
+        "LangGraph",
+        "Model Context Protocol",
+        "MCP tool registries",
+        "Voice AI",
+        "Vapi",
+        "PostgreSQL",
+        "PL/pgSQL",
+        "Enterprise revenue operations",
+      ],
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://dhrubo.shop/#service",
+      name: "Dhrubo AI Systems",
+      url: "https://dhrubo.shop",
+      image: "https://dhrubo.shop/og-image.png",
+      founder: { "@id": "https://dhrubo.shop/#person" },
+      areaServed: "Worldwide",
+      serviceType: "Production AI agent systems, advanced RAG, MCP, LangGraph, voice AI, and enterprise automation",
+      email: "dhrubo@dhrubo.shop",
+      telephone: "+918240801921",
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://dhrubo.shop/#website",
+      name: "Dhrubo",
+      url: "https://dhrubo.shop",
+      publisher: { "@id": "https://dhrubo.shop/#person" },
+      inLanguage: "en-IN",
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://dhrubo.shop/#faq",
+      mainEntity: faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.answer,
+        },
+      })),
+    },
+  ],
+};
 
 function Tag({ children }: { children: React.ReactNode }) {
   return <span className="tag">{children}</span>;
@@ -15,10 +105,11 @@ function Tag({ children }: { children: React.ReactNode }) {
 export default function Home() {
   return (
     <AnimatedShell>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <CustomCursor />
       <header className="nav">
         <a className="brand" href="#top" aria-label="Dhrubo home">
-          <img src="/dhrubo-logo.gif" alt="" />
+          <Image src="/dhrubo-logo.gif" alt="Dhrubo portrait logo" width={68} height={68} unoptimized priority />
           <span>DHRUBO</span>
         </a>
         <nav aria-label="Primary navigation">
@@ -33,8 +124,8 @@ export default function Home() {
           <div className="hero-grid">
             <div className="hero-copy" data-reveal>
               <div className="status-pill"><span />{profile.status}</div>
-              <div className="hero-avatar" aria-hidden="true">
-                <img src="/dhrubo-logo.gif" alt="" />
+              <div className="hero-avatar">
+                <Image src="/dhrubo-logo.gif" alt="Dhrubojyoti Gangopadhyay portrait" width={116} height={116} unoptimized priority />
                 <span>AI Systems Builder</span>
               </div>
               <p className="hero-kicker">Dhrubojyoti Gangopadhyay · Dhrubo</p>
@@ -95,6 +186,22 @@ export default function Home() {
                 <span><Workflow size={16} /> Multi-agent control</span>
               </div>
             </div>
+          </div>
+        </section>
+
+        <section className="answer-brief section" data-reveal>
+          <div className="section-head">
+            <p className="eyebrow">Answer Engine Brief</p>
+            <h2>Clear answers. No fluff.</h2>
+            <p>For Google, recruiters, founders, and AI answer engines: the direct version of what Dhrubo does and why it matters.</p>
+          </div>
+          <div className="answer-grid">
+            {faqs.map((faq) => (
+              <article className="answer-card" key={faq.question}>
+                <h3>{faq.question}</h3>
+                <p>{faq.answer}</p>
+              </article>
+            ))}
           </div>
         </section>
 
