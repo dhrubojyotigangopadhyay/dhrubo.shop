@@ -9,3 +9,13 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .DS_Store
+
+# Local work artifacts that do not belong to the portfolio deploy.
+*.pptx
+*.inspect.ndjson
+Employee_*/
+app-demo-trn/
+employee-platform-mvp/
+management-complete-build/
+management-deck-build/
+phase-0-design/

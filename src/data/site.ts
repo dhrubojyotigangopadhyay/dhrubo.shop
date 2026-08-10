@@ -97,7 +97,7 @@ export const stackGroups = [
   },
   {
     title: "Frontend & LLMs",
-    items: ["Next.js 15/TypeScript/React", "Tailwind CSS", "OpenAI GPT-4o/Gemini Embeddings", "Anthropic Claude 3.5", "Groq Llama 3"],
+    items: ["Next.js 15/TypeScript/React", "Tailwind CSS", "OpenAI GPT-4o/Gemini Embeddings", "Anthropic Claude 3.5", "Groq openai/gpt-oss-20b"],
   },
 ];
 

@@ -1,4 +1,4 @@
-import { ArrowUpRight, BrainCircuit, Database, Github, Mail, Phone, RadioTower, ShieldCheck, Sparkles, TerminalSquare, Workflow, Zap } from "lucide-react";
+import { ArrowUpRight, BrainCircuit, Database, Github, Mail, MapPin, Phone, RadioTower, ShieldCheck, Sparkles, TerminalSquare, Workflow, Zap } from "lucide-react";
 import Image from "next/image";
 import AgentNetwork from "@/components/AgentNetwork";
 import AnimatedShell from "@/components/AnimatedShell";
@@ -8,6 +8,24 @@ import { heroBadges, moatCards, navItems, openTo, profile, projects, repos, stac
 
 const icons = [Workflow, ShieldCheck, Database];
 const proofNodes = ["MCP tool fabric", "LangGraph supervisor", "Hybrid RAG memory", "Voice CRM parser", "Audit-grade traces"];
+const indiaSignals = [
+  ["Kolkata", "Origin node", "Enterprise ops muscle, India-built judgment, IST execution rhythm"],
+  ["Bharat market", "Domain lab", "Supply chain, pricing, dealer networks, multilingual workflows"],
+  ["Global teams", "Deployment lane", "Remote-first AI infrastructure for founders and recruiters"],
+];
+const decisionCards = [
+  ["Recruiters", "Senior AI builder who can explain systems, ship code, and translate enterprise chaos into reliable agent architecture."],
+  ["Founders", "A production-minded AI partner for MCP tooling, advanced RAG, voice agents, browser automation, and operational AI products."],
+  ["Technical leaders", "Someone who thinks in traces, fallback paths, schema contracts, latency budgets, and business outcomes."],
+];
+const cinematicFrames = [
+  "Agentic systems",
+  "RAG memory",
+  "MCP tools",
+  "Voice CRM",
+  "Compliance graph",
+  "RevOps logic",
+];
 const faqs = [
   {
     question: "Who is Dhrubo?",
@@ -121,6 +139,12 @@ export default function Home() {
       <main id="top">
         <section className="hero">
           <AgentNetwork />
+          <div className="cinema-grain" aria-hidden="true" />
+          <div className="hero-flagline" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </div>
           <div className="hero-grid">
             <div className="hero-copy" data-reveal>
               <div className="status-pill"><span />{profile.status}</div>
@@ -129,11 +153,11 @@ export default function Home() {
                 <span>AI Systems Builder</span>
               </div>
               <p className="hero-kicker">Dhrubojyoti Gangopadhyay · Dhrubo</p>
-              <h1>AI agent systems that survive production.</h1>
-              <p className="hero-role">Advanced RAG, MCP tooling, LangGraph orchestration, voice AI, and DB-tier logic for enterprise workflows.</p>
-              <p className="hero-tagline">17 years enterprise B2B operations fused with public, auditable AI engineering.</p>
+              <h1>India-built AI agent infrastructure for serious teams.</h1>
+              <p className="hero-role">Advanced RAG, MCP tooling, LangGraph orchestration, voice AI, and DB-tier logic engineered like production infrastructure.</p>
+              <p className="hero-tagline">17 years enterprise B2B operations fused with 31 public, auditable AI systems. Built from Kolkata for founders, recruiters, and global AI teams that need proof, not pitch.</p>
               <div className="hero-actions">
-                <a className="button primary" href="#contact">Get In Touch <ArrowUpRight size={18} /></a>
+                <a className="button primary" href="#contact">Hire / Build With Dhrubo <ArrowUpRight size={18} /></a>
                 <a className="button ghost" href={profile.github} target="_blank" rel="noreferrer">GitHub <ArrowUpRight size={18} /></a>
               </div>
               <div className="badge-row">
@@ -141,6 +165,12 @@ export default function Home() {
               </div>
             </div>
             <div className="hero-cockpit" data-reveal data-cursor="card">
+              <div className="portrait-portal">
+                <Image src="/dhrubo-logo.gif" alt="Dhrubo portrait in cinematic AI command portal" width={460} height={460} unoptimized priority />
+                <div className="portal-ring ring-one" />
+                <div className="portal-ring ring-two" />
+                <div className="portal-caption"><MapPin size={15} /> Kolkata, India → Global AI systems</div>
+              </div>
               <div className="cockpit-top">
                 <span><RadioTower size={18} /> Agent orchestration cockpit</span>
                 <strong>LIVE</strong>
@@ -158,6 +188,12 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="cinematic-strip" aria-label="Dhrubo system capabilities">
+          <div className="strip-track">
+            {[...cinematicFrames, ...cinematicFrames].map((frame, index) => <span key={`${frame}-${index}`}>{frame}</span>)}
+          </div>
+        </section>
+
         <section className="stat-band">
           {stats.map((stat) => {
             const match = stat.value.match(/\d+/);
@@ -170,6 +206,33 @@ export default function Home() {
               <p>{stat.detail}</p>
             </div>
           );})}
+        </section>
+
+        <section className="section india-cinematic" data-reveal>
+          <div className="india-map-card" data-cursor="card">
+            <div className="india-sun" />
+            <div className="india-route route-a" />
+            <div className="india-route route-b" />
+            <div className="india-route route-c" />
+            <div className="city-pin kolkata"><span />Kolkata</div>
+            <div className="city-pin bengaluru"><span />Bengaluru</div>
+            <div className="city-pin mumbai"><span />Mumbai</div>
+            <div className="city-pin global"><span />Global</div>
+            <div className="india-copy">
+              <p className="eyebrow">India-Built · Global-Ready</p>
+              <h2>Bharat market instincts. Production AI engineering.</h2>
+              <p>Built from real Indian enterprise complexity: distributors, pricing pressure, multilingual operations, regional workflows, audit leakage, and thin-margin execution. That is why the agents are designed for messy production reality.</p>
+            </div>
+          </div>
+          <div className="signal-column">
+            {indiaSignals.map(([city, label, body]) => (
+              <article className="signal-card" key={city} data-cursor="card">
+                <span>{label}</span>
+                <h3>{city}</h3>
+                <p>{body}</p>
+              </article>
+            ))}
+          </div>
         </section>
 
         <section className="section thesis" data-reveal>
@@ -192,7 +255,7 @@ export default function Home() {
         <section className="answer-brief section" data-reveal>
           <div className="section-head">
             <p className="eyebrow">Answer Engine Brief</p>
-            <h2>Clear answers. No fluff.</h2>
+            <h2>Clear answers for recruiters, founders, and AI search.</h2>
             <p>For Google, recruiters, founders, and AI answer engines: the direct version of what Dhrubo does and why it matters.</p>
           </div>
           <div className="answer-grid">
@@ -200,6 +263,23 @@ export default function Home() {
               <article className="answer-card" key={faq.question}>
                 <h3>{faq.question}</h3>
                 <p>{faq.answer}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="section decision-room" data-reveal>
+          <div className="section-head">
+            <p className="eyebrow">Decision Room</p>
+            <h2>The fastest way to understand the signal.</h2>
+            <p>No fluff positioning for the three people who matter most: recruiters, founders, and technical leaders.</p>
+          </div>
+          <div className="decision-grid">
+            {decisionCards.map(([title, body], index) => (
+              <article className="decision-card" key={title} data-cursor="card">
+                <div className="decision-number">0{index + 1}</div>
+                <h3>{title}</h3>
+                <p>{body}</p>
               </article>
             ))}
           </div>

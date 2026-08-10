@@ -12,7 +12,7 @@ export default function AnimatedShell({ children }: { children: ReactNode }) {
     if (reduce) return;
 
     const context = gsap.context(() => {
-      gsap.fromTo(".preloader", { autoAlpha: 1 }, { autoAlpha: 0, delay: 0.55, duration: 0.6, ease: "power2.out", pointerEvents: "none" });
+      gsap.fromTo(".preloader", { autoAlpha: 1 }, { autoAlpha: 0, delay: 0.18, duration: 0.42, ease: "power2.out", pointerEvents: "none" });
       gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((el) => {
         gsap.fromTo(
           el,

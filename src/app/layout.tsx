@@ -7,10 +7,10 @@ const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
 
 export const metadata: Metadata = {
   title: {
-    default: "Dhrubo | Production AI Agent Systems Builder",
+    default: "Dhrubo | India-Built Production AI Agent Systems Builder",
     template: "%s | Dhrubo",
   },
-  description: "Dhrubojyoti Gangopadhyay builds production AI agents, advanced RAG systems, MCP tooling, voice pipelines, and enterprise AI infrastructure.",
+  description: "Dhrubojyoti Gangopadhyay builds production AI agent infrastructure from India: advanced RAG, MCP tooling, LangGraph orchestration, voice AI, compliance intelligence, and enterprise automation.",
   metadataBase: new URL("https://dhrubo.shop"),
   applicationName: "Dhrubo",
   authors: [{ name: "Dhrubojyoti Gangopadhyay", url: "https://dhrubo.shop" }],
@@ -34,6 +34,8 @@ export const metadata: Metadata = {
   keywords: [
     "Dhrubo",
     "Dhrubojyoti Gangopadhyay",
+    "Dhrubo AI builder India",
+    "India AI agent builder",
     "AI agent builder",
     "production AI agents",
     "Advanced RAG engineer",
@@ -46,8 +48,8 @@ export const metadata: Metadata = {
     "enterprise AI automation",
   ],
   openGraph: {
-    title: "Dhrubo | Production AI Agent Systems Builder",
-    description: "31 public AI systems. Advanced RAG, MCP, LangGraph, voice AI, compliance intelligence, and enterprise ops depth.",
+    title: "Dhrubo | India-Built Production AI Agent Systems Builder",
+    description: "31 public AI systems. Advanced RAG, MCP, LangGraph, voice AI, compliance intelligence, enterprise ops depth, and Kolkata-built global execution.",
     url: "https://dhrubo.shop",
     siteName: "Dhrubo",
     type: "website",
@@ -63,8 +65,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Dhrubo | Production AI Agent Systems Builder",
-    description: "Advanced RAG, MCP, LangGraph, voice AI, compliance intelligence, and enterprise AI systems.",
+    title: "Dhrubo | India-Built Production AI Agent Systems Builder",
+    description: "Advanced RAG, MCP, LangGraph, voice AI, compliance intelligence, and production AI infrastructure from India.",
     creator: "@aibabahq",
     images: ["/og-image.png"],
   },

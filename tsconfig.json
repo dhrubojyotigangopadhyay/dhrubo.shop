@@ -18,6 +18,14 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": ["next-env.d.ts", "src/**/*.ts", "src/**/*.tsx", ".next/types/**/*.ts", "next.config.ts", "eslint.config.mjs"],
+  "exclude": [
+    "node_modules",
+    ".next",
+    "app-demo-trn",
+    "employee-platform-mvp",
+    "management-complete-build",
+    "management-deck-build",
+    "phase-0-design"
+  ]
 }
