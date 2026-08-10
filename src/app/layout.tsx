@@ -1,16 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
 
 export const metadata: Metadata = {
   title: {
-    default: "Dhrubo | India-Built Production AI Agent Systems Builder",
+    default: "Dhrubo | Production AI Systems Builder",
     template: "%s | Dhrubo",
   },
-  description: "Dhrubojyoti Gangopadhyay builds production AI agent infrastructure from India: advanced RAG, MCP tooling, LangGraph orchestration, voice AI, compliance intelligence, and enterprise automation.",
+  description: "Dhrubojyoti Gangopadhyay builds production AI agents, retrieval systems, voice workflows, and operational intelligence for complex businesses.",
   metadataBase: new URL("https://dhrubo.shop"),
   applicationName: "Dhrubo",
   authors: [{ name: "Dhrubojyoti Gangopadhyay", url: "https://dhrubo.shop" }],
@@ -48,43 +44,43 @@ export const metadata: Metadata = {
     "enterprise AI automation",
   ],
   openGraph: {
-    title: "Dhrubo | India-Built Production AI Agent Systems Builder",
-    description: "31 public AI systems. Advanced RAG, MCP, LangGraph, voice AI, compliance intelligence, enterprise ops depth, and Kolkata-built global execution.",
+    title: "Dhrubo | Enterprise instincts. AI systems that ship.",
+    description: "Production AI systems built with 17 years of enterprise operating context. Explore 31 public systems across agents, RAG, voice, compliance, and automation.",
     url: "https://dhrubo.shop",
     siteName: "Dhrubo",
     type: "website",
     locale: "en_IN",
     images: [
       {
-        url: "/og-image.png",
-        width: 800,
-        height: 800,
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
         alt: "Dhrubojyoti Gangopadhyay, AI agent systems builder",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Dhrubo | India-Built Production AI Agent Systems Builder",
-    description: "Advanced RAG, MCP, LangGraph, voice AI, compliance intelligence, and production AI infrastructure from India.",
+    title: "Dhrubo | Enterprise instincts. AI systems that ship.",
+    description: "Production AI agents, retrieval systems, voice workflows, and operational intelligence for complex businesses.",
     creator: "@aibabahq",
-    images: ["/og-image.png"],
+    images: ["/og-image.jpg"],
   },
   icons: {
     icon: "/dhrubo-logo.gif",
-    apple: "/og-image.png",
+    apple: "/dhrubo-portrait.jpg",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#05070a",
-  colorScheme: "dark",
+  themeColor: "#f5f3ee",
+  colorScheme: "light",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${mono.variable}`}>{children}</body>
+      <body>{children}</body>
     </html>
   );
 }

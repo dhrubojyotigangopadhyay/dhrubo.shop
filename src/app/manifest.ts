@@ -8,13 +8,13 @@ export default function manifest(): MetadataRoute.Manifest {
     start_url: "/",
     scope: "/",
     display: "standalone",
-    background_color: "#030608",
-    theme_color: "#05070a",
+    background_color: "#f5f3ee",
+    theme_color: "#f5f3ee",
     icons: [
       {
-        src: "/og-image.png",
+        src: "/dhrubo-portrait.jpg",
         sizes: "800x800",
-        type: "image/png",
+        type: "image/jpeg",
       },
     ],
   };

@@ -12,54 +12,40 @@ export default function AnimatedShell({ children }: { children: ReactNode }) {
     if (reduce) return;
 
     const context = gsap.context(() => {
-      gsap.fromTo(".preloader", { autoAlpha: 1 }, { autoAlpha: 0, delay: 0.18, duration: 0.42, ease: "power2.out", pointerEvents: "none" });
+      gsap.fromTo(
+        ".site-nav",
+        { y: -18, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, duration: 0.7, ease: "power3.out" },
+      );
       gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((el) => {
         gsap.fromTo(
           el,
-          { y: 34, autoAlpha: 0, clipPath: "inset(12% 0% 0% 0%)" },
+          { y: 30, autoAlpha: 0 },
           {
             y: 0,
             autoAlpha: 1,
-            clipPath: "inset(0% 0% 0% 0%)",
-            duration: 0.9,
+            duration: 0.85,
             ease: "power3.out",
-            scrollTrigger: { trigger: el, start: "top 84%" },
+            scrollTrigger: { trigger: el, start: "top 88%", once: true },
           },
         );
       });
 
-      gsap.utils.toArray<HTMLElement>("[data-stat]").forEach((el) => {
-        const target = Number(el.dataset.count || 0);
-        if (!target) return;
-        const obj = { value: 0 };
-        gsap.to(obj, {
-          value: target,
-          duration: 1.2,
-          ease: "power2.out",
-          scrollTrigger: { trigger: el, start: "top 88%", once: true },
-          onUpdate: () => {
-            el.textContent = `${el.dataset.prefix || ""}${Math.round(obj.value)}${el.dataset.suffix || ""}`;
+      gsap.utils.toArray<HTMLElement>(".project-visual").forEach((visual) => {
+        gsap.fromTo(
+          visual,
+          { backgroundPositionY: "0%" },
+          {
+            backgroundPositionY: "100%",
+            ease: "none",
+            scrollTrigger: { trigger: visual, start: "top bottom", end: "bottom top", scrub: 0.8 },
           },
-        });
-      });
-
-      gsap.to(".hero-canvas", {
-        opacity: 0,
-        yPercent: -10,
-        scrollTrigger: { trigger: ".hero", start: "40% top", end: "bottom top", scrub: true },
+        );
       });
     });
 
     return () => context.revert();
   }, []);
 
-  return (
-    <>
-      <div className="preloader">
-        <div className="preloader-mark">DHRUBO</div>
-        <div className="preloader-line" />
-      </div>
-      {children}
-    </>
-  );
+  return <>{children}</>;
 }
