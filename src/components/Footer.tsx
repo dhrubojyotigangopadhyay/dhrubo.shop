@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ArrowUp, Terminal, ExternalLink, ShieldCheck } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
 import { profile } from '@/data/site';
 
 export default function Footer() {
@@ -24,22 +24,22 @@ export default function Footer() {
         {/* Monospace System Tags Header */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pb-8 mb-8 border-b border-[rgba(165,227,217,0.1)] font-mono-tech text-xs">
           <div>
-            <span className="text-[var(--muted)]">// ENCRYPTED PROTOCOL</span>
+            <span className="text-[var(--muted)]">{"// ENCRYPTED PROTOCOL"}</span>
             <div className="text-[var(--aqua)] mt-0.5">TLS_1.3_VERIFIED</div>
           </div>
           <div>
-            <span className="text-[var(--muted)]">// NODE COORDINATES</span>
+            <span className="text-[var(--muted)]">{"// NODE COORDINATES"}</span>
             <div className="text-[var(--soft)] mt-0.5">KOLKATA_IN [22.5726° N, 88.3639° E]</div>
           </div>
           <div>
-            <span className="text-[var(--muted)]">// SYS_STATUS</span>
+            <span className="text-[var(--muted)]">{"// SYS_STATUS"}</span>
             <div className="text-[var(--green)] mt-0.5 flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-[var(--green)] animate-ping" />
               NOMINAL · PRODUCTION
             </div>
           </div>
           <div>
-            <span className="text-[var(--muted)]">// REPO TARGET</span>
+            <span className="text-[var(--muted)]">{"// REPO TARGET"}</span>
             <div className="text-[var(--soft)] mt-0.5">github.com/ganguydhrubo</div>
           </div>
         </div>

@@ -3,16 +3,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Terminal, 
-  Cpu, 
-  Layers, 
   ArrowRight, 
   ExternalLink, 
   CheckCircle2, 
-  ShieldCheck, 
-  Sparkles,
-  ChevronRight,
-  Activity
+  ChevronRight, 
+  Activity 
 } from 'lucide-react';
 import { timelineNodes, profile } from '@/data/site';
 
@@ -47,7 +42,7 @@ export default function HeroScrubber() {
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[var(--aqua)]" />
             </span>
             <span className="font-mono-tech text-xs tracking-wider text-[var(--aqua)] font-semibold">
-              // SYS_STATUS: OPERATIONAL
+              {"// SYS_STATUS: OPERATIONAL"}
             </span>
             <span className="hidden sm:inline-block text-xs text-[var(--muted)]">•</span>
             <span className="hidden sm:inline-block font-mono-tech text-xs text-[var(--soft)]">

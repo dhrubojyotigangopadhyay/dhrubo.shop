@@ -3,19 +3,13 @@
 import React, { useState, useRef } from 'react';
 import Image from 'next/image';
 import { 
-  ShieldCheck, 
   MapPin, 
   Database, 
-  GitBranch, 
-  Briefcase, 
-  Layers, 
-  Sparkles, 
-  Check, 
-  ArrowUpRight,
-  Workflow,
-  Cpu
+  ArrowUpRight, 
+  Workflow, 
+  Cpu 
 } from 'lucide-react';
-import { bentoItems, profile, stats } from '@/data/site';
+import { profile } from '@/data/site';
 
 function TiltCard({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -74,7 +68,7 @@ export default function BentoProfile() {
         <div className="flex flex-wrap items-center justify-between gap-3 mb-8">
           <div>
             <div className="font-mono-tech text-xs text-[var(--aqua)] tracking-wider uppercase mb-1">
-              // SYSTEM PROFILE
+              {"// SYSTEM PROFILE"}
             </div>
             <h2 className="text-2xl sm:text-4xl font-bold text-[var(--text)] tracking-tight">
               Enterprise Cognition &amp; Production Architecture
@@ -95,7 +89,7 @@ export default function BentoProfile() {
             <div>
               <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
                 <span className="font-mono-tech text-xs text-[var(--aqua)]">
-                  // IDENTITY_NODE: VERIFIED
+                  {"// IDENTITY_NODE: VERIFIED"}
                 </span>
                 <span className="font-mono-tech text-xs text-[var(--muted)] flex items-center gap-1">
                   <MapPin size={12} className="text-[var(--aqua)]" /> Kolkata, India [IST] · Remote
@@ -146,7 +140,7 @@ export default function BentoProfile() {
             <div>
               <div className="flex items-center justify-between mb-4">
                 <span className="font-mono-tech text-xs text-[var(--gold)]">
-                  // 17 YEARS ENTERPRISE COMMERCIAL OPS
+                  {"// 17 YEARS ENTERPRISE COMMERCIAL OPS"}
                 </span>
                 <Database size={16} className="text-[var(--gold)]" />
               </div>
@@ -183,7 +177,7 @@ export default function BentoProfile() {
             <div>
               <div className="flex items-center justify-between mb-4">
                 <span className="font-mono-tech text-xs text-[var(--aqua)]">
-                  // AGENTIC GRAPH &amp; PROTOCOLS
+                  {"// AGENTIC GRAPH & PROTOCOLS"}
                 </span>
                 <Workflow size={16} className="text-[var(--aqua)]" />
               </div>
@@ -219,7 +213,7 @@ export default function BentoProfile() {
             <div>
               <div className="flex items-center justify-between mb-4">
                 <span className="font-mono-tech text-xs text-[var(--green)]">
-                  // ENGAGEMENT POSTURE 2026
+                  {"// ENGAGEMENT POSTURE 2026"}
                 </span>
                 <Cpu size={16} className="text-[var(--green)]" />
               </div>

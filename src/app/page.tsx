@@ -83,11 +83,11 @@ export default function Home() {
           </a>
 
           <nav className="hidden md:flex items-center gap-6 font-mono-tech text-xs text-[var(--muted)]">
-            <a href="#timeline" className="hover:text-[var(--aqua)] transition-colors">// TIMELINE</a>
-            <a href="#profile" className="hover:text-[var(--aqua)] transition-colors">// PROFILE</a>
-            <a href="#stack" className="hover:text-[var(--aqua)] transition-colors">// TECH MATRIX</a>
-            <a href="#projects" className="hover:text-[var(--aqua)] transition-colors">// ENGINEERING</a>
-            <a href="#contact" className="hover:text-[var(--aqua)] transition-colors">// DISPATCH</a>
+            <a href="#timeline" className="hover:text-[var(--aqua)] transition-colors">{"// TIMELINE"}</a>
+            <a href="#profile" className="hover:text-[var(--aqua)] transition-colors">{"// PROFILE"}</a>
+            <a href="#stack" className="hover:text-[var(--aqua)] transition-colors">{"// TECH MATRIX"}</a>
+            <a href="#projects" className="hover:text-[var(--aqua)] transition-colors">{"// ENGINEERING"}</a>
+            <a href="#contact" className="hover:text-[var(--aqua)] transition-colors">{"// DISPATCH"}</a>
           </nav>
 
           <a

@@ -1,15 +1,7 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
-import { 
-  Terminal, 
-  Filter, 
-  Sparkles, 
-  ExternalLink, 
-  Activity,
-  Layers,
-  Code2
-} from 'lucide-react';
+import { Terminal } from 'lucide-react';
 import { techMatrix } from '@/data/site';
 
 function TechPill({ 
@@ -102,7 +94,7 @@ export default function TechStack() {
         <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
           <div>
             <div className="font-mono-tech text-xs text-[var(--aqua)] tracking-wider uppercase mb-1">
-              // INTERACTIVE TECH MATRIX
+              {"// INTERACTIVE TECH MATRIX"}
             </div>
             <h2 className="text-2xl sm:text-4xl font-bold text-[var(--text)] tracking-tight">
               Production Protocols &amp; Verified Stack

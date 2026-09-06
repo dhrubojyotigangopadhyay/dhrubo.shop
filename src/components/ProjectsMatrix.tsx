@@ -4,14 +4,9 @@ import React, { useState } from 'react';
 import { 
   GitBranch, 
   ExternalLink, 
-  ShieldCheck, 
-  Cpu, 
-  Activity, 
-  CheckCircle2,
-  Terminal,
-  Layers,
-  ChevronDown,
-  ChevronUp
+  Terminal, 
+  ChevronDown, 
+  ChevronUp 
 } from 'lucide-react';
 import { projects } from '@/data/site';
 
@@ -26,7 +21,7 @@ export default function ProjectsMatrix() {
         <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
           <div>
             <div className="font-mono-tech text-xs text-[var(--aqua)] tracking-wider uppercase mb-1">
-              // ENGINEERING MATRIX
+              {"// ENGINEERING MATRIX"}
             </div>
             <h2 className="text-2xl sm:text-4xl font-bold text-[var(--text)] tracking-tight">
               Featured Production Architectures

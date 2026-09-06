@@ -2,16 +2,14 @@
 
 import React, { useState } from 'react';
 import { 
-  Terminal, 
   Send, 
   Copy, 
   Check, 
   Mail, 
   Linkedin, 
   Phone, 
-  ExternalLink,
-  ShieldCheck,
-  Activity
+  ExternalLink, 
+  Activity 
 } from 'lucide-react';
 import { profile } from '@/data/site';
 
@@ -80,7 +78,7 @@ export default function LiveDispatchTerminal() {
         <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
           <div>
             <div className="font-mono-tech text-xs text-[var(--aqua)] tracking-wider uppercase mb-1">
-              // LIVE DISPATCH TERMINAL
+              {"// LIVE DISPATCH TERMINAL"}
             </div>
             <h2 className="text-2xl sm:text-4xl font-bold text-[var(--text)] tracking-tight">
               Real-Time JSON Protocol Synchronization
@@ -244,7 +242,7 @@ export default function LiveDispatchTerminal() {
             {/* Direct Fallback Channels */}
             <div className="mt-6 pt-4 border-t border-[rgba(165,227,217,0.1)]">
               <div className="font-mono-tech text-xs text-[var(--muted)] mb-3">
-                // VERIFIED DIRECT CHANNELS
+                {"// VERIFIED DIRECT CHANNELS"}
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono-tech">
                 <a
