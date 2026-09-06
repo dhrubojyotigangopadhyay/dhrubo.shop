@@ -3,11 +3,11 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: {
-    default: 'Dhrubo | Full-Stack Developer & AI Systems Architect',
+    default: 'Dhrubo | Forward Deployed Engineer & Applied AI Solutions Architect',
     template: '%s | Dhrubo',
   },
   description:
-    'Dhrubojyoti Gangopadhyay (Dhrubo) builds production AI agents, retrieval systems, voice workflows, and scalable architectures paired with 17 years of enterprise commercial operations depth.',
+    'Dhrubojyoti Gangopadhyay (Dhrubo) — Forward Deployed Engineer, Applied AI Engineer, AI Solutions Architect, and Platform Engineer with 17 years of enterprise commercial operations depth.',
   metadataBase: new URL('https://dhrubo.shop'),
   applicationName: 'Dhrubo Portfolio',
   authors: [{ name: 'Dhrubojyoti Gangopadhyay', url: 'https://dhrubo.shop' }],
@@ -30,13 +30,16 @@ export const metadata: Metadata = {
   keywords: [
     'Dhrubo',
     'Dhrubojyoti Gangopadhyay',
-    'AI Systems Architect',
-    'Full-Stack Developer',
+    'Forward Deployed Engineer',
+    'Applied AI Engineer',
+    'AI Solutions Architect',
+    'Platform Engineer',
+    'AI Expert',
     'Production AI Agents',
     'LangGraph Engineer',
     'Model Context Protocol',
     'Vapi Voice AI',
-    'Enterprise Operations Leader',
+    'Enterprise Operations Leadership',
     'Commercial Operations',
     'FastAPI',
     'Supabase',

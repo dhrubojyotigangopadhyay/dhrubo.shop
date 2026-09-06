@@ -16,7 +16,7 @@ const jsonLd = {
       '@type': 'ProfilePage',
       '@id': 'https://dhrubo.shop/#profile',
       url: 'https://dhrubo.shop/',
-      name: 'Dhrubojyoti Gangopadhyay — Full-Stack Developer & AI Systems Architect',
+      name: 'Dhrubojyoti Gangopadhyay — Forward Deployed Engineer & Applied AI Solutions Architect',
       dateModified: '2026-09-06',
       mainEntity: { '@id': 'https://dhrubo.shop/#person' },
     },
@@ -29,7 +29,7 @@ const jsonLd = {
       image: 'https://dhrubo.shop/dhrubo-portrait.jpg',
       email: 'mailto:dhrubojyoti.gangopadhyay@gmail.com',
       telephone: '+918240801921',
-      jobTitle: 'Full-Stack Developer & AI Systems Architect',
+      jobTitle: 'Forward Deployed Engineer & Applied AI Solutions Architect',
       address: {
         '@type': 'PostalAddress',
         addressLocality: 'Kolkata',

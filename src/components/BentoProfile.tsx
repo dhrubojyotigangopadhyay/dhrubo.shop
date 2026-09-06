@@ -5,13 +5,12 @@ import Image from 'next/image';
 import { 
   MapPin, 
   Database, 
-  ArrowUpRight, 
   Workflow, 
-  Cpu 
+  Zap
 } from 'lucide-react';
 import { profile } from '@/data/site';
 
-function PhysicsTiltCard({ 
+function BentoTiltCard({ 
   children, 
   className = '' 
 }: { 
@@ -27,10 +26,7 @@ function PhysicsTiltCard({
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     
-    // Exact requested physics calculation:
-    // x = (clientX - left) / width - 0.5
-    // y = (clientY - top) / height - 0.5
-    // rotateY = x * 15, rotateX = -y * 15
+    // 3D perspective mouse physics:
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
     
@@ -55,22 +51,23 @@ function PhysicsTiltCard({
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{
-        transform: `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg)`,
-        transition: mousePos.isHovered ? 'transform 0.08s ease-out' : 'transform 0.35s ease-out',
+        perspective: '1200px',
+        transform: `rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg)`,
+        transition: mousePos.isHovered ? 'transform 0.08s ease-out' : 'transform 0.4s ease-out',
       }}
       className={`relative rounded-xl overflow-hidden glass-panel border border-[var(--line)] p-6 sm:p-8 select-none ${className}`}
     >
-      {/* Dynamic Radial Gradient Spotlight Border that follows exact cursor coordinates */}
+      {/* Radial Cursor-Following Spotlight Border */}
       {mousePos.isHovered && (
         <div
           className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-150"
           style={{
-            background: `radial-gradient(400px circle at ${mousePos.x}px ${mousePos.y}px, rgba(112, 241, 219, 0.18), transparent 80%)`,
+            background: `radial-gradient(400px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255, 255, 255, 0.12), transparent 80%)`,
           }}
         />
       )}
 
-      {/* Card Content */}
+      {/* Content Container */}
       <div className="relative z-10">
         {children}
       </div>
@@ -89,8 +86,8 @@ export default function BentoProfile() {
             <div className="font-mono-tech text-xs text-[var(--aqua)] tracking-wider uppercase mb-1">
               {"// SYSTEM PROFILE"}
             </div>
-            <h2 className="text-2xl sm:text-4xl font-bold text-[var(--text)] tracking-tight">
-              Enterprise Cognition &amp; Production Architecture
+            <h2 className="text-2xl sm:text-4xl font-bold text-[var(--text)] tracking-tight font-mono-tech">
+              Hello, I&apos;m Dhrubojyoti Gangopadhyay
             </h2>
           </div>
           <div className="flex items-center gap-2">
@@ -100,18 +97,18 @@ export default function BentoProfile() {
           </div>
         </div>
 
-        {/* Bento Grid with Exact Physics Tilt */}
+        {/* Bento Grid with 4 Modules */}
         <div className="grid grid-cols-12 gap-6">
           
-          {/* Card 1: Identity & Operator Persona */}
-          <PhysicsTiltCard className="col-span-12 lg:col-span-7 flex flex-col justify-between">
+          {/* Card 1: Identity & Availability */}
+          <BentoTiltCard className="col-span-12 lg:col-span-7 flex flex-col justify-between">
             <div>
               <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
                 <span className="font-mono-tech text-xs text-[var(--aqua)]">
-                  {"// IDENTITY_NODE: VERIFIED"}
+                  {"// OPERATOR_NODE: VERIFIED"}
                 </span>
                 <span className="font-mono-tech text-xs text-[var(--muted)] flex items-center gap-1">
-                  <MapPin size={12} className="text-[var(--aqua)]" /> Kolkata, India [IST] · Remote
+                  <MapPin size={12} className="text-[var(--aqua)]" /> Kolkata, India [IST] · Shipping Worldwide
                 </span>
               </div>
 
@@ -124,151 +121,145 @@ export default function BentoProfile() {
                     className="object-cover"
                     priority
                   />
-                  <div className="absolute bottom-1 right-1 w-3 h-3 rounded-full bg-[var(--green)] border-2 border-[var(--bg)]" />
+                  <div className="absolute bottom-1 right-1 w-3.5 h-3.5 rounded-full bg-[var(--green)] border-2 border-[var(--bg)] shadow-[0_0_8px_var(--green)]" />
                 </div>
 
                 <div>
                   <h3 className="text-xl sm:text-2xl font-bold text-[var(--text)] font-mono-tech">
-                    {profile.name}
+                    {profile.name} (Dhrubo)
                   </h3>
                   <p className="text-sm font-mono-tech text-[var(--aqua)] mt-0.5">
-                    {profile.role}
+                    Forward Deployed Engineer | Applied AI Solutions Architect
                   </p>
                   <p className="text-xs text-[var(--muted)] font-mono-tech mt-1">
-                    17 Years Enterprise Commercial Ops · Full-Stack AI Engineer
+                    Platform Engineer · AI Expert · 17 Years Enterprise Operations Leadership
                   </p>
                 </div>
               </div>
 
               <p className="mt-6 text-sm text-[var(--muted)] leading-relaxed">
-                Operating at the nexus of production agentic AI and mission-critical enterprise systems. I build end-to-end architectures—from reactive 60fps frontend surfaces and sub-250ms voice pipelines to database-tier stored procedures.
+                Operating directly at the intersection of production agentic AI and enterprise systems. I bridge customer problem spaces with technical execution—delivering sub-250ms voice pipelines, stateful LangGraph agents, and database-tier logic.
               </p>
             </div>
 
             <div className="mt-8 pt-6 border-t border-[rgba(165,227,217,0.1)] flex flex-wrap gap-2">
-              {['Next.js 15', 'FastAPI', 'LangGraph', 'Vapi Voice AI', 'Supabase', 'PostgreSQL'].map((tag) => (
+              {['Forward Deployed AI', 'Applied AI Engineer', 'AI Solutions Architect', 'Platform Engineer', 'FastAPI', 'Next.js'].map((tag) => (
                 <span key={tag} className="px-2.5 py-1 rounded text-xs font-mono-tech bg-[var(--panel-2)] border border-[rgba(165,227,217,0.1)] text-[var(--soft)]">
                   {tag}
                 </span>
               ))}
             </div>
-          </PhysicsTiltCard>
+          </BentoTiltCard>
 
-          {/* Card 2: 17 Years Enterprise Commercial Operations */}
-          <PhysicsTiltCard className="col-span-12 lg:col-span-5 flex flex-col justify-between">
+          {/* Card 2: Forward Deployed Engineering */}
+          <BentoTiltCard className="col-span-12 lg:col-span-5 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <span className="font-mono-tech text-xs text-[var(--aqua)]">
+                  {"// FORWARD DEPLOYED VELOCITY"}
+                </span>
+                <Zap size={16} className="text-[var(--aqua)]" />
+              </div>
+
+              <h3 className="text-lg sm:text-xl font-bold font-mono-tech text-[var(--text)]">
+                Field Integration &amp; Production Bridges
+              </h3>
+              <p className="text-xs font-mono-tech text-[var(--muted)] mt-1">
+                Zero-Latency Operational Edge Execution
+              </p>
+
+              <p className="mt-4 text-sm text-[var(--muted)] leading-relaxed">
+                Embedding directly with client teams to turn ambiguous operational problems into running software within days. Building the single bridge between executive stakeholders and low-level code without translation loss.
+              </p>
+            </div>
+
+            <div className="mt-6 p-4 rounded-lg bg-[rgba(5,7,10,0.6)] border border-[rgba(112,241,219,0.2)]">
+              <div className="flex items-baseline justify-between">
+                <span className="font-mono-tech text-xl font-bold text-[var(--aqua)]">
+                  DEPLOYMENT EDGE
+                </span>
+                <span className="font-mono-tech text-xs text-[var(--muted)]">
+                  Fast Turnaround
+                </span>
+              </div>
+              <p className="text-[11px] font-mono-tech text-[var(--soft)] mt-1">
+                Custom enterprise AI integration, autonomous workflows, and production RAG.
+              </p>
+            </div>
+          </BentoTiltCard>
+
+          {/* Card 3: Applied AI & Orchestration */}
+          <BentoTiltCard className="col-span-12 lg:col-span-6 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <span className="font-mono-tech text-xs text-[var(--aqua)]">
+                  {"// APPLIED AI & ORCHESTRATION"}
+                </span>
+                <Workflow size={16} className="text-[var(--aqua)]" />
+              </div>
+
+              <h3 className="text-lg sm:text-xl font-bold font-mono-tech text-[var(--text)]">
+                Multi-Agent State Machines &amp; Voice Pipelines
+              </h3>
+              <p className="text-xs font-mono-tech text-[var(--muted)] mt-1">
+                LangGraph · Groq LPUs · Gemini · Claude 3.5 · Vapi · Twilio
+              </p>
+
+              <p className="mt-4 text-sm text-[var(--muted)] leading-relaxed">
+                Architecting autonomous agent networks with supervisor graphs, parent-doc checkpointing, and sub-250ms conversational telephony. Moving beyond fragile prompt demos into verified, auditable AI engines.
+              </p>
+            </div>
+
+            <div className="mt-6 grid grid-cols-2 gap-3">
+              <div className="p-3 rounded bg-[var(--panel-2)] border border-[rgba(165,227,217,0.1)]">
+                <div className="font-mono-tech text-xs text-[var(--muted)]">Voice Telephony</div>
+                <div className="text-base font-bold font-mono-tech text-[var(--aqua)]">&lt;250ms</div>
+                <div className="text-[10px] text-[var(--muted)]">Speech to structured CRM</div>
+              </div>
+              <div className="p-3 rounded bg-[var(--panel-2)] border border-[rgba(165,227,217,0.1)]">
+                <div className="font-mono-tech text-xs text-[var(--muted)]">Public Architectures</div>
+                <div className="text-base font-bold font-mono-tech text-[var(--green)]">31+ Systems</div>
+                <div className="text-[10px] text-[var(--muted)]">Public on GitHub</div>
+              </div>
+            </div>
+          </BentoTiltCard>
+
+          {/* Card 4: Platform & Operations */}
+          <BentoTiltCard className="col-span-12 lg:col-span-6 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-4">
                 <span className="font-mono-tech text-xs text-[var(--gold)]">
-                  {"// 17 YEARS ENTERPRISE COMMERCIAL OPS"}
+                  {"// PLATFORM & 17YR ENTERPRISE OPS"}
                 </span>
                 <Database size={16} className="text-[var(--gold)]" />
               </div>
 
               <h3 className="text-lg sm:text-xl font-bold font-mono-tech text-[var(--text)]">
-                Commercial Operations &amp; Database-Tier Logic
+                High-Stakes Commercial Scaling &amp; DB Logic
               </h3>
               <p className="text-xs font-mono-tech text-[var(--muted)] mt-1">
                 ACC Ltd · Lafarge · MP Birla Group (AGM / Senior Manager level)
               </p>
 
               <p className="mt-4 text-sm text-[var(--muted)] leading-relaxed">
-                17 years directing commercial operations, distributor network analytics, and multi-million dollar rebate logic. I translate complex supply chains, dealer incentives, and ERP specifications into robust database-tier rules (PL/pgSQL) and deterministic agent guardrails.
+                17 years of enterprise commercial operations leadership and commercial scaling authority. Designing distribution databases, pricing incentive frameworks, and database-tier stored procedures (PL/pgSQL) that eliminate multi-million dollar audit leakage.
               </p>
             </div>
 
             <div className="mt-6 p-4 rounded-lg bg-[rgba(5,7,10,0.6)] border border-[rgba(240,189,69,0.2)]">
               <div className="flex items-baseline justify-between">
-                <span className="font-mono-tech text-2xl font-bold text-[var(--gold)]">
-                  40% FASTER
+                <span className="font-mono-tech text-xl font-bold text-[var(--gold)]">
+                  40% DECISION LATENCY DROP
                 </span>
                 <span className="font-mono-tech text-xs text-[var(--muted)]">
-                  Decision Latency Reduction
+                  DB-Tier Rule Engines
                 </span>
               </div>
               <p className="text-[11px] font-mono-tech text-[var(--soft)] mt-1">
-                Evaluated at DB-tier rather than fragile application loops. Zero RevOps leakage.
+                Translating complex commercial multi-state logistics into deterministic system schemas.
               </p>
             </div>
-          </PhysicsTiltCard>
-
-          {/* Card 3: AI Systems & Architecture Depth */}
-          <PhysicsTiltCard className="col-span-12 lg:col-span-6 flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="font-mono-tech text-xs text-[var(--aqua)]">
-                  {"// AGENTIC GRAPH & PROTOCOLS"}
-                </span>
-                <Workflow size={16} className="text-[var(--aqua)]" />
-              </div>
-
-              <h3 className="text-lg sm:text-xl font-bold font-mono-tech text-[var(--text)]">
-                Production Agent Engineering
-              </h3>
-              <p className="text-xs font-mono-tech text-[var(--muted)] mt-1">
-                LangGraph · Model Context Protocol · Vapi · Supabase
-              </p>
-
-              <p className="mt-4 text-sm text-[var(--muted)] leading-relaxed">
-                Engineering stateful supervisor graphs, custom MCP stdio/SSE tool registries, parent-doc memory checkpointing, and sub-250ms voice-to-JSON serialization pipelines. Built for auditable production reliability.
-              </p>
-            </div>
-
-            <div className="mt-6 grid grid-cols-2 gap-3">
-              <div className="p-3 rounded bg-[var(--panel-2)] border border-[rgba(165,227,217,0.1)]">
-                <div className="font-mono-tech text-xs text-[var(--muted)]">Voice Latency</div>
-                <div className="text-base font-bold font-mono-tech text-[var(--aqua)]">&lt;250ms</div>
-                <div className="text-[10px] text-[var(--muted)]">Speech to typed CRM</div>
-              </div>
-              <div className="p-3 rounded bg-[var(--panel-2)] border border-[rgba(165,227,217,0.1)]">
-                <div className="font-mono-tech text-xs text-[var(--muted)]">Auditable Repos</div>
-                <div className="text-base font-bold font-mono-tech text-[var(--green)]">31+ Systems</div>
-                <div className="text-[10px] text-[var(--muted)]">Public on GitHub</div>
-              </div>
-            </div>
-          </PhysicsTiltCard>
-
-          {/* Card 4: Open Roles & Engagement */}
-          <PhysicsTiltCard className="col-span-12 lg:col-span-6 flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="font-mono-tech text-xs text-[var(--green)]">
-                  {"// ENGAGEMENT POSTURE 2026"}
-                </span>
-                <Cpu size={16} className="text-[var(--green)]" />
-              </div>
-
-              <h3 className="text-lg sm:text-xl font-bold font-mono-tech text-[var(--text)]">
-                Open to High-Impact Opportunities
-              </h3>
-              <p className="text-xs font-mono-tech text-[var(--muted)] mt-1">
-                Available Immediately · Remote / Async Worldwide
-              </p>
-
-              <div className="mt-4 space-y-2">
-                {[
-                  { role: 'AI Systems Architect', desc: 'Designing production agentic systems, MCP registries, and stateful graphs' },
-                  { role: 'Applied AI Engineer', desc: 'Sub-250ms voice pipelines, hybrid RAG networks, deterministic automation' },
-                  { role: 'AI Platform Engineer', desc: 'Evaluation harnesses, tool registries, observability, model-gateways' },
-                  { role: 'Founding Engineer', desc: 'Early-stage AI-native products demanding 17yr enterprise operating depth' },
-                ].map((item) => (
-                  <div key={item.role} className="flex items-start gap-2 text-xs">
-                    <span className="text-[var(--aqua)] font-mono-tech mt-0.5">›</span>
-                    <div>
-                      <strong className="text-[var(--text)] font-mono-tech">{item.role}:</strong>{' '}
-                      <span className="text-[var(--muted)]">{item.desc}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-6 pt-4 border-t border-[rgba(165,227,217,0.1)] flex items-center justify-between">
-              <span className="font-mono-tech text-xs text-[var(--soft)]">Ready for Immediate Q1 Deployments</span>
-              <a href="#contact" className="font-mono-tech text-xs text-[var(--aqua)] hover:underline flex items-center gap-1">
-                DISPATCH DIRECTIVE <ArrowUpRight size={13} />
-              </a>
-            </div>
-          </PhysicsTiltCard>
+          </BentoTiltCard>
 
         </div>
       </div>
