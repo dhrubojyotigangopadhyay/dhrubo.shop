@@ -11,32 +11,42 @@ import {
 } from 'lucide-react';
 import { profile } from '@/data/site';
 
-function TiltCard({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+function PhysicsTiltCard({ 
+  children, 
+  className = '' 
+}: { 
+  children: React.ReactNode; 
+  className?: string 
+}) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const [transform, setTransform] = useState('');
-  const [glare, setGlare] = useState({ x: 50, y: 50, opacity: 0 });
+  const [rotateX, setRotateX] = useState(0);
+  const [rotateY, setRotateY] = useState(0);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0, isHovered: false });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateX = ((y - centerY) / centerY) * -5;
-    const rotateY = ((x - centerX) / centerX) * 5;
-
-    setTransform(`perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.01, 1.01, 1.01)`);
-    setGlare({
-      x: (x / rect.width) * 100,
-      y: (y / rect.height) * 100,
-      opacity: 0.15,
+    
+    // Exact requested physics calculation:
+    // x = (clientX - left) / width - 0.5
+    // y = (clientY - top) / height - 0.5
+    // rotateY = x * 15, rotateX = -y * 15
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    
+    setRotateY(x * 15);
+    setRotateX(-y * 15);
+    setMousePos({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+      isHovered: true,
     });
   };
 
   const handleMouseLeave = () => {
-    setTransform('perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)');
-    setGlare({ x: 50, y: 50, opacity: 0 });
+    setRotateX(0);
+    setRotateY(0);
+    setMousePos((prev) => ({ ...prev, isHovered: false }));
   };
 
   return (
@@ -44,17 +54,26 @@ function TiltCard({ children, className = '' }: { children: React.ReactNode; cla
       ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={{ transform, transition: 'transform 0.15s ease-out' }}
-      className={`relative rounded-xl overflow-hidden glass-panel border border-[var(--line)] p-6 sm:p-8 ${className}`}
+      style={{
+        transform: `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg)`,
+        transition: mousePos.isHovered ? 'transform 0.08s ease-out' : 'transform 0.35s ease-out',
+      }}
+      className={`relative rounded-xl overflow-hidden glass-panel border border-[var(--line)] p-6 sm:p-8 select-none ${className}`}
     >
-      {/* Glare spotlight overlay */}
-      <div
-        className="pointer-events-none absolute inset-0 transition-opacity duration-300"
-        style={{
-          background: `radial-gradient(circle at ${glare.x}% ${glare.y}%, rgba(112, 241, 219, ${glare.opacity}), transparent 60%)`,
-        }}
-      />
-      {children}
+      {/* Dynamic Radial Gradient Spotlight Border that follows exact cursor coordinates */}
+      {mousePos.isHovered && (
+        <div
+          className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-150"
+          style={{
+            background: `radial-gradient(400px circle at ${mousePos.x}px ${mousePos.y}px, rgba(112, 241, 219, 0.18), transparent 80%)`,
+          }}
+        />
+      )}
+
+      {/* Card Content */}
+      <div className="relative z-10">
+        {children}
+      </div>
     </div>
   );
 }
@@ -64,7 +83,7 @@ export default function BentoProfile() {
     <section id="profile" className="py-16 sm:py-24 border-b border-[var(--line)] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header with Monospace Tags */}
+        {/* Section Header */}
         <div className="flex flex-wrap items-center justify-between gap-3 mb-8">
           <div>
             <div className="font-mono-tech text-xs text-[var(--aqua)] tracking-wider uppercase mb-1">
@@ -81,11 +100,11 @@ export default function BentoProfile() {
           </div>
         </div>
 
-        {/* Bento Grid */}
+        {/* Bento Grid with Exact Physics Tilt */}
         <div className="grid grid-cols-12 gap-6">
           
           {/* Card 1: Identity & Operator Persona */}
-          <TiltCard className="col-span-12 lg:col-span-7 flex flex-col justify-between">
+          <PhysicsTiltCard className="col-span-12 lg:col-span-7 flex flex-col justify-between">
             <div>
               <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
                 <span className="font-mono-tech text-xs text-[var(--aqua)]">
@@ -133,10 +152,10 @@ export default function BentoProfile() {
                 </span>
               ))}
             </div>
-          </TiltCard>
+          </PhysicsTiltCard>
 
           {/* Card 2: 17 Years Enterprise Commercial Operations */}
-          <TiltCard className="col-span-12 lg:col-span-5 flex flex-col justify-between">
+          <PhysicsTiltCard className="col-span-12 lg:col-span-5 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-4">
                 <span className="font-mono-tech text-xs text-[var(--gold)]">
@@ -170,10 +189,10 @@ export default function BentoProfile() {
                 Evaluated at DB-tier rather than fragile application loops. Zero RevOps leakage.
               </p>
             </div>
-          </TiltCard>
+          </PhysicsTiltCard>
 
           {/* Card 3: AI Systems & Architecture Depth */}
-          <TiltCard className="col-span-12 lg:col-span-6 flex flex-col justify-between">
+          <PhysicsTiltCard className="col-span-12 lg:col-span-6 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-4">
                 <span className="font-mono-tech text-xs text-[var(--aqua)]">
@@ -206,10 +225,10 @@ export default function BentoProfile() {
                 <div className="text-[10px] text-[var(--muted)]">Public on GitHub</div>
               </div>
             </div>
-          </TiltCard>
+          </PhysicsTiltCard>
 
           {/* Card 4: Open Roles & Engagement */}
-          <TiltCard className="col-span-12 lg:col-span-6 flex flex-col justify-between">
+          <PhysicsTiltCard className="col-span-12 lg:col-span-6 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-4">
                 <span className="font-mono-tech text-xs text-[var(--green)]">
@@ -249,7 +268,7 @@ export default function BentoProfile() {
                 DISPATCH DIRECTIVE <ArrowUpRight size={13} />
               </a>
             </div>
-          </TiltCard>
+          </PhysicsTiltCard>
 
         </div>
       </div>

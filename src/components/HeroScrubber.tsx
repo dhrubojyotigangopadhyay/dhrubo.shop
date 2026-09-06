@@ -1,265 +1,364 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { useScroll } from 'framer-motion';
 import { 
   ArrowRight, 
-  ExternalLink, 
-  CheckCircle2, 
   ChevronRight, 
-  Activity 
+  ExternalLink, 
+  Activity, 
+  Zap,
+  CheckCircle2
 } from 'lucide-react';
 import { timelineNodes, profile } from '@/data/site';
 
+const TOTAL_FRAMES = 48;
+
 export default function HeroScrubber() {
-  const [activeNodeIndex, setActiveNodeIndex] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const imagesRef = useRef<HTMLImageElement[]>([]);
+  const currentFrameRef = useRef<number>(0);
+  const progressRef = useRef<number>(0);
+  const [loadedFrames, setLoadedFrames] = useState<number>(0);
+  const [activeStage, setActiveStage] = useState<number>(0); // 0, 1, 2
+  const [progress, setProgress] = useState<number>(0);
 
-  const activeNode = timelineNodes[activeNodeIndex];
+  // Framer Motion useScroll over 350vh
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end end'],
+  });
 
-  // Auto transition ticker when enabled or initial hint
+  // Draw frame helper on canvas
+  const drawFrame = useCallback((index: number, currentProgress: number) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const img = imagesRef.current[index];
+    if (!img || !img.complete) return;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Maintain aspect ratio fill/contain
+    const cw = canvas.width;
+    const ch = canvas.height;
+    const iw = img.naturalWidth || 640;
+    const ih = img.naturalHeight || 640;
+
+    const scale = Math.max(cw / iw, ch / ih);
+    const nw = iw * scale;
+    const nh = ih * scale;
+    const cx = (cw - nw) / 2;
+    const cy = (ch - nh) / 2;
+
+    ctx.drawImage(img, cx, cy, nw, nh);
+
+    // Subtle holographic grid scan on canvas
+    ctx.strokeStyle = 'rgba(112, 241, 219, 0.12)';
+    ctx.lineWidth = 1;
+    const step = 40;
+    for (let x = 0; x < cw; x += step) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, ch);
+      ctx.stroke();
+    }
+    for (let y = 0; y < ch; y += step) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(cw, y);
+      ctx.stroke();
+    }
+
+    // Dynamic telemetry stamp
+    ctx.font = '10px monospace';
+    ctx.fillStyle = '#70f1db';
+    ctx.fillText(`FRAME: ${String(index).padStart(2, '0')}/${TOTAL_FRAMES}`, 16, 26);
+    ctx.fillStyle = 'rgba(238, 248, 244, 0.6)';
+    ctx.fillText(`SCRUB_POS: ${(currentProgress * 100).toFixed(1)}%`, 16, 40);
+  }, []);
+
+  // Preload all 48 canvas frames
   useEffect(() => {
-    if (!isAutoPlaying) return;
-    const interval = setInterval(() => {
-      setActiveNodeIndex((prev) => (prev + 1) % timelineNodes.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [isAutoPlaying]);
+    let count = 0;
+    const imgs: HTMLImageElement[] = [];
+
+    for (let i = 0; i < TOTAL_FRAMES; i++) {
+      const img = new Image();
+      const frameNum = String(i).padStart(3, '0');
+      img.src = `/frames/frame_${frameNum}.webp`;
+      img.onload = () => {
+        count++;
+        setLoadedFrames(count);
+        // Draw the first frame immediately when ready
+        if (i === 0 && canvasRef.current) {
+          drawFrame(0, 0);
+        }
+      };
+      imgs.push(img);
+    }
+    imagesRef.current = imgs;
+  }, [drawFrame]);
+
+  // Synchronize canvas draw on scroll ticks via requestAnimationFrame
+  useEffect(() => {
+    const unsubscribe = scrollYProgress.on('change', (latest: number) => {
+      setProgress(latest);
+      progressRef.current = latest;
+
+      // Frame mapping
+      const frameIndex = Math.min(
+        TOTAL_FRAMES - 1,
+        Math.max(0, Math.floor(latest * TOTAL_FRAMES))
+      );
+
+      if (frameIndex !== currentFrameRef.current) {
+        currentFrameRef.current = frameIndex;
+        requestAnimationFrame(() => drawFrame(frameIndex, latest));
+      }
+
+      // Stage synchronization
+      // 0.00 – 0.33: Stage 0 (CREATIVE DEVELOPER)
+      // 0.34 – 0.66: Stage 1 (AI SYSTEMS ARCHITECT)
+      // 0.67 – 1.00: Stage 2 (SCALABLE SYSTEMS)
+      if (latest < 0.34) {
+        setActiveStage(0);
+      } else if (latest < 0.67) {
+        setActiveStage(1);
+      } else {
+        setActiveStage(2);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [scrollYProgress, drawFrame]);
+
+  // Handle canvas sizing
+  useEffect(() => {
+    const handleResize = () => {
+      if (canvasRef.current) {
+        canvasRef.current.width = 540;
+        canvasRef.current.height = 540;
+        drawFrame(currentFrameRef.current, progressRef.current);
+      }
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [drawFrame]);
+
+  const activeNode = timelineNodes[activeStage] || timelineNodes[0];
+
+  // Calculate individual segment fills (0 to 1)
+  const segment1Fill = Math.min(1, Math.max(0, progress / 0.33));
+  const segment2Fill = Math.min(1, Math.max(0, (progress - 0.33) / 0.33));
+  const segment3Fill = Math.min(1, Math.max(0, (progress - 0.67) / 0.33));
+  const segmentFills = [segment1Fill, segment2Fill, segment3Fill];
 
   return (
-    <section id="timeline" className="relative pt-8 pb-16 lg:pb-24 border-b border-[var(--line)] overflow-hidden">
-      {/* Background ambient lighting */}
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-[var(--aqua)] opacity-[0.04] blur-[120px] pointer-events-none" />
-      <div className="absolute -bottom-10 left-10 w-80 h-80 bg-[var(--green)] opacity-[0.03] blur-[100px] pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <section 
+      ref={containerRef}
+      id="timeline" 
+      className="relative h-[350vh] bg-[var(--bg)]"
+    >
+      {/* Pinned Sticky Container */}
+      <div className="sticky top-0 h-screen w-full flex flex-col justify-between overflow-hidden px-4 sm:px-6 lg:px-8 py-4 border-b border-[var(--line)]">
         
-        {/* Top Status & Node Telemetry Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-[rgba(165,227,217,0.1)]">
-          <div className="flex items-center gap-3">
-            <span className="flex h-2.5 w-2.5 relative">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--aqua)] opacity-75" />
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[var(--aqua)]" />
-            </span>
-            <span className="font-mono-tech text-xs tracking-wider text-[var(--aqua)] font-semibold">
-              {"// SYS_STATUS: OPERATIONAL"}
-            </span>
-            <span className="hidden sm:inline-block text-xs text-[var(--muted)]">•</span>
-            <span className="hidden sm:inline-block font-mono-tech text-xs text-[var(--soft)]">
-              LATENCY: &lt;250MS
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2 font-mono-tech text-xs text-[var(--muted)]">
-            <span className="px-2 py-0.5 rounded bg-[rgba(112,241,219,0.06)] border border-[rgba(112,241,219,0.15)] text-[var(--aqua)]">
-              NODE: KOLKATA [IST]
-            </span>
-            <span className="px-2 py-0.5 rounded bg-[var(--panel-2)] border border-[var(--line)] text-[var(--soft)]">
-              OPEN TO OPPORTUNITIES 2026
-            </span>
-          </div>
-        </div>
-
-        {/* Hero Title & Identity Hook */}
-        <div className="pt-8 pb-10">
-          <div className="flex items-center gap-2 font-mono-tech text-xs tracking-widest text-[var(--aqua)] uppercase mb-3">
-            <span className="w-6 h-[1px] bg-[var(--aqua)]" />
-            <span>High-Tech Systems Architecture</span>
-          </div>
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[var(--text)] leading-tight max-w-4xl">
-            Enterprise Commercial Depth.{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--aqua)] via-[var(--soft)] to-[var(--green)]">
-              AI Systems That Ship.
-            </span>
-          </h1>
-          <p className="mt-4 text-base sm:text-lg text-[var(--muted)] max-w-2xl leading-relaxed">
-            Full-stack developer and AI systems architect pairing <strong className="text-[var(--text)] font-medium">17 years of enterprise commercial operations</strong> with sub-250ms voice pipelines and stateful LangGraph agent swarms.
-          </p>
-        </div>
-
-        {/* PINNED FRAME-SCRUBBED TIMELINE CONTROL */}
-        <div className="p-4 sm:p-6 rounded-xl glass-panel relative border border-[var(--line)] shadow-2xl">
-          {/* Scrubber Header / Indicator */}
-          <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-[rgba(165,227,217,0.1)]">
+        {/* Top Segment Timeline Scrubber */}
+        <div className="max-w-7xl w-full mx-auto pt-2 z-20">
+          
+          {/* Status Row */}
+          <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[rgba(165,227,217,0.1)]">
             <div className="flex items-center gap-3">
-              <span className="font-mono-tech text-xs uppercase tracking-wider text-[var(--aqua)] font-bold">
-                TIMELINE: NODE 01-03
+              <span className="flex h-2.5 w-2.5 relative">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--aqua)] opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[var(--aqua)]" />
               </span>
-              <span className="text-xs font-mono-tech text-[var(--muted)]">
-                [{activeNodeIndex + 1} / {timelineNodes.length}]
+              <span className="font-mono-tech text-xs tracking-wider text-[var(--aqua)] font-semibold">
+                {"// SYS_STATUS: OPERATIONAL"}
+              </span>
+              <span className="hidden sm:inline-block text-xs text-[var(--muted)]">•</span>
+              <span className="hidden sm:inline-block font-mono-tech text-xs text-[var(--soft)]">
+                LATENCY: &lt;250MS
               </span>
             </div>
 
-            {/* Quick Segment Buttons */}
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              {timelineNodes.map((node, idx) => (
-                <button
-                  key={node.id}
-                  onClick={() => {
-                    setActiveNodeIndex(idx);
-                    setIsAutoPlaying(false);
-                  }}
-                  className={`px-3 py-1.5 rounded text-xs font-mono-tech transition-all cursor-pointer flex items-center gap-1.5 ${
-                    activeNodeIndex === idx
-                      ? 'bg-[var(--aqua)] text-[var(--bg)] font-bold shadow-[0_0_12px_rgba(112,241,219,0.3)]'
-                      : 'bg-[var(--panel-2)] text-[var(--muted)] hover:text-[var(--text)] border border-[rgba(165,227,217,0.1)]'
-                  }`}
-                >
-                  <span>{node.id}</span>
-                  <span className="hidden md:inline">{node.role}</span>
-                </button>
-              ))}
+            <div className="flex items-center gap-2 font-mono-tech text-xs text-[var(--muted)]">
+              <span className="px-2 py-0.5 rounded bg-[rgba(112,241,219,0.06)] border border-[rgba(112,241,219,0.15)] text-[var(--aqua)]">
+                NODE: KOLKATA [IST]
+              </span>
+              <span className="hidden md:inline px-2 py-0.5 rounded bg-[var(--panel-2)] border border-[var(--line)] text-[var(--soft)]">
+                OPEN TO OPPORTUNITIES 2026
+              </span>
             </div>
           </div>
 
-          {/* 3-Segment Progress Track */}
-          <div className="pt-4 pb-2">
+          {/* 3-Segment Progress Bar Track */}
+          <div className="pt-3">
+            <div className="flex items-center justify-between font-mono-tech text-xs text-[var(--aqua)] mb-1.5 font-bold">
+              <span>{"TIMELINE: NODE 01-03"}</span>
+              <span className="text-[var(--muted)] font-normal">
+                STAGE {activeStage + 1}/3 · SCRUB: {Math.round(progress * 100)}%
+              </span>
+            </div>
+
             <div className="grid grid-cols-3 gap-2">
               {timelineNodes.map((node, idx) => (
-                <div
-                  key={node.id}
-                  onClick={() => setActiveNodeIndex(idx)}
-                  className="cursor-pointer group py-2"
-                >
-                  <div className="h-1.5 w-full rounded-full bg-[rgba(255,255,255,0.08)] overflow-hidden">
-                    <div
-                      className={`h-full transition-all duration-500 rounded-full ${
-                        activeNodeIndex === idx
-                          ? 'w-full bg-[var(--aqua)] shadow-[0_0_8px_var(--aqua)]'
-                          : activeNodeIndex > idx
-                          ? 'w-full bg-[var(--green)]'
-                          : 'w-0 group-hover:w-1/4 bg-[rgba(112,241,219,0.3)]'
-                      }`}
+                <div key={node.id} className="flex flex-col gap-1">
+                  <div className="h-2 w-full rounded-full bg-[rgba(255,255,255,0.08)] overflow-hidden">
+                    <div 
+                      className="h-full bg-[var(--aqua)] transition-all duration-75 shadow-[0_0_8px_var(--aqua)]"
+                      style={{ width: `${segmentFills[idx] * 100}%` }}
                     />
                   </div>
-                  <div className="flex items-center justify-between pt-1.5">
-                    <span className="font-mono-tech text-[10px] text-[var(--muted)] group-hover:text-[var(--text)]">
+                  <div className="flex items-center justify-between text-[10px] font-mono-tech">
+                    <span className={activeStage === idx ? 'text-[var(--aqua)] font-bold' : 'text-[var(--muted)]'}>
                       {node.tag}
                     </span>
-                    <span className={`text-[10px] font-mono-tech ${activeNodeIndex === idx ? 'text-[var(--aqua)] font-bold' : 'text-[var(--muted)]'}`}>
-                      {node.role.split(' ')[0]}
+                    <span className="hidden sm:inline text-[var(--soft)] text-[9px]">
+                      {node.role}
                     </span>
                   </div>
                 </div>
               ))}
             </div>
           </div>
+        </div>
 
-          {/* Dynamic Scrubber Content Frame */}
-          <div className="mt-4 p-5 sm:p-8 rounded-lg bg-[rgba(5,7,10,0.65)] border border-[rgba(165,227,217,0.15)] min-h-[340px] flex flex-col justify-between">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeNode.id}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.3 }}
-                className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center"
+        {/* Center Stage: Interactive Canvas + Synchronized 3D Flip Text */}
+        <div className="max-w-7xl w-full mx-auto my-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center z-10 py-4">
+          
+          {/* Left: Synchronized 3D Text Flip / Blur Stage */}
+          <div className="lg:col-span-6 flex flex-col justify-center">
+            
+            {/* Dynamic Stage Pill */}
+            <div className="flex items-center gap-2 mb-3">
+              <span className="px-2.5 py-1 rounded-full font-mono-tech text-xs bg-[rgba(112,241,219,0.1)] text-[var(--aqua)] border border-[rgba(112,241,219,0.25)] flex items-center gap-1.5">
+                <Zap size={12} /> {activeNode.status}
+              </span>
+              <span className="font-mono-tech text-xs text-[var(--gold)]">
+                {activeNode.latency}
+              </span>
+            </div>
+
+            {/* 3D Flip Header with CSS Perspective Transitions */}
+            <div 
+              key={activeNode.id}
+              className="transition-all duration-300 transform"
+              style={{
+                perspective: '1000px',
+                animation: 'textFlipIn 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) forwards'
+              }}
+            >
+              <h2 className="text-3xl sm:text-5xl font-extrabold font-mono-tech text-[var(--text)] tracking-tight">
+                {activeNode.role}
+              </h2>
+              <h3 className="text-lg sm:text-2xl font-medium text-[var(--soft)] mt-2">
+                {activeNode.headline}
+              </h3>
+              <p className="mt-4 text-sm sm:text-base text-[var(--muted)] leading-relaxed max-w-xl">
+                {activeNode.description}
+              </p>
+            </div>
+
+            {/* Stack Chips */}
+            <div className="mt-6 flex flex-wrap gap-2">
+              {activeNode.stack.map((item) => (
+                <span
+                  key={item}
+                  className="px-3 py-1 rounded-md bg-[var(--panel-2)] border border-[rgba(165,227,217,0.15)] text-xs font-mono-tech text-[var(--soft)]"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+
+            {/* Actions */}
+            <div className="mt-8 flex items-center gap-4">
+              <a
+                href="#contact"
+                className="px-5 py-2.5 rounded-lg bg-[var(--aqua)] text-[var(--bg)] font-mono-tech text-xs font-bold hover:brightness-110 transition-all flex items-center gap-2 glow-aqua-sm"
               >
-                {/* Left Column: Role & Architectural Description */}
-                <div className="lg:col-span-7">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="px-2.5 py-0.5 rounded-full font-mono-tech text-xs bg-[rgba(112,241,219,0.1)] text-[var(--aqua)] border border-[rgba(112,241,219,0.25)]">
-                      {activeNode.status}
-                    </span>
-                    <span className="font-mono-tech text-xs text-[var(--gold)]">
-                      {activeNode.latency}
-                    </span>
-                  </div>
+                INITIALIZE COMM <ArrowRight size={14} />
+              </a>
+              <a
+                href="#projects"
+                className="px-4 py-2.5 rounded-lg bg-[var(--panel)] border border-[var(--line)] hover:border-[var(--aqua)] font-mono-tech text-xs text-[var(--soft)] transition-colors flex items-center gap-1.5"
+              >
+                SYSTEMS MATRIX <ChevronRight size={14} />
+              </a>
+            </div>
+          </div>
 
-                  <h2 className="text-2xl sm:text-3xl font-bold font-mono-tech text-[var(--text)] mt-2">
-                    {activeNode.role}
-                  </h2>
-                  <h3 className="text-base sm:text-lg font-medium text-[var(--soft)] mt-1">
-                    {activeNode.headline}
-                  </h3>
+          {/* Right: Canvas Frame Scrubbing Engine */}
+          <div className="lg:col-span-6 flex items-center justify-center">
+            <div className="relative w-full max-w-[420px] aspect-square rounded-2xl overflow-hidden glass-panel border border-[var(--line)] shadow-2xl p-2.5">
+              
+              {/* Corner HUD Brackets */}
+              <div className="absolute top-4 left-4 w-4 h-4 border-t-2 border-l-2 border-[var(--aqua)] z-20" />
+              <div className="absolute top-4 right-4 w-4 h-4 border-t-2 border-r-2 border-[var(--aqua)] z-20" />
+              <div className="absolute bottom-4 left-4 w-4 h-4 border-b-2 border-l-2 border-[var(--aqua)] z-20" />
+              <div className="absolute bottom-4 right-4 w-4 h-4 border-b-2 border-r-2 border-[var(--aqua)] z-20" />
 
-                  <p className="mt-3 text-sm sm:text-base text-[var(--muted)] leading-relaxed">
-                    {activeNode.description}
-                  </p>
+              {/* The HTML5 Scrollytelling Canvas */}
+              <canvas
+                ref={canvasRef}
+                className="w-full h-full rounded-xl object-cover block bg-[var(--panel)]"
+              />
 
-                  {/* Stack Chips */}
-                  <div className="mt-4 flex flex-wrap gap-1.5">
-                    {activeNode.stack.map((item) => (
-                      <span
-                        key={item}
-                        className="px-2.5 py-1 rounded bg-[var(--panel)] border border-[rgba(165,227,217,0.15)] text-xs font-mono-tech text-[var(--soft)]"
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
+              {/* Loading Overlay if frames are downloading */}
+              {loadedFrames < TOTAL_FRAMES && (
+                <div className="absolute inset-0 bg-[rgba(5,7,10,0.8)] backdrop-blur-sm flex flex-col items-center justify-center z-30 font-mono-tech text-xs text-[var(--aqua)]">
+                  <Activity size={24} className="animate-spin mb-2" />
+                  <span>STREAMING FRAMES {loadedFrames}/{TOTAL_FRAMES}</span>
                 </div>
+              )}
 
-                {/* Right Column: Live Telemetry Terminal Screen */}
-                <div className="lg:col-span-5">
-                  <div className="p-4 rounded-lg bg-[var(--panel)] border border-[var(--line)] shadow-inner">
-                    <div className="flex items-center justify-between pb-2 mb-3 border-b border-[rgba(165,227,217,0.1)]">
-                      <div className="flex items-center gap-1.5">
-                        <div className="w-2.5 h-2.5 rounded-full bg-[var(--rust)]" />
-                        <div className="w-2.5 h-2.5 rounded-full bg-[var(--gold)]" />
-                        <div className="w-2.5 h-2.5 rounded-full bg-[var(--green)]" />
-                        <span className="ml-2 font-mono-tech text-[10px] text-[var(--muted)]">
-                          telemetry://node_{activeNode.id}.log
-                        </span>
-                      </div>
-                      <Activity size={13} className="text-[var(--aqua)] animate-pulse" />
-                    </div>
-
-                    <div className="space-y-2 font-mono-tech text-xs">
-                      {Object.entries(activeNode.telemetry).map(([key, val]) => (
-                        <div key={key} className="flex flex-col sm:flex-row sm:justify-between text-[11px] gap-0.5">
-                          <span className="text-[var(--muted)]">{key}:</span>
-                          <span className="text-[var(--aqua)] font-medium text-right truncate">
-                            {val}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="mt-4 pt-3 border-t border-[rgba(165,227,217,0.1)] flex items-center justify-between text-[11px] font-mono-tech text-[var(--soft)]">
-                      <span>VERIFIED_EXECUTION</span>
-                      <span className="text-[var(--green)] flex items-center gap-1">
-                        <CheckCircle2 size={12} /> 100% AUDITABLE
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Bottom Scrubber Actions */}
-            <div className="pt-6 mt-6 border-t border-[rgba(165,227,217,0.1)] flex flex-wrap items-center justify-between gap-3">
-              <div className="flex items-center gap-3">
-                <a
-                  href="#contact"
-                  className="px-4 py-2 rounded-lg bg-[var(--aqua)] text-[var(--bg)] font-mono-tech text-xs font-bold hover:brightness-110 transition-all flex items-center gap-1.5 glow-aqua-sm"
-                >
-                  INITIALIZE DISPATCH <ArrowRight size={14} />
-                </a>
-                <a
-                  href="#projects"
-                  className="px-4 py-2 rounded-lg bg-[var(--panel)] border border-[var(--line)] text-[var(--soft)] font-mono-tech text-xs hover:border-[var(--aqua)] transition-all flex items-center gap-1.5"
-                >
-                  EXPLORE MATRIX <ChevronRight size={14} />
-                </a>
-              </div>
-
-              <div className="flex items-center gap-3 font-mono-tech text-xs text-[var(--muted)]">
-                <a
-                  href={profile.github}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="hover:text-[var(--aqua)] transition-colors flex items-center gap-1"
-                >
-                  GitHub @ganguydhrubo <ExternalLink size={12} />
-                </a>
+              {/* Bottom Holographic HUD telemetry */}
+              <div className="absolute bottom-4 inset-x-4 px-3 py-1.5 rounded bg-[rgba(5,7,10,0.7)] backdrop-blur-md border border-[rgba(165,227,217,0.15)] flex items-center justify-between text-[10px] font-mono-tech z-20">
+                <span className="text-[var(--muted)]">CANVAS_ENGINE // DEPTH_PARALLAX</span>
+                <span className="text-[var(--aqua)] flex items-center gap-1">
+                  <CheckCircle2 size={11} /> SCROLL_SYNCHRONIZED
+                </span>
               </div>
             </div>
+          </div>
+
+        </div>
+
+        {/* Bottom Pinned Footer Cue */}
+        <div className="max-w-7xl w-full mx-auto pb-2 flex items-center justify-between border-t border-[rgba(165,227,217,0.1)] pt-3 text-[11px] font-mono-tech text-[var(--muted)] z-20">
+          <div className="flex items-center gap-2">
+            <span className="text-[var(--aqua)]">↓</span>
+            <span>SCROLL TO SCRUB TIMELINE NODES</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <a href={profile.github} target="_blank" rel="noreferrer" className="hover:text-[var(--aqua)] flex items-center gap-1">
+              GitHub @ganguydhrubo <ExternalLink size={11} />
+            </a>
           </div>
         </div>
 
       </div>
+
+      {/* Global Style for 3D Text Flip Animation */}
+      <style jsx global>{`
+        @keyframes textFlipIn {
+          from {
+            opacity: 0;
+            transform: translateY(16px) rotateX(-35deg);
+            filter: blur(4px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) rotateX(0deg);
+            filter: blur(0px);
+          }
+        }
+      `}</style>
     </section>
   );
 }
