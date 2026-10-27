@@ -153,7 +153,7 @@ export default function TechStack() {
                 {selectedItem.desc}
               </p>
               <div className="shrink-0 flex items-center gap-2 font-mono-tech text-xs text-[var(--green)]">
-                <CheckCircle2 size={13} /> 100% PRODUCTION VERIFIED
+                <CheckCircle2 size={13} /> USED IN SHIPPED PROJECTS
               </div>
             </div>
           </div>

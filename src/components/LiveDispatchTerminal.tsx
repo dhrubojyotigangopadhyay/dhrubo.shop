@@ -19,7 +19,7 @@ export default function LiveDispatchTerminal() {
     lastName: 'Vance',
     email: 'alex@enterprise-ai.com',
     organization: 'Enterprise Operations AI',
-    message: 'Seeking production agentic architecture review and sub-250ms voice integration.',
+    message: 'Looking for help putting an AI workflow into a real business process.',
   });
 
   const [copied, setCopied] = useState(false);
@@ -170,7 +170,7 @@ export default function LiveDispatchTerminal() {
                   className="p-2.5 rounded bg-[var(--panel-2)] border border-[rgba(165,227,217,0.08)] hover:border-[var(--aqua)] text-[var(--soft)] flex items-center gap-2 truncate transition-colors"
                 >
                   <ExternalLink size={13} className="text-[var(--aqua)] shrink-0" />
-                  <span className="truncate">GitHub @dhruboshop</span>
+                  <span className="truncate">GitHub @ganguydhrubo</span>
                 </a>
               </div>
             </div>
@@ -262,7 +262,7 @@ export default function LiveDispatchTerminal() {
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     className="w-full px-3.5 py-2.5 rounded-lg bg-[var(--panel-2)] border border-[var(--line)] text-sm font-mono-tech text-[var(--text)] focus:border-[var(--aqua)] focus:outline-none transition-colors resize-none"
-                    placeholder="Describe your AI architecture targets, telephony requirements, or platform scale..."
+                    placeholder="Describe the business problem you want an AI system to handle..."
                   />
                 </div>
               </div>

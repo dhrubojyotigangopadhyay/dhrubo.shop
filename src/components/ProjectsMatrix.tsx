@@ -27,7 +27,7 @@ export default function ProjectsMatrix() {
             </h2>
           </div>
           <div className="font-mono-tech text-xs text-[var(--muted)]">
-            INDEXED FLAGSHIP ARCHITECTURES
+            ALL SOURCE PUBLIC ON GITHUB
           </div>
         </div>
 
@@ -130,7 +130,7 @@ export default function ProjectsMatrix() {
                         rel="noreferrer"
                         className="font-mono-tech text-xs text-[var(--aqua)] hover:underline flex items-center gap-1"
                       >
-                        AUDIT CODE AT GITHUB.COM/DHRUBOSHOP <ExternalLink size={12} />
+                        AUDIT CODE AT GITHUB.COM/GANGUYDHRUBO <ExternalLink size={12} />
                       </a>
                     </div>
                   </div>

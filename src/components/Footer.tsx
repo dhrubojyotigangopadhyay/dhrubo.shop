@@ -24,18 +24,18 @@ export default function Footer() {
         {/* Monospace Status Metadata Header */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pb-8 mb-8 border-b border-[rgba(165,227,217,0.1)] font-mono-tech text-xs">
           <div>
-            <span className="text-[var(--muted)]">{"// AI SYSTEMS ARCHITECT"}</span>
-            <div className="text-[var(--aqua)] mt-0.5">APPLIED_AI_SOLUTIONS</div>
+            <span className="text-[var(--muted)]">{"// APPLIED AI ENGINEER"}</span>
+            <div className="text-[var(--aqua)] mt-0.5">AGENTS_AND_AUTOMATION</div>
           </div>
           <div>
-            <span className="text-[var(--muted)]">{"// FORWARD DEPLOYED ENGINEER"}</span>
-            <div className="text-[var(--soft)] mt-0.5">EDGE_INTEGRATION_SPEED</div>
+            <span className="text-[var(--muted)]">{"// 16 YEARS ENTERPRISE OPS"}</span>
+            <div className="text-[var(--soft)] mt-0.5">REVENUE_OPERATIONS</div>
           </div>
           <div>
-            <span className="text-[var(--muted)]">{"// 100% PRODUCTION READY"}</span>
+            <span className="text-[var(--muted)]">{"// OPEN SOURCE"}</span>
             <div className="text-[var(--green)] mt-0.5 flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-[var(--green)] animate-ping" />
-              VERIFIED_SYSTEMS_ONLINE
+              CODE_PUBLIC_ON_GITHUB
             </div>
           </div>
           <div>
@@ -51,7 +51,7 @@ export default function Footer() {
               {profile.name}
             </h3>
             <p className="text-xs font-mono-tech text-[var(--muted)] mt-1">
-              Forward Deployed Engineer | Applied AI Solutions Architect | 17 Years Enterprise Operational Leadership
+              Applied AI Engineer | 16 Years Enterprise Revenue Operations
             </p>
           </div>
 
@@ -61,6 +61,18 @@ export default function Footer() {
             </a>
             <a href={profile.linkedin} target="_blank" rel="noreferrer" className="hover:text-[var(--aqua)] transition-colors">
               LinkedIn
+            </a>
+            <a href={profile.x} target="_blank" rel="noreferrer" className="hover:text-[var(--aqua)] transition-colors">
+              X
+            </a>
+            <a href={profile.youtube} target="_blank" rel="noreferrer" className="hover:text-[var(--aqua)] transition-colors">
+              YouTube
+            </a>
+            <a href={profile.instagram} target="_blank" rel="noreferrer" className="hover:text-[var(--aqua)] transition-colors">
+              Instagram
+            </a>
+            <a href={profile.facebook} target="_blank" rel="noreferrer" className="hover:text-[var(--aqua)] transition-colors">
+              Facebook
             </a>
             <a href={`mailto:${profile.email}`} className="hover:text-[var(--aqua)] transition-colors">
               Email
@@ -77,7 +89,7 @@ export default function Footer() {
         {/* Copyright Attribution */}
         <div className="mt-8 pt-6 border-t border-[rgba(165,227,217,0.06)] flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono-tech text-[var(--muted)]">
           <div>
-            © 2026 {profile.name} (Dhrubo). All systems verified &amp; production auditable.
+            © 2026 {profile.name} (Dhrubo). All projects open source and inspectable.
           </div>
           <div>
             Live Edge Node: <span className="text-[var(--aqua)]">dhrubo.shop</span>

@@ -129,21 +129,21 @@ export default function BentoProfile() {
                     {profile.name} (Dhrubo)
                   </h3>
                   <p className="text-sm font-mono-tech text-[var(--aqua)] mt-0.5">
-                    Forward Deployed Engineer | Applied AI Solutions Architect
+                    Applied AI Engineer
                   </p>
                   <p className="text-xs text-[var(--muted)] font-mono-tech mt-1">
-                    Platform Engineer · AI Expert · 17 Years Enterprise Operations Leadership
+                    16 Years Enterprise Revenue Operations · Now Building Applied AI Systems
                   </p>
                 </div>
               </div>
 
               <p className="mt-6 text-sm text-[var(--muted)] leading-relaxed">
-                Operating directly at the intersection of production agentic AI and enterprise systems. I bridge customer problem spaces with technical execution—delivering sub-250ms voice pipelines, stateful LangGraph agents, and database-tier logic.
+                I build applied AI systems that connect language models to the tools, data and approval steps a business already runs on. Sixteen years running enterprise revenue operations taught me where those systems break; now I write the code that handles it.
               </p>
             </div>
 
             <div className="mt-8 pt-6 border-t border-[rgba(165,227,217,0.1)] flex flex-wrap gap-2">
-              {['Forward Deployed AI', 'Applied AI Engineer', 'AI Solutions Architect', 'Platform Engineer', 'FastAPI', 'Next.js'].map((tag) => (
+              {['Applied AI Engineer', 'AI Agents', 'Workflow Automation', 'TypeScript', 'Python', 'Next.js'].map((tag) => (
                 <span key={tag} className="px-2.5 py-1 rounded text-xs font-mono-tech bg-[var(--panel-2)] border border-[rgba(165,227,217,0.1)] text-[var(--soft)]">
                   {tag}
                 </span>
@@ -156,34 +156,34 @@ export default function BentoProfile() {
             <div>
               <div className="flex items-center justify-between mb-4">
                 <span className="font-mono-tech text-xs text-[var(--aqua)]">
-                  {"// FORWARD DEPLOYED VELOCITY"}
+                  {"// HOW I WORK"}
                 </span>
                 <Zap size={16} className="text-[var(--aqua)]" />
               </div>
 
               <h3 className="text-lg sm:text-xl font-bold font-mono-tech text-[var(--text)]">
-                Field Integration &amp; Production Bridges
+                From Ambiguous Problem to Running Software
               </h3>
               <p className="text-xs font-mono-tech text-[var(--muted)] mt-1">
-                Zero-Latency Operational Edge Execution
+                Scope · Build · Deploy · Explain
               </p>
 
               <p className="mt-4 text-sm text-[var(--muted)] leading-relaxed">
-                Embedding directly with client teams to turn ambiguous operational problems into running software within days. Building the single bridge between executive stakeholders and low-level code without translation loss.
+                I work where a vague operational problem has to become a working system — scoping it, building it, deploying it, and explaining it to the people who have to live with it. Having sat on the business side of the table, I can hold both conversations without translation loss.
               </p>
             </div>
 
             <div className="mt-6 p-4 rounded-lg bg-[rgba(5,7,10,0.6)] border border-[rgba(112,241,219,0.2)]">
               <div className="flex items-baseline justify-between">
                 <span className="font-mono-tech text-xl font-bold text-[var(--aqua)]">
-                  DEPLOYMENT EDGE
+                  OPEN SOURCE
                 </span>
                 <span className="font-mono-tech text-xs text-[var(--muted)]">
-                  Fast Turnaround
+                  Inspectable
                 </span>
               </div>
               <p className="text-[11px] font-mono-tech text-[var(--soft)] mt-1">
-                Custom enterprise AI integration, autonomous workflows, and production RAG.
+                Every project below is public: source, commit history, tests and releases.
               </p>
             </div>
           </BentoTiltCard>
@@ -199,27 +199,27 @@ export default function BentoProfile() {
               </div>
 
               <h3 className="text-lg sm:text-xl font-bold font-mono-tech text-[var(--text)]">
-                Multi-Agent State Machines &amp; Voice Pipelines
+                Agents Built for Operations, Not Demos
               </h3>
               <p className="text-xs font-mono-tech text-[var(--muted)] mt-1">
-                LangGraph · Groq LPUs · Gemini · Claude 3.5 · Vapi · Twilio
+                LangGraph · Model Context Protocol · Claude · Gemini
               </p>
 
               <p className="mt-4 text-sm text-[var(--muted)] leading-relaxed">
-                Architecting autonomous agent networks with supervisor graphs, parent-doc checkpointing, and sub-250ms conversational telephony. Moving beyond fragile prompt demos into verified, auditable AI engines.
+                I design around the boundary between what a model decides and what it is permitted to do: approval gates before externally-consequential actions, structured execution records instead of chat transcripts, and failure handling that degrades safely.
               </p>
             </div>
 
             <div className="mt-6 grid grid-cols-2 gap-3">
               <div className="p-3 rounded bg-[var(--panel-2)] border border-[rgba(165,227,217,0.1)]">
-                <div className="font-mono-tech text-xs text-[var(--muted)]">Voice Telephony</div>
-                <div className="text-base font-bold font-mono-tech text-[var(--aqua)]">&lt;250ms</div>
-                <div className="text-[10px] text-[var(--muted)]">Speech to structured CRM</div>
+                <div className="font-mono-tech text-xs text-[var(--muted)]">Sahkarmi</div>
+                <div className="text-base font-bold font-mono-tech text-[var(--aqua)]">230+ commits</div>
+                <div className="text-[10px] text-[var(--muted)]">64 unit test suites</div>
               </div>
               <div className="p-3 rounded bg-[var(--panel-2)] border border-[rgba(165,227,217,0.1)]">
-                <div className="font-mono-tech text-xs text-[var(--muted)]">Public Architectures</div>
-                <div className="text-base font-bold font-mono-tech text-[var(--green)]">31+ Systems</div>
-                <div className="text-[10px] text-[var(--muted)]">Public on GitHub</div>
+                <div className="font-mono-tech text-xs text-[var(--muted)]">Release Pipeline</div>
+                <div className="text-base font-bold font-mono-tech text-[var(--green)]">15+ releases</div>
+                <div className="text-[10px] text-[var(--muted)]">CI/CD on every commit</div>
               </div>
             </div>
           </BentoTiltCard>
@@ -229,34 +229,34 @@ export default function BentoProfile() {
             <div>
               <div className="flex items-center justify-between mb-4">
                 <span className="font-mono-tech text-xs text-[var(--gold)]">
-                  {"// PLATFORM & 17YR ENTERPRISE OPS"}
+                  {"// 16 YEARS ENTERPRISE OPERATIONS"}
                 </span>
                 <Database size={16} className="text-[var(--gold)]" />
               </div>
 
               <h3 className="text-lg sm:text-xl font-bold font-mono-tech text-[var(--text)]">
-                High-Stakes Commercial Scaling &amp; DB Logic
+                Where the Domain Knowledge Comes From
               </h3>
               <p className="text-xs font-mono-tech text-[var(--muted)] mt-1">
-                ACC Ltd · Lafarge · MP Birla Group (AGM / Senior Manager level)
+                ACC Ltd · LafargeHolcim · MP Birla Cement · Star Cement · Shyam Steel
               </p>
 
               <p className="mt-4 text-sm text-[var(--muted)] leading-relaxed">
-                17 years of enterprise commercial operations leadership and commercial scaling authority. Designing distribution databases, pricing incentive frameworks, and database-tier stored procedures (PL/pgSQL) that eliminate multi-million dollar audit leakage.
+                Sixteen years running enterprise revenue operations at AGM and Senior Manager level — dealer networks, channel performance, fulfilment and cash collection across multiple states. I know how commercial operations actually fail, which is why I build AI systems that assume they will.
               </p>
             </div>
 
             <div className="mt-6 p-4 rounded-lg bg-[rgba(5,7,10,0.6)] border border-[rgba(240,189,69,0.2)]">
               <div className="flex items-baseline justify-between">
                 <span className="font-mono-tech text-xl font-bold text-[var(--gold)]">
-                  40% DECISION LATENCY DROP
+                  2007 &ndash; 2023
                 </span>
                 <span className="font-mono-tech text-xs text-[var(--muted)]">
-                  DB-Tier Rule Engines
+                  Cement &amp; Steel Distribution
                 </span>
               </div>
               <p className="text-[11px] font-mono-tech text-[var(--soft)] mt-1">
-                Translating complex commercial multi-state logistics into deterministic system schemas.
+                Approval delays, unauditable changes and manual reconciliation — the problems I now build against.
               </p>
             </div>
           </BentoTiltCard>

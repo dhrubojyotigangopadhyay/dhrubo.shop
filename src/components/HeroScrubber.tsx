@@ -338,7 +338,7 @@ export default function HeroScrubber() {
           </div>
           <div className="flex items-center gap-3">
             <a href={profile.github} target="_blank" rel="noreferrer" className="hover:text-[var(--aqua)] flex items-center gap-1">
-              GitHub @dhruboshop <ExternalLink size={11} />
+              GitHub @ganguydhrubo <ExternalLink size={11} />
             </a>
           </div>
         </div>

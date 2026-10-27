@@ -16,8 +16,8 @@ const jsonLd = {
       '@type': 'ProfilePage',
       '@id': 'https://dhrubo.shop/#profile',
       url: 'https://dhrubo.shop/',
-      name: 'Dhrubojyoti Gangopadhyay — Forward Deployed Engineer & Applied AI Solutions Architect',
-      dateModified: '2026-09-06',
+      name: 'Dhrubojyoti Gangopadhyay — Applied AI Engineer',
+      dateModified: '2026-10-27',
       mainEntity: { '@id': 'https://dhrubo.shop/#person' },
     },
     {
@@ -29,23 +29,32 @@ const jsonLd = {
       image: 'https://dhrubo.shop/dhrubo-portrait.jpg',
       email: 'mailto:dhrubojyoti.gangopadhyay@gmail.com',
       telephone: '+918240801921',
-      jobTitle: 'Forward Deployed Engineer & Applied AI Solutions Architect',
+      jobTitle: 'Applied AI Engineer',
       address: {
         '@type': 'PostalAddress',
         addressLocality: 'Kolkata',
         addressCountry: 'IN',
       },
-      sameAs: [profile.github, profile.linkedin, profile.x],
+      sameAs: [
+        profile.github,
+        profile.linkedin,
+        profile.x,
+        profile.youtube,
+        profile.instagram,
+        profile.facebook,
+      ],
       knowsAbout: [
-        'Full-stack web development',
+        'Applied AI engineering',
         'AI agent systems',
         'LangGraph',
         'Model Context Protocol',
-        'Voice AI',
+        'Workflow automation',
+        'TypeScript',
+        'Python',
         'FastAPI',
-        'Next.js 15',
+        'Next.js',
         'PostgreSQL',
-        'Enterprise commercial operations',
+        'Enterprise revenue operations',
       ],
     },
   ],
@@ -77,7 +86,7 @@ export default function Home() {
                 DHRUBO
               </span>
               <span className="font-mono-tech text-[9px] text-[var(--aqua)] tracking-widest -mt-1">
-                SYSTEMS ARCHITECT
+                APPLIED AI ENGINEER
               </span>
             </div>
           </a>
