@@ -94,7 +94,7 @@ export function ApprovalFlow() {
         </div>
 
         <div className="p-5">
-          <ol className="grid grid-cols-5 gap-2" aria-label="Execution path">
+          <ol className="grid grid-cols-1 gap-2 sm:grid-cols-5" aria-label="Execution path">
             {STEPS.map((name, i) => {
               const s = i as Step;
               const on = reached(s);
@@ -105,7 +105,7 @@ export function ApprovalFlow() {
                   <motion.div
                     animate={{ scale: on && !off ? 1 : 0.96 }}
                     transition={{ duration: reduce ? 0 : 0.25 }}
-                    className={`rounded-lg border px-2 py-3 text-center ${
+                    className={`flex items-center gap-3 rounded-lg border px-3 py-2.5 sm:block sm:px-2 sm:py-3 sm:text-center ${
                       on && !off
                         ? gate
                           ? "border-accent bg-accent/10"
@@ -144,7 +144,7 @@ export function ApprovalFlow() {
                 {step === 2 && <Note title="A named human decides">The request is shown on the desktop and forwarded to the allow-listed Telegram chat. Approve, reject, or delegate for a bounded time.</Note>}
                 {step === 3 && <Note title="Execution">Runs inside the coworker&apos;s sandboxed browser or tool runtime. Credentials never pass through the model.</Note>}
                 {step === 4 && (
-                  <div className="rounded-lg bg-[var(--code-bg)] p-4 font-mono text-[12px] leading-relaxed text-[var(--code-ink)]">
+                  <div className="rounded-lg bg-[var(--code-bg)] p-4 font-mono text-[12px] leading-relaxed break-words text-[var(--code-ink)]">
                     <p className="mb-1 text-[#9aa0a8]">{"// execution record"}</p>
                     {Object.entries({ ...selected.record, ts: "2026-11-02T10:14:05+05:30" }).map(([k, v]) => (
                       <p key={k}>
