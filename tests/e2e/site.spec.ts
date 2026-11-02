@@ -141,3 +141,17 @@ test.describe("accessibility (axe, WCAG 2.1 AA)", () => {
     });
   }
 });
+
+test.describe("visual regressions", () => {
+  test("primary buttons never render text in their own background colour", async ({ page }) => {
+    await page.goto("/");
+    const pairs = await page.locator("a.bg-ink, button.bg-ink").evaluateAll((els) =>
+      els.map((e) => {
+        const s = getComputedStyle(e);
+        return { text: (e.textContent || "").trim().slice(0, 30), color: s.color, bg: s.backgroundColor };
+      }),
+    );
+    expect(pairs.length).toBeGreaterThan(0);
+    for (const p of pairs) expect(p.color, p.text).not.toBe(p.bg);
+  });
+});
