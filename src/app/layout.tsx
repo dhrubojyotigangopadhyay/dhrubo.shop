@@ -1,95 +1,83 @@
-import type { Metadata, Viewport } from 'next';
-import './globals.css';
+import type { Metadata, Viewport } from "next";
+import { Newsreader } from "next/font/google";
+import { headers } from "next/headers";
+import Script from "next/script";
+import "./globals.css";
+import { Analytics, CONSENT_DEFAULT } from "@/components/site/Analytics";
+import { Footer } from "@/components/site/Footer";
+import { Header } from "@/components/site/Header";
+import { JsonLd } from "@/components/site/JsonLd";
+import { THEME_BOOTSTRAP } from "@/components/site/ThemeToggle";
+import { AssistantWidget } from "@/components/assistant/AssistantWidget";
+import { graph, personJsonLd, websiteJsonLd } from "@/lib/seo/jsonld";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
+
+const newsreader = Newsreader({
+  subsets: ["latin"],
+  variable: "--font-display",
+  style: ["normal", "italic"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  title: {
-    default: 'Dhrubo | Forward Deployed Engineer & Applied AI Solutions Architect',
-    template: '%s | Dhrubo',
-  },
-  description:
-    'Dhrubojyoti Gangopadhyay (Dhrubo) — Forward Deployed Engineer, Applied AI Engineer, AI Solutions Architect, and Platform Engineer with 17 years of enterprise commercial operations depth.',
-  metadataBase: new URL('https://dhrubo.shop'),
-  applicationName: 'Dhrubo Portfolio',
-  authors: [{ name: 'Dhrubojyoti Gangopadhyay', url: 'https://dhrubo.shop' }],
-  creator: 'Dhrubojyoti Gangopadhyay',
-  publisher: 'Dhrubo',
-  alternates: {
-    canonical: '/',
-  },
+  metadataBase: new URL(SITE_URL),
+  title: { default: SITE_TITLE, template: `%s | ${SITE_NAME}` },
+  description: SITE_DESCRIPTION,
+  applicationName: "dhrubo.shop",
+  authors: [{ name: "Dhrubojyoti Gangopadhyay", url: `${SITE_URL}/about` }],
+  creator: "Dhrubojyoti Gangopadhyay",
+  publisher: "Dhrubojyoti Gangopadhyay",
+  alternates: { canonical: "/" },
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-      'max-video-preview': -1,
-    },
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
   },
-  keywords: [
-    'Dhrubo',
-    'Dhrubojyoti Gangopadhyay',
-    'Forward Deployed Engineer',
-    'Applied AI Engineer',
-    'AI Solutions Architect',
-    'Platform Engineer',
-    'AI Expert',
-    'Production AI Agents',
-    'LangGraph Engineer',
-    'Model Context Protocol',
-    'Vapi Voice AI',
-    'Enterprise Operations Leadership',
-    'Commercial Operations',
-    'FastAPI',
-    'Supabase',
-    'Next.js 15',
-  ],
   openGraph: {
-    title: 'Dhrubo | Enterprise Instincts. AI Systems That Ship.',
-    description:
-      'Production AI systems built with 17 years of enterprise commercial operating context. Explore auditable architectures across agents, voice pipelines, and database-tier logic.',
-    url: 'https://dhrubo.shop',
-    siteName: 'Dhrubo',
-    type: 'website',
-    locale: 'en_IN',
-    images: [
-      {
-        url: '/og-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Dhrubojyoti Gangopadhyay, Full-Stack Developer & AI Systems Architect',
-      },
-    ],
+    type: "website",
+    locale: "en_IN",
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: [{ url: `${SITE_URL}/og`, width: 1200, height: 630, alt: "Dhrubojyoti Gangopadhyay, Forward Deployed & Applied AI Engineer" }],
   },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Dhrubo | Enterprise Instincts. AI Systems That Ship.',
-    description:
-      'Full-stack developer and AI systems architect pairing 17 years of enterprise commercial operations with sub-250ms voice pipelines and stateful LangGraph agents.',
-    creator: '@aibabahq',
-    images: ['/og-image.jpg'],
-  },
-  icons: {
-    icon: '/dhrubo-logo.gif',
-    apple: '/dhrubo-portrait.jpg',
-  },
+  twitter: { card: "summary_large_image", creator: "@DhruboZ4U", title: SITE_TITLE, description: SITE_DESCRIPTION, images: [`${SITE_URL}/og`] },
+  icons: { icon: "/icon", apple: "/apple-icon" },
+  manifest: "/manifest.webmanifest",
 };
 
 export const viewport: Viewport = {
-  themeColor: '#05070a',
-  colorScheme: 'dark',
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f6f2ea" },
+    { media: "(prefers-color-scheme: dark)", color: "#0c0e12" },
+  ],
+  width: "device-width",
+  initialScale: 1,
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const nonce = (await headers()).get("x-nonce") ?? undefined;
   return (
-    <html lang="en">
-      <body className="bg-[#05070a] text-[#eef8f4] antialiased">
-        {children}
+    <html lang="en" suppressHydrationWarning className={newsreader.variable}>
+      <head>
+        <Script id="theme-bootstrap" strategy="beforeInteractive" nonce={nonce}>
+          {THEME_BOOTSTRAP}
+        </Script>
+        <Script id="ga-consent-default" strategy="beforeInteractive" nonce={nonce}>
+          {CONSENT_DEFAULT}
+        </Script>
+        <JsonLd data={graph(personJsonLd(), websiteJsonLd())} nonce={nonce} />
+      </head>
+      <body className="min-h-dvh bg-bg text-ink">
+        <a href="#main" className="skip-link">
+          Skip to content
+        </a>
+        <Header />
+        <main id="main">{children}</main>
+        <Footer />
+        <AssistantWidget />
+        <Analytics nonce={nonce} />
       </body>
     </html>
   );

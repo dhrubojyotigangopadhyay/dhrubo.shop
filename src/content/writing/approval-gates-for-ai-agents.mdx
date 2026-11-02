@@ -1,0 +1,45 @@
+Most agent demos answer one question well: *what did the model say?* Operations work asks a harder one: *what did the system actually do, and who allowed it?* Sahkarmi is a desktop platform where AI coworkers browse, file, draft and report on a user's own Windows machine. This article is about the part of it I spent the most design time on, which is the part that stops the agent.
+
+## The failure we are designing against
+
+An agent with a browser and a shell can pay an invoice, message a customer, submit a government form, publish a page or delete a folder. Each of those is a one-way door. A chat assistant that hallucinates wastes a minute; an agent that hallucinates a bank transfer costs real money and trust. So the first design rule in Sahkarmi is blunt:
+
+> The model proposes. A human approves. The decision is recorded.
+
+Everything below is machinery to make that rule cheap enough that people keep it switched on.
+
+## Sixteen categories, six hard gates
+
+Every tool call an agent can make is classified into one of sixteen permission categories in `permission-policy.ts`: reading files, writing files, browsing, form filling, payments, external messages, publication, shell access, deletions, official forms, and so on. Each category has a default decision: allow, ask, or deny.
+
+Six categories are special. Payments, messages to customers or third parties, publication, shell commands, destructive file operations and official or government forms are hard-coded to **ask**. The model cannot auto-approve them. The settings UI cannot switch them to allow. A coworker template cannot override them. The reasoning is simple: a policy an agent can talk its way around is not a policy, and a setting a tired user can flip at midnight is not a safeguard.
+
+## Delegated authority with an expiry
+
+Asking on every action makes an agent useless for repetitive work, so Sahkarmi has an approval store with two kinds of memory. A specific approval ("yes, send this message") is single-use. A delegated approval ("you may send order confirmations to existing customers for the next thirty days") is scoped to a category and a pattern and carries a hard expiry. Nothing is remembered forever; the store evicts delegated authority at thirty days and plain approvals at seven. Expiry is not a UX nicety. It forces the user to re-read what they have delegated.
+
+## The browser take-over flow
+
+The most common place an agent meets a secret is a login page. The naive design is to give the agent the password. Sahkarmi refuses. When a coworker reaches a login or a one-time code, it requests secure input. The sandboxed browser is handed to the human, who signs in with their own hands; the coworker then takes the session back. The model never sees the password or the OTP, which means it can never log them, leak them into a transcript or be tricked into typing them somewhere else.
+
+Each coworker gets its own browser profile, so a coworker that handles supplier portals never shares cookies with the one that drafts marketing posts.
+
+## Approvals from your phone
+
+Operations do not wait for someone to be at a desk. The Telegram bridge forwards approval requests to an allow-listed chat and accepts a decision back. The bridge is deliberately narrow: it can approve, reject and report status, and nothing else. A compromised phone can let a pending action through; it cannot start new work.
+
+## What this looks like in code
+
+The agent runtime is the Claude Agent SDK, and the hook is `canUseTool`. Every tool call is routed through the permission policy before execution; the policy returns allow, deny or a pending-approval token. The same policy guards the Codex app-server path and the Agent Client Protocol bridge to OpenCode and Gemini runtimes, so switching models does not change what the system is allowed to do. Tools arrive over the Model Context Protocol, including user-configured MCP servers, which means third-party tools inherit the same gates as built-in ones.
+
+A short honesty note: the gates are enforced in the Sahkarmi host, not in the model. For non-Claude runtimes that call tools through their own loop, the policy is applied at the tool boundary the bridge controls. If a runtime had a side channel the bridge does not mediate, the policy would not see it. That is why the Electron shell is hardened separately: context isolation, sandbox, a strict CSP, Electron fuses and sender-validated IPC on all 209 channels.
+
+## Costs
+
+This design has prices. Approval fatigue is real; the fix is good defaults in the 175 coworker templates, so the ask prompts are rare and specific. Delegation expiry annoys power users. The take-over flow adds a minute to any task that needs a login. I think every one of these is worth paying, because the alternative is an agent whose worst day is unbounded.
+
+## What I would do next
+
+Three things are missing. Approval requests should show a diff of the effect, not a description of the intent. Delegations should be exportable so an owner can audit what their staff have granted. And the policy needs a formal test suite that proves no path from any runtime can reach a gated category without a token. The test files exist for the policy itself; the end-to-end proof across runtimes does not yet.
+
+Sahkarmi's source, releases and permission policy are public on [GitHub](https://github.com/ganguydhrubo/sahakarmi). The project page on this site lists what is verified and what is not: [Sahkarmi](/projects/sahkarmi).

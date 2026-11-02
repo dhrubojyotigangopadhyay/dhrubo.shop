@@ -1,0 +1,48 @@
+This is a set of notes from a retrieval prototype, the [B2B Sales Intelligence RAG](/projects/b2b-sales-intelligence-rag) repository. It is a prototype: it has fifty unit tests, a twenty-question evaluation set and no deployment. The notes are about the retrieval design, which is the part I would reuse.
+
+## The problem with one retriever
+
+A sales team asks questions like "which accounts in the North East mentioned a budget freeze on a call in the last quarter?" The useful evidence lives in CRM notes, call transcripts and account plans. Two retrieval families fail in opposite ways on this:
+
+- **Dense retrieval** (embeddings) understands "budget freeze" and "spending pause" are the same thing. It is poor at exact tokens: account codes, product SKUs, a person's surname, a region string.
+- **Sparse retrieval** (BM25) nails exact tokens and dates and is blind to paraphrase.
+
+Sales questions always contain both kinds of signal. So the retriever uses both and then has to combine them.
+
+## Why fuse ranks instead of scores
+
+The tempting approach is `final = a * dense_score + b * bm25_score`. It does not work in practice because the two scores live on different scales and distributions, and the right `a` and `b` change with the corpus. You end up tuning a magic number per customer.
+
+Reciprocal rank fusion (RRF) avoids the scales entirely. Each retriever returns a ranked list; a document's fused score is the sum over retrievers of `1 / (k + rank)`, with `k` typically 60. A document ranked first by both retrievers wins; a document ranked first by one and absent from the other still surfaces. The prototype applies a weight per retriever on top of that, which is the only knob, and in the evaluation it barely needed moving.
+
+```python
+def rrf(ranked_lists, k=60, weights=None):
+    scores = defaultdict(float)
+    for i, docs in enumerate(ranked_lists):
+        w = (weights or [1.0] * len(ranked_lists))[i]
+        for rank, doc_id in enumerate(docs, start=1):
+            scores[doc_id] += w / (k + rank)
+    return sorted(scores, key=scores.get, reverse=True)
+```
+
+## Re-ranking the fused list
+
+RRF gives a good top fifty, not a good top five. A cross-encoder re-ranker reads the query and each candidate together and scores relevance directly. It is too slow to run over the whole corpus and exactly fast enough to run over fifty candidates. The prototype uses a small open cross-encoder; the quality jump from fused top-k to re-ranked top-k was the single largest improvement in the evaluation.
+
+## The evaluation set
+
+Twenty questions is small, and it was still the most useful artefact in the project. Each question has an expected set of source documents and a reference answer. An LLM judge scores the generated answer for faithfulness to the retrieved context and for coverage of the reference. Retrieval is scored separately with recall at k, which is the number that actually told me whether a change helped.
+
+Three things the set revealed:
+
+1. Chunk size mattered more than the embedding model. Transcripts needed smaller chunks with overlap; account plans needed whole sections.
+2. BM25 alone beat dense alone on this corpus, because sales questions are full of proper nouns. Fusion beat both.
+3. The judge was lenient on answers that hedged. Faithfulness scoring needs a strict rubric or it rewards vagueness.
+
+## What is honest to say about this prototype
+
+The dependency pins did not resolve in CI, so the tests have never run in a pipeline, only locally. There is no deployment and no production traffic. I include it here because the retrieval and evaluation design is sound and reusable, and because the [projects page](/projects) exists to show status honestly rather than to impress.
+
+## What I would do in production
+
+Trace every query with the retrieved IDs and scores so failures can be replayed. Grow the evaluation set from real questions, not invented ones. Add a freshness feature, because sales context goes stale in weeks. And keep RRF; in a year of reading about retrieval I have not found a simpler combiner that works as reliably.

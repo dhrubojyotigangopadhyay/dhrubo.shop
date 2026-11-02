@@ -19,3 +19,12 @@ employee-platform-mvp/
 management-complete-build/
 management-deck-build/
 phase-0-design/
+
+# vercel
+.vercel
+
+.vercel
+
+# test artifacts
+test-results/
+playwright-report/
