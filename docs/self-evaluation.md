@@ -9,7 +9,7 @@ Written 2 November 2026 as the brief required: a senior recruiter at an AI lab o
 3. **Thin writing record.** Four articles, all dated the same day, all written during the rebuild. Credibility from writing comes from cadence over months. The content plan in `docs/positioning.md` exists; it has not been executed.
 4. **No third-party validation.** No testimonials, no conference talks, no named clients, no external coverage. The site does not fabricate any; it just does not have them.
 5. **Assistant depends on a key.** On a deployment without `GROQ_API_KEY`, `/ask` shows an honest "not configured" message. That is better than a broken chat, but a recruiter who clicks "Ask" and gets a placeholder will think less of the site. The owner must set the key before sharing the link.
-6. **Mobile performance is 71 to 88 (median 77) on a laptop server** with LCP between 3.5 and 4.4 s on simulated slow 4G. Vercel's CDN should improve it, but that is a prediction, not a measurement.
+6. **Performance is measured on a scratch Vercel project, not on dhrubo.shop.** The preview scores 95 to 99 on mobile with LCP 1.9 to 2.8 s; the real domain will be measured only after the owner deploys.
 7. **Phone number inconsistency.** The site and WhatsApp link use +91 82408 01921; the PDF résumé uses +91 98740 76688. The owner must pick one.
 8. **Metadata is streamed for browsers** because pages render dynamically for the CSP nonce. It is in `<head>` for every non-JavaScript crawler and Googlebot renders JavaScript, but Lighthouse docks SEO to 92 for it and a purist reviewer could raise it.
 
@@ -20,7 +20,7 @@ Written 2 November 2026 as the brief required: a senior recruiter at an AI lab o
 3. **Honest statuses and limitations** on every project. "Prototype" is written where it is true.
 4. **Engineering hygiene a reviewer can verify in two minutes:** public source, CI, 32 unit tests, 54 end-to-end tests including axe on both viewports, nonce CSP, typed analytics, documented ADRs and a crawler policy with sources.
 5. **The sixteen-year operations story is coherent** and connected to the engineering: the writing explains why approval gates exist, in the voice of someone who ran dealer networks.
-6. **Measured improvement:** mobile performance 59 to a median of 77 on the home page (best run 88) and 91 to 95 on inner pages, accessibility 90 to 100, page weight down 78 percent, zero serious axe violations, all headers in place.
+6. **Measured improvement:** mobile performance 59 (live site) to a median of 96 on the Vercel preview, accessibility 90 to 100, page weight down 80 percent, zero serious axe violations, all headers in place.
 
 ## Scorecard (recruiter view, 1 to 5)
 

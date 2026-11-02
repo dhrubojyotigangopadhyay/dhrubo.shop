@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Newsreader } from "next/font/google";
+import { Newsreader } from "next/font/google";
 import { headers } from "next/headers";
 import Script from "next/script";
 import "./globals.css";
@@ -12,7 +12,6 @@ import { AssistantWidget } from "@/components/assistant/AssistantWidget";
 import { graph, personJsonLd, websiteJsonLd } from "@/lib/seo/jsonld";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
 const newsreader = Newsreader({
   subsets: ["latin"],
   variable: "--font-display",
@@ -60,7 +59,7 @@ export const viewport: Viewport = {
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const nonce = (await headers()).get("x-nonce") ?? undefined;
   return (
-    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${newsreader.variable}`}>
+    <html lang="en" suppressHydrationWarning className={newsreader.variable}>
       <head>
         <Script id="theme-bootstrap" strategy="beforeInteractive" nonce={nonce}>
           {THEME_BOOTSTRAP}

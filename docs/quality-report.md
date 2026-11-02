@@ -13,9 +13,19 @@ Measured 2 November 2026. "Before" is the live site at `https://www.dhrubo.shop`
 | After: `/writing/approval-gates-for-ai-agents` | 95 | 100 | 100 | 92 | 1.8 s | 2.6 s | 110 ms | 0 | 449 KiB |
 | After: `/` desktop preset | 98 | 100 | 100 | 92 | 0.9 s | 0.9 s | 0 ms | 0.002 | 581 KiB |
 
+## Lighthouse 12 on the Vercel preview (CDN, Mumbai region, final build with system body font)
+
+| Page | Perf | A11y | Best practices | SEO | FCP | LCP | TBT | CLS | Weight |
+|---|---|---|---|---|---|---|---|---|---|
+| `/` mobile, median of 3 (range 95 to 99) | 96 | 100 | 100 | 92 | 1.2 s | 2.6 s | 96 ms | 0 | 527 KiB |
+| `/projects/sahkarmi` mobile | 98 | 100 | 100 | 92 | 0.9 s | 2.4 s | 57 ms | 0 | 506 KiB |
+| `/` desktop | 99 | 100 | 100 | 92 | 0.3 s | 1.0 s | 0 ms | 0 | 524 KiB |
+
+Preview URL: https://dhrubo-shop-rebuild-preview.vercel.app (scratch project under a different Vercel team, no environment variables, so the assistant and contact delivery report themselves unconfigured). The jump from the laptop numbers came from two things: Brotli and a warm CDN edge, and removing the Inter body font after the LCP breakdown showed the hero paragraph re-painting when the font arrived (render delay 2.1 to 3.6 s before, 1.05 s after).
+
 Notes:
 
-- Page weight fell by 78 percent on the home page. Of the remaining 583 KiB, scripts are 350 KB (Next runtime, React, the GA tag), three font files are 168 KB, the HTML is 27 KB and images 18 KB.
+- Page weight fell by 80 percent on the home page (2,653 to 527 KiB on Vercel). The remainder is scripts (Next runtime, React, Motion, the GA tag), two Newsreader font files, the HTML and the portrait.
 - Home-page mobile scores varied between 71 and 88 across three consecutive runs on the laptop; server response time was 19 to 62 ms in every run, so the variance is in Lighthouse's simulated critical request chain (stylesheet, fonts, hydration) on a shared laptop, not in the server. The LCP element is the hero paragraph (text, no image). Production on Vercel (CDN, Brotli, warm functions) must be measured with PageSpeed Insights after deploy; the local number is a floor, not a forecast.
 - SEO 92 is one audit: Lighthouse looks for the description tag in `<head>`, and Next.js 15 streams metadata into the body for dynamically rendered pages when the client is a normal browser (React hoists it into `<head>` after hydration). Crawlers that do not execute JavaScript, including every AI crawler and link-preview bot named in `next.config.ts`, receive the tags in `<head>`; verified with `curl -A GPTBot` and `curl -A Chrome-Lighthouse`. Googlebot renders JavaScript. A full fix means removing the per-request CSP nonce so pages render statically; that trade-off is recorded in `docs/architecture.md` and left for the owner.
 - `bf-cache` is reported on all pages because the response carries `Cache-Control: no-store` style headers from dynamic rendering; same root cause.

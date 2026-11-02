@@ -29,7 +29,7 @@ Tailwind 4 `@theme inline` maps each to `bg-*`, `text-*`, `border-*` utilities (
 ## Type
 
 - Display: Newsreader (serif), normal and italic, for h1 and h2 only.
-- Body and UI: Inter, 16 px base, 1.6 line height.
+- Body and UI: the system sans-serif stack (Segoe UI, SF, Roboto), 16 px base, 1.6 line height. Chosen after measuring that the web body font delayed the largest text paint by about one second on simulated 4G.
 - Mono: system stack (`ui-monospace`, Cascadia Mono, Consolas, Menlo). The eyebrow style is 10 to 11 px mono, uppercase, 0.18 em tracking.
 - Scale: h1 2.6rem on phones, 3.75rem from 640 px, 4.4rem from 1024 px; prose h2 `clamp(1.6rem, 2.4vw, 2rem)`; prose max width 68ch.
 

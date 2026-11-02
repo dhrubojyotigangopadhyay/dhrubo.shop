@@ -30,7 +30,7 @@ The previous site loaded 48 WebP frames (2 MB) for a canvas scrubber that scanne
 
 ## ADR-7: Fonts
 
-Two self-hosted families via `next/font` (Newsreader for display, Inter for body), latin subset, `display: swap`. JetBrains Mono was removed to save about 100 KB per page; the system monospace stack is used instead.
+One self-hosted family via `next/font`: Newsreader (normal and italic) for display headings, latin subset, `display: swap`. Body text uses the system sans-serif stack and code uses the system monospace stack. Inter and JetBrains Mono were removed after Lighthouse on the Vercel preview showed the LCP element (the hero paragraph) waiting on the body font: dropping it removes about 63 KB from the critical path and makes the first paint the final paint for body text.
 
 ## ADR-8: GA4 with Consent Mode, one implementation
 
