@@ -33,7 +33,7 @@ export function personJsonLd() {
     alumniOf: { "@type": "CollegeOrUniversity", name: profile.education.school },
     worksFor: { "@type": "Organization", name: "1XL Universe" },
     knowsLanguage: profile.languages,
-    sameAs: [profile.github, profile.linkedin, profile.x, profile.youtube, profile.devto, "https://sahkarmi.site"],
+    sameAs: [profile.github, profile.linkedin, profile.x, profile.youtube, profile.instagram, profile.facebook, profile.devto, "https://sahkarmi.site"],
     knowsAbout: [
       "Applied AI engineering",
       "Forward deployed engineering",

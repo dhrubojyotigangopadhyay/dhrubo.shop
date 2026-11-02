@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { SocialLinks } from "@/components/site/SocialLinks";
 import { ArrowRight } from "lucide-react";
 import { profile } from "@/content/profile";
 import { ButtonLink, Container } from "@/components/ui/primitives";
@@ -43,6 +44,7 @@ export function Hero() {
             </TrackedLink>
             .
           </p>
+          <SocialLinks compact className="mt-5" ids={["github", "linkedin", "youtube", "x", "instagram", "facebook", "devto"]} />
         </div>
 
         <div className="relative mx-auto w-full max-w-sm md:max-w-none">

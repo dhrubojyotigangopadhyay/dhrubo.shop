@@ -1,4 +1,5 @@
 import { headers } from "next/headers";
+import { SocialLinks } from "@/components/site/SocialLinks";
 import { ContactForm } from "@/components/sections/ContactForm";
 import { JsonLd } from "@/components/site/JsonLd";
 import { TrackedLink } from "@/components/ui/TrackedLink";
@@ -64,6 +65,10 @@ export default async function ContactPage() {
               <dd className="mt-1">India Standard Time (UTC+5:30); comfortable with US and EU morning overlap.</dd>
             </div>
           </dl>
+            <div className="mt-8">
+              <p className="eyebrow mb-3">Elsewhere</p>
+              <SocialLinks ids={["linkedin", "github", "youtube", "x", "instagram", "facebook", "devto"]} />
+            </div>
         </div>
         <ContactForm />
       </div>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SocialLinks } from "@/components/site/SocialLinks";
 import { profile } from "@/content/profile";
 import { NAV_LINKS } from "@/lib/site";
 import { TrackedLink } from "@/components/ui/TrackedLink";
@@ -35,33 +36,7 @@ export function Footer() {
         </nav>
         <div>
           <p className="eyebrow mb-3">Elsewhere</p>
-          <ul className="space-y-2 text-sm">
-            <li>
-              <TrackedLink href={profile.github} className="hover:underline underline-offset-4">
-                GitHub
-              </TrackedLink>
-            </li>
-            <li>
-              <TrackedLink href={profile.linkedin} className="hover:underline underline-offset-4">
-                LinkedIn
-              </TrackedLink>
-            </li>
-            <li>
-              <TrackedLink href="https://sahkarmi.site" className="hover:underline underline-offset-4">
-                Sahkarmi
-              </TrackedLink>
-            </li>
-            <li>
-              <TrackedLink href={profile.devto} className="hover:underline underline-offset-4">
-                dev.to
-              </TrackedLink>
-            </li>
-            <li>
-              <TrackedLink href={profile.whatsapp} className="hover:underline underline-offset-4">
-                WhatsApp
-              </TrackedLink>
-            </li>
-          </ul>
+          <SocialLinks className="max-w-md" />
         </div>
       </div>
       <div className="border-t border-line">
