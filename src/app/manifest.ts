@@ -2,20 +2,18 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Dhrubo | Production AI Agent Systems Builder",
+    name: "Dhrubo | Forward Deployed & Applied AI Engineer",
     short_name: "Dhrubo",
-    description: "Production AI agents, advanced RAG, MCP tooling, LangGraph orchestration, voice AI, and enterprise AI systems.",
+    description:
+      "Dhrubojyoti Gangopadhyay: agentic systems, MCP integration and enterprise workflow automation. Builder of Sahkarmi.",
     start_url: "/",
     scope: "/",
     display: "standalone",
-    background_color: "#f5f3ee",
-    theme_color: "#f5f3ee",
+    background_color: "#f6f2ea",
+    theme_color: "#f6f2ea",
     icons: [
-      {
-        src: "/dhrubo-portrait.jpg",
-        sizes: "800x800",
-        type: "image/jpeg",
-      },
+      { src: "/icon", sizes: "512x512", type: "image/png" },
+      { src: "/apple-icon", sizes: "180x180", type: "image/png" },
     ],
   };
 }

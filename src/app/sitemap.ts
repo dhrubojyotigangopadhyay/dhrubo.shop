@@ -1,14 +1,6 @@
 import type { MetadataRoute } from "next";
+import { buildSitemap } from "@/lib/seo/routes";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date();
-
-  return [
-    {
-      url: "https://dhrubo.shop",
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 1,
-    },
-  ];
+  return buildSitemap();
 }

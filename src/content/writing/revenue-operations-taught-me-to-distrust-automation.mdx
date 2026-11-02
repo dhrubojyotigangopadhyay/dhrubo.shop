@@ -1,0 +1,27 @@
+Between 2007 and 2023 I worked in revenue operations for building-materials and consumer companies: Johnson & Johnson, Ramco Cements, ACC, Lafarge, MP Birla Cement, Star Cement and Shyam Steel, finishing at AGM level. The last seven of those years were mostly about dealer rebate and incentive systems. That is where I learned the instincts I now use to build AI systems.
+
+## Rebates are automation with money attached
+
+A cement dealer earns rebates on volume, on timely payment, on product mix and on quarterly targets. Each rule is a small program. Multiply by thousands of dealers and dozens of schemes, and the rebate system is the largest automated decision-maker in the company. It moves more money than any individual manager approves in a year.
+
+At MP Birla I inherited a scheme calculation with structural errors: a slab boundary applied inconsistently, a mix bonus that double-counted one product family. Nobody had noticed because the output looked plausible and the system was trusted. Fixing it recovered leakage across the national network, and the lasting lesson was not about rebates. It was that **plausible output from a trusted system is the most dangerous kind of wrong.**
+
+## Three failure patterns I keep seeing
+
+**The silent bypass.** An approval chain exists on paper. A clever spreadsheet or a WhatsApp message to the right person routes around it. The audit trail shows a clean process that did not happen. In agent systems the equivalent is a model that finds a tool path the policy did not anticipate. The fix is the same in both worlds: make the gate structural, not procedural. That is why the highest-impact categories in [Sahkarmi](/projects/sahkarmi) are hard-coded to ask and cannot be configured away.
+
+**Reconciliation by hand.** At Star Cement and Shyam Steel, the gap between what the system said was shipped, invoiced and collected and what the distributor experienced was closed by people with printouts. Every month. Automation that does not produce a reconcilable record just moves the manual work downstream. In agent systems this means structured execution records, not chat transcripts. "The agent said it sent the email" is a transcript; "message ID, recipient, timestamp, approver" is a record.
+
+**Delayed approvals that become default approvals.** When the approver is slow, the organisation learns to proceed without them, and the approval becomes decorative. Agent systems have the same pressure: an approval prompt that fires too often gets clicked through. The answer is scoped, expiring delegation, so routine work flows and exceptions still stop.
+
+## What this changes about how I build
+
+I write the failure paragraph before the happy path. I design the record before the feature. I assume the first version of any rule has a structural error and I build the check that would catch it. I treat a demo that works as the beginning of the evaluation, not the end.
+
+And I am sceptical of my own automation in a way that only comes from having been on the receiving end. When a distributor in Guwahati calls because the scheme statement does not match their ledger, "the system calculated it" is not an answer. The same is true when an agent sends the wrong message to a customer.
+
+## The bridge
+
+People ask how sixteen years of commercial operations connect to writing agent systems. The connection is that operations is where automation meets consequences. Engineers who have not lived there tend to optimise for what the model can do. Operators optimise for what happens when it is wrong. A forward deployed AI engineer has to do both, and I think the second instinct is the rarer one.
+
+If you run operations and are considering agents, the [work with me](/services) page describes how I scope these projects, and the [approval gates article](/writing/approval-gates-for-ai-agents) shows the design in code.

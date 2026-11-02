@@ -1,0 +1,41 @@
+The title "forward deployed engineer" was popularised by Palantir and is now on job boards from Databricks to Sarvam. The AI version of the role is defined inconsistently. Having read about a hundred postings while preparing a job search, and having done the work inside a company since mid-2026, this is my working definition.
+
+## The one-sentence version
+
+A forward deployed AI engineer sits with the people who have the problem, scopes a workflow a language model can improve, builds it, deploys it into the tools those people already use, and stays until the numbers move.
+
+Each clause rules something out. "Sits with the people" rules out building from a ticket. "Scopes a workflow" rules out building a chatbot and hoping. "Builds it" rules out pure solutions engineering. "Deploys into existing tools" rules out a demo on a laptop. "Stays until the numbers move" rules out handing over a repo and leaving.
+
+## What the week looks like
+
+In my current role at 1XL I own AI adoption across HR, sales, marketing, operations, support, finance and technology. A typical week includes:
+
+- **Discovery.** Sitting with a department head and watching the work. Most "we need AI" requests turn out to be a data-entry problem, an approval-chain problem or a reporting problem. The model is sometimes the smallest part.
+- **Scoping.** Writing one page: the input, the output, who approves, what happens when the model is wrong, and the metric. If I cannot write the failure paragraph, the project is not ready.
+- **Building.** Usually a small service: a document goes in, structured data comes out, a human reviews, a system of record is updated. Python or TypeScript, a hosted model behind an adapter, a queue if volume needs it.
+- **Teaching.** Role-specific curricula and field manuals, because a tool nobody can operate is not deployed. The induction programme for new joiners in the India and UAE offices is part of this.
+- **Infrastructure advice.** Which messaging platform, which workflow engine, where the data may live. For us that has meant WhatsApp infrastructure, n8n and agentic-workflow tooling.
+
+## What it is not
+
+It is not research. I do not train models and I do not claim to. It is not pure solutions engineering either; a solutions engineer demonstrates the product, a forward deployed engineer changes the customer's process and ships code into it. It is not an internal tools team: the measure of success is a departmental metric, not a shipped feature.
+
+## The skills that matter, in order
+
+1. **Scoping judgement.** Knowing which 20 percent of a process is worth automating and which 80 percent should be left to a human with a better form.
+2. **Integration plumbing.** Auth, webhooks, idempotency, retries, logging. Most of the code in a forward deployed project is not AI.
+3. **Evaluation.** A fixed test set, a judge, and a number that moves. Without it every demo is a success and every deployment is a surprise.
+4. **Guardrails.** Approval steps before consequential actions. I wrote about how [Sahkarmi](/projects/sahkarmi) does this in [Approval gates for AI agents](/writing/approval-gates-for-ai-agents).
+5. **Explaining.** To a finance head who will never read the code, in their vocabulary.
+
+Model knowledge is on the list, but it is fifth or sixth. Providers change monthly; scoping judgement does not.
+
+## Why a revenue-operations background helps
+
+I spent sixteen years in enterprise revenue operations before writing software full time. That turns out to be the right preparation for the first two skills on the list. I have been the person whose approval chain was bypassed by a clever spreadsheet, and the person who had to reconcile what the system said against what the dealer received. Operations people can tell when an engineer has never been on the receiving end of their own automation.
+
+## How to evaluate a candidate for this role
+
+If you are hiring, look for three artefacts. A deployed system with an approval or review step in it, not a demo. An evaluation set with a number attached. And a document written for a non-technical owner that explains what the system will not do. Résumés list frameworks; these three show judgement.
+
+If you want to see mine, the [projects page](/projects) lists every public system with an honest status, and the [résumé](/resume) is one page.

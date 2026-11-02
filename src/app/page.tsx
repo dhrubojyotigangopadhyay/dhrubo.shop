@@ -1,136 +1,160 @@
-import React from 'react';
-import Image from 'next/image';
-import { profile } from '@/data/site';
-import HeroScrubber from '@/components/HeroScrubber';
-import BentoProfile from '@/components/BentoProfile';
-import TechStack from '@/components/TechStack';
-import ProjectsMatrix from '@/components/ProjectsMatrix';
-import LiveDispatchTerminal from '@/components/LiveDispatchTerminal';
-import Footer from '@/components/Footer';
-import ChatWidget from '@/components/ChatWidget';
+import Link from "next/link";
+import { headers } from "next/headers";
+import { ArrowRight } from "lucide-react";
+import { Hero } from "@/components/sections/Hero";
+import { ApprovalFlow } from "@/components/sections/ApprovalFlow";
+import { ProjectCard } from "@/components/sections/ProjectCard";
+import { Reveal } from "@/components/ui/Reveal";
+import { ButtonLink, Container, Section, Stat } from "@/components/ui/primitives";
+import { JsonLd } from "@/components/site/JsonLd";
+import { profile } from "@/content/profile";
+import { featuredProjects } from "@/content/projects";
+import { articles } from "@/content/writing";
+import { graph, profilePageJsonLd } from "@/lib/seo/jsonld";
+import { pageMetadata } from "@/lib/seo/metadata";
+import { SITE_DESCRIPTION, SITE_TITLE } from "@/lib/site";
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@graph': [
-    {
-      '@type': 'ProfilePage',
-      '@id': 'https://dhrubo.shop/#profile',
-      url: 'https://dhrubo.shop/',
-      name: 'Dhrubojyoti Gangopadhyay — Applied AI Engineer',
-      dateModified: '2026-10-27',
-      mainEntity: { '@id': 'https://dhrubo.shop/#person' },
-    },
-    {
-      '@type': 'Person',
-      '@id': 'https://dhrubo.shop/#person',
-      name: 'Dhrubojyoti Gangopadhyay',
-      alternateName: 'Dhrubo',
-      url: 'https://dhrubo.shop/',
-      image: 'https://dhrubo.shop/dhrubo-portrait.jpg',
-      email: 'mailto:dhrubojyoti.gangopadhyay@gmail.com',
-      telephone: '+918240801921',
-      jobTitle: 'Applied AI Engineer',
-      address: {
-        '@type': 'PostalAddress',
-        addressLocality: 'Kolkata',
-        addressCountry: 'IN',
-      },
-      sameAs: [
-        profile.github,
-        profile.linkedin,
-        profile.x,
-        profile.youtube,
-        profile.instagram,
-        profile.facebook,
-      ],
-      knowsAbout: [
-        'Applied AI engineering',
-        'AI agent systems',
-        'LangGraph',
-        'Model Context Protocol',
-        'Workflow automation',
-        'TypeScript',
-        'Python',
-        'FastAPI',
-        'Next.js',
-        'PostgreSQL',
-        'Enterprise revenue operations',
-      ],
-    },
-  ],
-};
+export const metadata = pageMetadata({
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  path: "/",
+  keywords: ["Dhrubojyoti Gangopadhyay", "Dhrubo", "Dhrubo AI Builder", "forward deployed AI engineer", "applied AI engineer Kolkata", "agentic AI engineer India", "Sahkarmi"],
+});
 
-export default function Home() {
+const paths = [
+  {
+    who: "Hiring for forward deployed, applied AI or solutions roles?",
+    what: "Start with the one-page résumé and the Sahkarmi case study. Every number links to its source.",
+    href: "/resume",
+    cta: "Résumé and evidence",
+  },
+  {
+    who: "Running operations and considering agents?",
+    what: "See how approval-gated workflows are scoped and built, and what they will not do.",
+    href: "/services",
+    cta: "Work with me",
+  },
+  {
+    who: "Engineer curious how it works?",
+    what: "Architecture notes, decisions and honest limitations for each system, plus the writing.",
+    href: "/writing",
+    cta: "Read the notes",
+  },
+];
+
+export default async function Home() {
+  const nonce = (await headers()).get("x-nonce") ?? undefined;
   return (
-    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] selection:bg-[var(--aqua)] selection:text-[var(--bg)]">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+    <>
+      <JsonLd data={graph(profilePageJsonLd("/", `${profile.name}: ${profile.headline}`, profile.verifiedOn))} nonce={nonce} />
+      <Hero />
 
-      {/* Persistent High-Tech Sticky Nav Header */}
-      <header className="sticky top-0 z-50 w-full border-b border-[var(--line)] bg-[rgba(5,7,10,0.85)] backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <a href="#top" className="flex items-center gap-3 group">
-            <div className="relative w-8 h-8 rounded-full overflow-hidden border border-[var(--line)] group-hover:border-[var(--aqua)] transition-colors">
-              <Image
-                src="/dhrubo-portrait.jpg"
-                alt="Dhrubo"
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-mono-tech text-sm font-bold text-[var(--text)] tracking-wider">
-                DHRUBO
-              </span>
-              <span className="font-mono-tech text-[9px] text-[var(--aqua)] tracking-widest -mt-1">
-                APPLIED AI ENGINEER
-              </span>
-            </div>
-          </a>
-
-          <nav className="hidden md:flex items-center gap-6 font-mono-tech text-xs text-[var(--muted)]">
-            <a href="#timeline" className="hover:text-[var(--aqua)] transition-colors">{"// TIMELINE"}</a>
-            <a href="#profile" className="hover:text-[var(--aqua)] transition-colors">{"// PROFILE"}</a>
-            <a href="#stack" className="hover:text-[var(--aqua)] transition-colors">{"// TECH MATRIX"}</a>
-            <a href="#projects" className="hover:text-[var(--aqua)] transition-colors">{"// ENGINEERING"}</a>
-            <a href="#contact" className="hover:text-[var(--aqua)] transition-colors">{"// DISPATCH"}</a>
-          </nav>
-
-          <a
-            href="#contact"
-            className="px-3.5 py-1.5 rounded-lg bg-[rgba(112,241,219,0.1)] border border-[rgba(112,241,219,0.3)] hover:bg-[var(--aqua)] hover:text-[var(--bg)] transition-all font-mono-tech text-xs text-[var(--aqua)] font-semibold glow-aqua-sm"
-          >
-            INITIALIZE COMM
-          </a>
+      <Section eyebrow="Verified on the record" title="Numbers you can click on">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {profile.proof.map((p, i) => (
+            <Reveal key={p.label} delay={i * 0.05}>
+              <Stat value={p.value} label={p.label} detail={p.detail} href={p.href} />
+            </Reveal>
+          ))}
         </div>
-      </header>
+      </Section>
 
-      {/* Main High-Tech Sections */}
-      <main id="top">
-        {/* 1. Hero Scrubber with 3-Segment Timeline */}
-        <HeroScrubber />
+      <Section
+        eyebrow="How I build"
+        title="The model proposes. A human approves. The decision is recorded."
+        intro="This is the architecture inside Sahkarmi. Pick an action to see how the permission policy routes it."
+        className="border-y border-line bg-surface/40"
+      >
+        <ApprovalFlow />
+        <p className="mt-4 text-sm text-muted">
+          Read the design in full:{" "}
+          <Link href="/writing/approval-gates-for-ai-agents" className="underline underline-offset-4">
+            Approval gates for AI agents
+          </Link>
+          .
+        </p>
+      </Section>
 
-        {/* 2. Bento Profile with 3D Cursor-Tilt */}
-        <BentoProfile />
+      <Section eyebrow="Selected systems" title="Shipped, with the caveats attached">
+        <div className="grid gap-5 lg:grid-cols-3">
+          {featuredProjects.map((p, i) => (
+            <Reveal key={p.slug} delay={i * 0.06} className={i === 0 ? "lg:col-span-3" : ""}>
+              <ProjectCard project={p} large={i === 0} />
+            </Reveal>
+          ))}
+        </div>
+        <div className="mt-8">
+          <ButtonLink href="/projects" variant="secondary">
+            All projects, including prototypes <ArrowRight size={16} />
+          </ButtonLink>
+        </div>
+      </Section>
 
-        {/* 3. Interactive Tech Matrix with Cursor Spotlights */}
-        <TechStack />
+      <Section eyebrow="Where this comes from" title="Sixteen years inside the operations I now automate" className="border-y border-line bg-surface/40">
+        <div className="grid gap-8 md:grid-cols-[1fr_1fr]">
+          <div className="prose-site">
+            <p>
+              Before writing software full time I ran revenue operations for cement and steel businesses: dealer
+              networks, rebate schemes, collections, MIS. At AGM level the job is to make a chain of hand-offs
+              auditable. That is also the job when the hand-offs are between a language model and a bank API.
+            </p>
+            <p>
+              It shapes the engineering: structural gates instead of procedural ones, execution records instead of
+              transcripts, and an evaluation set before any demo is called done.
+            </p>
+            <p>
+              <Link href="/about">The full timeline</Link> ·{" "}
+              <Link href="/writing/revenue-operations-taught-me-to-distrust-automation">Why operations taught me to distrust automation</Link>
+            </p>
+          </div>
+          <ol className="space-y-3 border-l border-line pl-5">
+            {profile.roles.slice(0, 5).map((r) => (
+              <li key={r.org} className="relative">
+                <span className="absolute -left-[1.45rem] top-2 h-2 w-2 rounded-full bg-accent" aria-hidden="true" />
+                <p className="font-mono text-[11px] text-muted">{r.period}</p>
+                <p className="font-medium">{r.title}</p>
+                <p className="text-sm text-muted">{r.org}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </Section>
 
-        {/* 4. Engineering Matrix with Numbered Cards */}
-        <ProjectsMatrix />
+      <Section eyebrow="Writing" title="Notes from building">
+        <ul className="grid gap-4 md:grid-cols-2">
+          {articles.map((a) => (
+            <li key={a.slug} className="card p-6">
+              <p className="eyebrow">{a.pillar}</p>
+              <h3 className="mt-2 font-display text-2xl">
+                <Link href={`/writing/${a.slug}`} className="hover:underline underline-offset-4">
+                  {a.title}
+                </Link>
+              </h3>
+              <p className="mt-2 text-sm text-ink-soft">{a.description}</p>
+              <p className="mt-3 font-mono text-[11px] text-muted">
+                {a.published} · {a.readingMinutes} min
+              </p>
+            </li>
+          ))}
+        </ul>
+      </Section>
 
-        {/* 5. Live Dispatch Terminal with Real-Time JSON Synchronization */}
-        <LiveDispatchTerminal />
-      </main>
-
-      {/* 6. Watermark Monospace Footer */}
-      <Footer />
-
-      {/* Floating AI Assistant */}
-      <ChatWidget />
-    </div>
+      <section className="border-t border-line py-16 sm:py-24">
+        <Container>
+          <p className="eyebrow mb-4">Where to next</p>
+          <div className="grid gap-4 md:grid-cols-3">
+            {paths.map((p) => (
+              <div key={p.href} className="card flex flex-col p-6">
+                <h2 className="font-display text-2xl">{p.who}</h2>
+                <p className="mt-2 flex-1 text-sm text-ink-soft">{p.what}</p>
+                <ButtonLink href={p.href} variant="secondary" className="mt-5 self-start">
+                  {p.cta} <ArrowRight size={14} />
+                </ButtonLink>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
+    </>
   );
 }
