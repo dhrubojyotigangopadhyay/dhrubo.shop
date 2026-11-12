@@ -10,7 +10,7 @@ Written 2 November 2026 as the brief required: a senior recruiter at an AI lab o
 4. **No third-party validation.** No testimonials, no conference talks, no named clients, no external coverage. The site does not fabricate any; it just does not have them.
 5. **Assistant depends on a key.** On a deployment without `GROQ_API_KEY`, `/ask` shows an honest "not configured" message. That is better than a broken chat, but a recruiter who clicks "Ask" and gets a placeholder will think less of the site. The owner must set the key before sharing the link.
 6. **Performance is measured on a scratch Vercel project, not on dhrubo.shop.** The preview scores 95 to 99 on mobile with LCP 1.9 to 2.8 s; the real domain will be measured only after the owner deploys.
-7. **Phone number inconsistency.** The site and WhatsApp link use +91 82408 01921; the PDF résumé uses +91 98740 76688. The owner must pick one.
+7. **Phone number inconsistency.** Resolved 12 Nov 2026: the site, the WhatsApp link and the PDF résumé all use +91 98740 76688.
 8. **Metadata is streamed for browsers** because pages render dynamically for the CSP nonce. It is in `<head>` for every non-JavaScript crawler and Googlebot renders JavaScript, but Lighthouse docks SEO to 92 for it and a purist reviewer could raise it.
 
 ## Where it is strong
