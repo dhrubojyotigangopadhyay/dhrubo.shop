@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import "../../film.css";
 import { ReleaseChart } from "@/components/film/ReleaseChart";
 import { workMedia } from "@/content/film";
 import github from "@/generated/github.json";
@@ -45,8 +44,8 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const checked = new Date(github.checkedOn).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
 
   return (
-    <div className="film case">
-    <Container className="pb-16 pt-24">
+    <div className="case">
+    <Container className="stage-pad">
       <ProjectViewTracker slug={p.slug} status={p.status} />
       <JsonLd
         data={graph(
@@ -115,7 +114,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       )}
 
       <div className="mt-12 grid gap-12 md:grid-cols-[1fr_16rem]">
-        <div className="prose-site">
+        <div className="prose-site plate">
           <h2>Summary</h2>
           <p>{p.summary}</p>
           <h2>The problem</h2>

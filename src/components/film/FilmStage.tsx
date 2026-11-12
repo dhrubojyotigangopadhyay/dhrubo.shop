@@ -4,42 +4,34 @@ import { useEffect, useRef, useState } from "react";
 import Lenis from "lenis";
 import { Volume2, VolumeX } from "lucide-react";
 import { track } from "@/lib/analytics";
-import type { SceneApi } from "@/components/film/scene";
+import { filmBus, setSceneFocus, setSceneProgress } from "@/components/film/bus";
 
 type Chapter = { id: string; no: string; name: string };
 
 const INTRO_KEY = "dhrubo.intro";
 const INTRO_MS = 3000;
-const KICK_EVENTS = ["scroll", "touchstart", "pointerdown", "keydown"] as const;
 
 /**
- * Client conductor for the homepage film. It owns the sticky backdrop
- * (WebGL canvas with a CSS fallback), the chapter HUD, smooth scrolling and
- * the one scroll loop that drives pinned chapters and the camera.
+ * Client conductor for the homepage film. It owns the chapter HUD, smooth
+ * scrolling, the intro and the one scroll loop that drives pinned chapters
+ * and the camera. The scene itself belongs to SceneHost in the root layout.
  * All chapter content is server-rendered outside this component; with
- * JavaScript off, reduced motion on, or WebGL missing, the page still reads
- * top to bottom as a normal document.
+ * JavaScript off or reduced motion on, the page still reads top to bottom
+ * as a normal document.
  */
-export function FilmStage({ chapters, releaseDates }: { chapters: readonly Chapter[]; releaseDates: string[] }) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const sceneRef = useRef<SceneApi | null>(null);
+export function FilmStage({ chapters }: { chapters: readonly Chapter[] }) {
   const lenisRef = useRef<Lenis | null>(null);
   const audioRef = useRef<{ ctx: AudioContext; gain: GainNode } | null>(null);
   const [active, setActive] = useState(0);
   const [intro, setIntro] = useState(false);
   const [sound, setSound] = useState(false);
-  const [gl, setGl] = useState(false);
 
   useEffect(() => {
     const root = document.documentElement;
     const film = document.getElementById("film");
     if (!film) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const coarse = window.matchMedia("(pointer: coarse)").matches;
-    const lite = coarse || window.innerWidth < 900 || (navigator.hardwareConcurrency ?? 8) <= 4;
-    const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
-    // film-on / film-static are set before first paint by the head bootstrap; film-live marks that this conductor is running.
-    root.classList.add("film-live");
+    filmBus.scene?.setGain(1);
 
     // Intro plays once per session and never under reduced motion.
     let introTimer = 0;
@@ -108,7 +100,7 @@ export function FilmStage({ chapters, releaseDates }: { chapters: readonly Chapt
       for (let i = 0; i < tops.length; i++) if (mid >= tops[i].top) idx = i;
       const t = tops[idx];
       const local = t ? Math.min(0.999, Math.max(0, (mid - t.top) / t.height)) : 0;
-      sceneRef.current?.setProgress(idx + local);
+      setSceneProgress(idx + local);
       sections[idx]?.style.setProperty("--p", local.toFixed(4));
       if (idx !== activeIdx) {
         activeIdx = idx;
@@ -131,7 +123,7 @@ export function FilmStage({ chapters, releaseDates }: { chapters: readonly Chapt
             if (on) d.setAttribute("aria-current", "step");
             else d.removeAttribute("aria-current");
           });
-          if (p.focus) sceneRef.current?.setFocus(step + 1);
+          if (p.focus) setSceneFocus(step + 1);
         }
         if (p.track) {
           const overflow = Math.max(0, p.track.scrollWidth - window.innerWidth);
@@ -163,107 +155,29 @@ export function FilmStage({ chapters, releaseDates }: { chapters: readonly Chapt
     };
     film.addEventListener("click", onClick);
 
-    const onPointer = (e: PointerEvent) => {
-      if (e.pointerType === "touch") return;
-      sceneRef.current?.setPointer((e.clientX / window.innerWidth) * 2 - 1, (e.clientY / window.innerHeight) * 2 - 1);
-    };
-    window.addEventListener("pointermove", onPointer, { passive: true });
 
-    // Reveals: content is visible by default; the film only delays what is still below the fold.
-    const reveals = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (!e.isIntersecting) continue;
-          e.target.classList.add("in");
-          reveals.unobserve(e.target);
-        }
-      },
-      { rootMargin: "0px 0px -12% 0px" },
-    );
-    if (!reduced) film.querySelectorAll("[data-reveal]").forEach((el) => reveals.observe(el));
 
     const ro = new ResizeObserver(measure);
     ro.observe(film);
-    const onResize = () => {
-      measure();
-      sceneRef.current?.resize();
-    };
-    window.addEventListener("resize", onResize);
+    window.addEventListener("resize", measure);
     measure();
     raf = requestAnimationFrame(tick);
 
-    // WebGL arrives after first paint, off the critical path, and only when it is welcome.
-    let cancelled = false;
-    let onVis: (() => void) | undefined;
-    let io: IntersectionObserver | undefined;
-    const boot = async () => {
-      const canvas = canvasRef.current;
-      if (cancelled || !canvas || saveData) return;
-      const probe = document.createElement("canvas");
-      if (!(probe.getContext("webgl2") || probe.getContext("webgl"))) return;
-      try {
-        const { createScene } = await import("@/components/film/scene");
-        if (cancelled) return;
-        const scene = createScene({ canvas, releaseDates, lite, reducedMotion: reduced });
-        sceneRef.current = scene;
-        let visible = true;
-        const sync = () => (visible && !document.hidden ? scene.start() : scene.stop());
-        onVis = sync;
-        document.addEventListener("visibilitychange", sync);
-        io = new IntersectionObserver(([entry]) => {
-          visible = entry.isIntersecting;
-          sync();
-        });
-        io.observe(canvas);
-        dirty = true;
-        sync();
-        root.classList.add("film-gl");
-        setGl(true);
-      } catch {
-        /* the CSS backdrop remains */
-      }
-    };
-    // Wait for the intro to finish so its type animation never competes with shader compilation.
-    // Phones and low-core machines start it on the first touch or scroll (or after a quiet
-    // spell), so nothing competes with first paint on the devices that can least afford it.
-    const wait = lite ? 7000 : root.classList.contains("film-intro") ? INTRO_MS + 100 : 250;
-    let idle = 0;
-    let booted = false;
-    const kick = () => {
-      if (booted) return;
-      booted = true;
-      window.clearTimeout(bootTimer);
-      for (const type of KICK_EVENTS) window.removeEventListener(type, kick);
-      if (window.requestIdleCallback) idle = window.requestIdleCallback(() => void boot(), { timeout: 1500 });
-      else void boot();
-    };
-    const bootTimer = window.setTimeout(kick, wait);
-    if (lite) for (const type of KICK_EVENTS) window.addEventListener(type, kick, { passive: true, once: true });
 
     return () => {
-      cancelled = true;
-      window.clearTimeout(bootTimer);
-      for (const type of KICK_EVENTS) window.removeEventListener(type, kick);
-      if (idle && window.cancelIdleCallback) window.cancelIdleCallback(idle);
       cancelAnimationFrame(raf);
       window.clearTimeout(introTimer);
       window.removeEventListener("wheel", endIntro);
       window.removeEventListener("touchmove", endIntro);
       window.removeEventListener("keydown", endIntro);
-      window.removeEventListener("pointermove", onPointer);
-      window.removeEventListener("resize", onResize);
+      window.removeEventListener("resize", measure);
       film.removeEventListener("click", onClick);
-      if (onVis) document.removeEventListener("visibilitychange", onVis);
-      io?.disconnect();
       ro.disconnect();
-      reveals.disconnect();
       lenis?.destroy();
       lenisRef.current = null;
-      sceneRef.current?.dispose();
-      sceneRef.current = null;
-      root.classList.remove("film-live", "film-gl");
+      setSceneFocus(0);
     };
-  }, [releaseDates]);
+  }, []);
 
   useEffect(
     () => () => {
@@ -332,13 +246,7 @@ export function FilmStage({ chapters, releaseDates }: { chapters: readonly Chapt
 
   return (
     <>
-      <div className="film-back" aria-hidden="true">
-        <div className="film-backdrop" />
-        <canvas ref={canvasRef} className={`film-canvas${gl ? " ready" : ""}`} />
-        <div className="film-vignette" />
-      </div>
       <div className="film-hud">
-        <div className="film-grain" aria-hidden="true" />
         <div className="film-bars" aria-hidden="true" />
         <div className="film-floor" aria-hidden="true" />
         {intro && (

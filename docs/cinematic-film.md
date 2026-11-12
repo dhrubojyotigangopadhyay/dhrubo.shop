@@ -163,3 +163,15 @@ How to read the mobile number: the hero's largest element is now a portrait inst
 9. **Phone number is not shown in the film** because the CV and the site disagree (+91 98740 76688 against +91 82408 01921).
 10. **LinkedIn could not be read** (it blocks automated requests), so positioning comes from the CV.
 11. Three of the four prototype repositories have failing CI, as their case studies state.
+
+## 10. Site-wide stage (added 12 Nov 2026, second pass)
+
+The first pass only restyled the homepage. The second pass puts every route on the same stage.
+
+- **One scene for the whole site.** `SceneHost` in the root layout owns the fixed backdrop and the WebGL scene, so it survives navigation: moving between pages re-forms the same particles. `src/components/film/bus.ts` maps each route to a formation and a brightness (`sceneForRoute`). The homepage film drives the scene with scroll; other pages drift between their chapter's two camera marks as you scroll.
+- **One look.** The light theme and its toggle are gone; the tokens in `globals.css` are the film palette. `film.css` is loaded globally.
+- **Shared page grammar.** `PageHero` (numbered slate, poster headline with one serif phrase, outlined ghost word), `.card` (cursor light, red line on hover), `.plate` for long reading, `.section-title`, poster headings inside `.prose-site`, `.timeline`, `.showcase` rows with real screenshots on `/projects`, `.index-list` on `/writing`, a full-screen poster menu on phones, an end-card footer and a poster 404.
+- **Transitions.** `src/app/template.tsx` replays a red wipe on each navigation; content reveals on scroll (`data-reveal`, only when JavaScript runs and motion is allowed).
+- **Phones.** Checked at 320, 412 and 768 px wide: no horizontal overflow, the assistant launcher is icon-only, pinned chapters fit short screens.
+- **SEO untouched.** `node tests/tools/seo-parity.mjs` compares title, description, canonical, robots, Open Graph, Twitter card, JSON-LD types and h1 count for every sitemap URL against the live site, plus robots.txt, llms.txt, the feed, verification files and redirects. Result before release: 22 of 22 URLs identical, sitemap identical.
+- **Tests.** 92 Playwright tests (was 74). Playwright is limited to 3 workers because every page now runs the scene, which is software-rendered in headless Chromium.

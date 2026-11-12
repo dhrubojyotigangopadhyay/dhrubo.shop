@@ -5,6 +5,8 @@ export default defineConfig({
   testDir: "tests/e2e",
   timeout: 45_000,
   fullyParallel: true,
+  // Every page now runs the WebGL scene, which is software-rendered in headless Chromium.
+  workers: process.env.CI ? 2 : 3,
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [["github"], ["list"]] : "list",
   use: { baseURL: `http://127.0.0.1:${PORT}`, trace: "retain-on-failure" },

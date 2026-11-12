@@ -12,6 +12,8 @@ const browser = await chromium.launch({ args: ["--use-angle=swiftshader", "--ena
 const profiles = [
   ["desktop", { viewport: { width: 1440, height: 900 } }],
   ["mobile", { ...devices["Pixel 7"] }],
+  ["small", { viewport: { width: 320, height: 640 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true }],
+  ["tablet", { viewport: { width: 768, height: 1024 }, deviceScaleFactor: 1, isMobile: true, hasTouch: true }],
 ].filter(([name]) => which === "both" || which === name);
 
 for (const [name, opts] of profiles) {
@@ -59,6 +61,17 @@ for (const [name, opts] of profiles) {
     await page.evaluate((to) => window.scrollTo(0, to), y);
     await page.waitForTimeout(1500);
     await page.screenshot({ path: `${out}/${name}-${String(i++).padStart(2, "0")}-${label}.png` });
+  }
+  // Every inner page: top of page, then one screen down.
+  for (const path of ["/about", "/projects", "/projects/sahkarmi", "/services", "/writing", "/writing/approval-gates-for-ai-agents", "/ask", "/contact", "/resume", "/nope"]) {
+    await page.goto(base + path, { waitUntil: "networkidle" });
+    await page.mouse.move(300, 300);
+    await page.waitForTimeout(2600);
+    const slug = path.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "");
+    await page.screenshot({ path: `${out}/${name}-page-${slug}-a.png` });
+    await page.evaluate(() => window.scrollTo(0, innerHeight * 0.95));
+    await page.waitForTimeout(1300);
+    await page.screenshot({ path: `${out}/${name}-page-${slug}-b.png` });
   }
   const gl = await page.evaluate(() => document.documentElement.className);
   console.log(name, "frames:", i, "| html classes:", gl, "| errors:", errors.length ? errors : "none");

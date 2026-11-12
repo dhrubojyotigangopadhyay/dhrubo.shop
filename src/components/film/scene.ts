@@ -31,6 +31,8 @@ export interface SceneApi {
   setProgress(f: number): void;
   setPointer(x: number, y: number): void;
   setFocus(group: number): void;
+  /** Dims the whole field (0..1) on pages where long text sits over it. */
+  setGain(multiplier: number): void;
   resize(): void;
   start(): void;
   stop(): void;
@@ -428,13 +430,16 @@ export function createScene({ canvas, releaseDates, lite, reducedMotion }: Scene
   let last = 0;
   let slowFrames = 0;
   let onDemand = false;
+  let gain = 1;
+  let gainTarget = 1;
   let frames = 0;
   let width = 0;
   let height = 0;
   const camPos = new Vector3();
   const camLook = new Vector3();
   const projected = new Vector3();
-  const labels = Array.from(document.querySelectorAll<HTMLElement>("[data-sysnode]"));
+  // The canvas outlives page navigation, so the system-map labels are looked up when needed.
+  let labels: HTMLElement[] = [];
   const wide = window.matchMedia("(min-width: 1024px)");
 
   const resize = () => {
@@ -451,7 +456,13 @@ export function createScene({ canvas, releaseDates, lite, reducedMotion }: Scene
   const render = (time: number) => {
     const dt = Math.min(0.05, (time - last) / 1000 || 0.016);
     last = time;
-    current = current < 0 || reducedMotion ? target : current + (target - current) * (1 - Math.exp(-dt * 6));
+    if (current < 0 || reducedMotion) current = target;
+    else {
+      // Scroll is followed closely; a jump between pages becomes a fast fly-through, capped so it stays legible.
+      const step = (target - current) * (1 - Math.exp(-dt * 6));
+      current += Math.sign(step) * Math.min(Math.abs(step), dt * 5);
+    }
+    gain += (gainTarget - gain) * Math.min(1, dt * 3);
     const f = Math.min(CHAPTERS - 0.001, Math.max(0, current));
 
     // Formation: hold through a chapter, re-form while crossing into the next.
@@ -470,7 +481,7 @@ export function createScene({ canvas, releaseDates, lite, reducedMotion }: Scene
     uniforms.uColA.value.set(lerp(a[0][0], b[0][0], mix), lerp(a[0][1], b[0][1], mix), lerp(a[0][2], b[0][2], mix));
     uniforms.uColB.value.set(lerp(a[1][0], b[1][0], mix), lerp(a[1][1], b[1][1], mix), lerp(a[1][2], b[1][2], mix));
     uniforms.uAccentAmt.value = lerp(a[2], b[2], mix);
-    uniforms.uGain.value = lerp(a[3], b[3], mix);
+    uniforms.uGain.value = lerp(a[3], b[3], mix) * gain;
     uniforms.uRise.value = smooth(5.6, 6.2, f) * (1 - smooth(6.9, 7.3, f));
     uniforms.uTime.value = reducedMotion ? 0 : time / 1000;
     const inSystem = smooth(1.9, 2.25, f) * (1 - smooth(2.8, 3.05, f));
@@ -499,6 +510,7 @@ export function createScene({ canvas, releaseDates, lite, reducedMotion }: Scene
     renderer.render(scene, camera);
 
     // Pin the system-map labels to their nodes (desktop only; phones get a list).
+    if (inSystem > 0.01 && wide.matches && !labels[0]?.isConnected) labels = Array.from(document.querySelectorAll<HTMLElement>("[data-sysnode]"));
     if (labels.length && wide.matches && inSystem > 0.01) {
       for (const el of labels) {
         const n = nodes[Number(el.dataset.sysnode)];
@@ -532,7 +544,7 @@ export function createScene({ canvas, releaseDates, lite, reducedMotion }: Scene
     render(time);
     // With reduced motion (or on a device that cannot keep up) nothing drifts, so only
     // draw while the scroll position is still settling.
-    raf = reducedMotion || (onDemand && Math.abs(target - current) < 0.0005) ? 0 : requestAnimationFrame(loop);
+    raf = reducedMotion || (onDemand && Math.abs(target - current) < 0.0005 && Math.abs(gainTarget - gain) < 0.01) ? 0 : requestAnimationFrame(loop);
   };
 
   resize();
@@ -548,6 +560,10 @@ export function createScene({ canvas, releaseDates, lite, reducedMotion }: Scene
     },
     setFocus(group) {
       focus = group;
+    },
+    setGain(multiplier) {
+      gainTarget = multiplier;
+      if (reducedMotion) gain = multiplier;
     },
     resize,
     start() {

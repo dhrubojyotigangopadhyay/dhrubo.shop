@@ -31,20 +31,18 @@ export type Social = {
   handle: string;
   href: string;
   icon: ReactNode;
-  /** Brand hover colour. Chosen to stay ≥ 3:1 against both page backgrounds. */
-  hover: string;
 };
 
 export const SOCIALS: Social[] = [
-  { id: "github", name: "GitHub", handle: "ganguydhrubo", href: profile.github, icon: <Github size={18} />, hover: "hover:border-[#6e40c9] hover:text-[#6e40c9]" },
-  { id: "linkedin", name: "LinkedIn", handle: "dhrubojyoti-gangopadhyay", href: profile.linkedin, icon: <Linkedin size={18} />, hover: "hover:border-[#0a66c2] hover:text-[#0a66c2]" },
-  { id: "youtube", name: "YouTube", handle: "@DhruboZ", href: profile.youtube, icon: <Youtube size={18} />, hover: "hover:border-[#e4002b] hover:text-[#e4002b]" },
-  { id: "x", name: "X", handle: "@DhruboZ4U", href: profile.x, icon: <XIcon />, hover: "hover:border-ink hover:text-ink" },
-  { id: "instagram", name: "Instagram", handle: "@dhruboz4u", href: profile.instagram, icon: <Instagram size={18} />, hover: "hover:border-[#d6249f] hover:text-[#d6249f]" },
-  { id: "facebook", name: "Facebook", handle: "DhruboZ", href: profile.facebook, icon: <Facebook size={18} />, hover: "hover:border-[#1877f2] hover:text-[#1877f2]" },
-  { id: "devto", name: "dev.to", handle: "dhrubojyoti", href: profile.devto, icon: <DevIcon />, hover: "hover:border-ink hover:text-ink" },
-  { id: "whatsapp", name: "WhatsApp", handle: profile.phoneDisplay, href: profile.whatsapp, icon: <MessageCircle size={18} />, hover: "hover:border-[#1a8f4d] hover:text-[#1a8f4d]" },
-  { id: "email", name: "Email", handle: profile.email, href: `mailto:${profile.email}`, icon: <Mail size={18} />, hover: "hover:border-accent hover:text-accent" },
+  { id: "github", name: "GitHub", handle: "ganguydhrubo", href: profile.github, icon: <Github size={18} /> },
+  { id: "linkedin", name: "LinkedIn", handle: "dhrubojyoti-gangopadhyay", href: profile.linkedin, icon: <Linkedin size={18} /> },
+  { id: "youtube", name: "YouTube", handle: "@DhruboZ", href: profile.youtube, icon: <Youtube size={18} /> },
+  { id: "x", name: "X", handle: "@DhruboZ4U", href: profile.x, icon: <XIcon /> },
+  { id: "instagram", name: "Instagram", handle: "@dhruboz4u", href: profile.instagram, icon: <Instagram size={18} /> },
+  { id: "facebook", name: "Facebook", handle: "DhruboZ", href: profile.facebook, icon: <Facebook size={18} /> },
+  { id: "devto", name: "dev.to", handle: "dhrubojyoti", href: profile.devto, icon: <DevIcon /> },
+  { id: "whatsapp", name: "WhatsApp", handle: profile.phoneDisplay, href: profile.whatsapp, icon: <MessageCircle size={18} /> },
+  { id: "email", name: "Email", handle: profile.email, href: `mailto:${profile.email}`, icon: <Mail size={18} /> },
 ];
 
 /**
@@ -53,28 +51,28 @@ export const SOCIALS: Social[] = [
  */
 export function SocialLinks({ compact = false, className, ids }: { compact?: boolean; className?: string; ids?: string[] }) {
   const items = ids ? SOCIALS.filter((s) => ids.includes(s.id)) : SOCIALS;
+  if (compact) {
+    return (
+      <ul className={cn("flex flex-wrap gap-2", className)} aria-label="Profiles elsewhere">
+        {items.map((s) => (
+          <li key={s.id}>
+            <TrackedLink href={s.href} label={s.name} title={`${s.name}: ${s.handle}`} aria-label={`${s.name} (${s.handle})`} className="social-dot focus-visible:outline-accent">
+              {s.icon}
+            </TrackedLink>
+          </li>
+        ))}
+      </ul>
+    );
+  }
+  // One quiet row per profile: icon, name, handle. A single accent on hover, no brand colours.
   return (
-    <ul className={cn("flex flex-wrap gap-2", className)} aria-label="Profiles elsewhere">
+    <ul className={cn("social-rows", className)} aria-label="Profiles elsewhere">
       {items.map((s) => (
         <li key={s.id}>
-          <TrackedLink
-            href={s.href}
-            label={s.name}
-            title={`${s.name}: ${s.handle}`}
-            aria-label={compact ? `${s.name} (${s.handle})` : undefined}
-            className={cn(
-              "group inline-flex items-center gap-2 rounded-full border border-line-strong bg-surface text-ink-soft transition-[transform,color,border-color,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow)] focus-visible:outline-accent motion-reduce:transform-none",
-              compact ? "h-10 w-10 justify-center" : "px-3 py-2 text-sm",
-              s.hover,
-            )}
-          >
-            <span className="shrink-0">{s.icon}</span>
-            {!compact && (
-              <span className="leading-tight">
-                <span className="block font-medium">{s.name}</span>
-                <span className="block text-[11px] text-muted group-hover:text-current">{s.handle}</span>
-              </span>
-            )}
+          <TrackedLink href={s.href} label={s.name} title={`${s.name}: ${s.handle}`} className="social-row focus-visible:outline-accent">
+            <span className="social-icon">{s.icon}</span>
+            <span className="social-name">{s.name}</span>
+            <span className="social-handle">{s.handle}</span>
           </TrackedLink>
         </li>
       ))}

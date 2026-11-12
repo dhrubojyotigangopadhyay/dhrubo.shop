@@ -1,3 +1,4 @@
+import { PageHero } from "@/components/stage/PageHero";
 import Image from "next/image";
 import github from "@/generated/github.json";
 import Link from "next/link";
@@ -32,16 +33,26 @@ export default async function AboutPage() {
         )}
         nonce={nonce}
       />
-      <Container className="pt-10">
+      <Container className="stage-pad-top">
         <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "About", href: "/about" }]} />
-        <div className="grid gap-10 md:grid-cols-[1fr_18rem]">
-          <div>
-            <p className="eyebrow mb-3">About</p>
-            <h1 className="font-display text-4xl sm:text-5xl">Dhrubojyoti Gangopadhyay</h1>
-            <p className="mt-3 text-xl text-ink-soft">
+        <PageHero
+          no="02"
+          label="About"
+          ghost="16 yrs"
+          title={
+            <>
+              Dhrubojyoti <em>Gangopadhyay</em>
+            </>
+          }
+          lede={
+            <p>
               {profile.headline}. {profile.location.city}, {profile.location.country}.
             </p>
-            <div className="prose-site mt-8">
+          }
+        />
+        <div className="grid gap-12 md:grid-cols-[1fr_22rem]">
+          <div>
+            <div className="prose-site" data-reveal>
               <p>
                 I build agentic systems that connect language models to the tools, data and approval steps a business
                 already runs on. The flagship is <Link href="/projects/sahkarmi">Sahkarmi</Link>, an open-source
@@ -67,9 +78,9 @@ export default async function AboutPage() {
               </p>
             </div>
           </div>
-          <aside className="space-y-4">
-            <div className="relative aspect-square overflow-hidden rounded-[var(--radius)] border border-line">
-              <Image src={profile.portrait} alt="Portrait of Dhrubojyoti Gangopadhyay" fill sizes="18rem" className="object-cover object-top" priority />
+          <aside className="space-y-4" data-reveal>
+            <div className="about-portrait">
+              <Image src="/media/portrait-cinematic.webp" alt="Portrait of Dhrubojyoti Gangopadhyay" width={800} height={800} sizes="(max-width: 767px) 92vw, 22rem" priority />
             </div>
             <dl className="card divide-y divide-line text-sm">
               <Row k="Based in">{profile.location.city}, India (IST)</Row>
@@ -94,29 +105,31 @@ export default async function AboutPage() {
       </Container>
 
       <Section eyebrow="Timeline" title="2007 to now">
-        <ol className="relative border-l border-line pl-6">
+        <ol className="timeline">
           {profile.roles.map((r) => (
-            <li key={`${r.org}-${r.period}`} className="relative mb-8">
-              <span className="absolute -left-[1.7rem] top-2 h-2.5 w-2.5 rounded-full border-2 border-bg bg-accent" aria-hidden="true" />
-              <p className="font-mono text-xs text-muted">{r.period}</p>
-              <h3 className="mt-1 text-lg font-semibold">{r.title}</h3>
-              <p className="text-sm text-muted">{r.org}</p>
-              <p className="mt-2 max-w-2xl text-sm text-ink-soft">{r.summary}</p>
+            <li key={`${r.org}-${r.period}`} data-reveal>
+              <p className="timeline-when">{r.period}</p>
+              <div>
+                <h3>{r.title}</h3>
+                <p className="timeline-org">{r.org}</p>
+                <p className="timeline-what">{r.summary}</p>
+              </div>
             </li>
           ))}
-          <li className="relative">
-            <span className="absolute -left-[1.7rem] top-2 h-2.5 w-2.5 rounded-full border-2 border-bg bg-muted" aria-hidden="true" />
-            <p className="font-mono text-xs text-muted">{profile.education.years}</p>
-            <h3 className="mt-1 text-lg font-semibold">{profile.education.degree}</h3>
-            <p className="text-sm text-muted">{profile.education.school}, West Bengal</p>
+          <li data-reveal>
+            <p className="timeline-when">{profile.education.years}</p>
+            <div>
+              <h3>{profile.education.degree}</h3>
+              <p className="timeline-org">{profile.education.school}, West Bengal</p>
+            </div>
           </li>
         </ol>
       </Section>
 
-      <Section eyebrow="Questions people ask" title="Straight answers" className="border-t border-line bg-surface/40">
+      <Section eyebrow="Questions people ask" title="Straight answers" >
         <dl className="grid gap-6 md:grid-cols-2">
           {faqs.map((f) => (
-            <div key={f.id} id={f.id} className="card scroll-mt-24 p-6">
+            <div key={f.id} id={f.id} className="card scroll-mt-24 p-6" data-reveal>
               <dt className="font-display text-xl">{f.question}</dt>
               <dd className="mt-3 text-sm leading-relaxed text-ink-soft">{f.answer}</dd>
             </div>

@@ -33,10 +33,11 @@ export function AssistantWidget() {
         }}
         aria-expanded={open}
         aria-controls="assistant-dialog"
-        className="fixed bottom-4 right-4 z-40 inline-flex items-center gap-2 rounded-full border border-line-strong bg-surface px-4 py-2.5 text-sm font-medium shadow-card hover:bg-surface-2"
+        aria-label={open ? "Close assistant" : "Ask about my work"}
+        className="ask-fab fixed bottom-4 right-4 z-40 inline-flex items-center gap-2 rounded-full border border-line-strong bg-surface px-4 py-2.5 text-sm font-medium shadow-card hover:bg-surface-2"
       >
         {open ? <X size={16} /> : <MessageSquareText size={16} />}
-        {open ? "Close" : "Ask about my work"}
+        <span className="ask-fab-text">{open ? "Close" : "Ask about my work"}</span>
       </button>
       {open && (
         <div

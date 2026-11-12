@@ -1,3 +1,4 @@
+import { PageHero } from "@/components/stage/PageHero";
 import Link from "next/link";
 import github from "@/generated/github.json";
 import { headers } from "next/headers";
@@ -25,7 +26,7 @@ const competencies = [
 export default async function ResumePage() {
   const nonce = (await headers()).get("x-nonce") ?? undefined;
   return (
-    <Container className="py-10">
+    <Container className="stage-pad">
       <ResumeViewTracker />
       <JsonLd
         data={graph(
@@ -40,17 +41,29 @@ export default async function ResumePage() {
       <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "Résumé", href: "/resume" }]} />
       <div className="flex flex-wrap items-end justify-between gap-6">
         <div>
-          <p className="eyebrow mb-3">Résumé</p>
-          <h1 className="font-display text-4xl sm:text-5xl">{profile.name}</h1>
-          <p className="mt-2 text-lg text-ink-soft">{profile.headline} · {profile.location.city}, India · open to remote and relocation</p>
+          <PageHero
+            compact
+            no="06"
+            label="Résumé"
+            title={
+              <>
+                Dhrubojyoti <em>Gangopadhyay</em>
+              </>
+            }
+            lede={
+              <p>
+                {profile.headline} · {profile.location.city}, India · open to remote and relocation
+              </p>
+            }
+          />
         </div>
-        <TrackedLink href={profile.resumePath} event="resume_download" className="inline-flex items-center gap-2 rounded-lg bg-ink px-4 py-2.5 text-sm font-medium text-paper" download>
+        <TrackedLink href={profile.resumePath} event="resume_download" className="btn btn-solid mb-8" download>
           <Download size={16} /> Download PDF (one page)
         </TrackedLink>
       </div>
 
       <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_20rem]">
-        <div className="prose-site max-w-none">
+        <div className="prose-site plate max-w-none">
           <h2>Summary</h2>
           <p>
             Applied AI engineer who ships. Sole builder of Sahkarmi, an open-source desktop AI-coworker platform

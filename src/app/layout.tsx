@@ -3,11 +3,14 @@ import { Big_Shoulders, Newsreader } from "next/font/google";
 import { headers } from "next/headers";
 import Script from "next/script";
 import "./globals.css";
+import "./film.css";
+import { SceneHost } from "@/components/film/SceneHost";
+import github from "@/generated/github.json";
+import { HEAD_BOOTSTRAP } from "@/lib/bootstrap";
 import { Analytics, CONSENT_DEFAULT } from "@/components/site/Analytics";
 import { Footer } from "@/components/site/Footer";
 import { Header } from "@/components/site/Header";
 import { JsonLd } from "@/components/site/JsonLd";
-import { THEME_BOOTSTRAP } from "@/components/site/ThemeToggle";
 import { AssistantWidget } from "@/components/assistant/AssistantWidget";
 import { graph, personJsonLd, websiteJsonLd } from "@/lib/seo/jsonld";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
@@ -29,6 +32,8 @@ const poster = Big_Shoulders({
   adjustFontFallback: false,
   fallback: ["Arial Narrow", "Impact", "sans-serif"],
 });
+
+const RELEASE_DATES = github.releases.map((r) => r.date);
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -59,10 +64,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f6f2ea" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a0908" },
-  ],
+  themeColor: "#0a0908",
+  colorScheme: "dark",
   width: "device-width",
   initialScale: 1,
 };
@@ -73,17 +76,18 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
     <html lang="en" suppressHydrationWarning className={`${newsreader.variable} ${poster.variable}`}>
       <head>
         {/* A plain inline script, not next/script: it must run while the parser is still in <head>,
-            before first paint, so theme and motion classes never change the first layout. */}
-        <script id="theme-bootstrap" nonce={nonce} suppressHydrationWarning dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP }} />
+            before first paint, so the motion classes never change the first layout. */}
+        <script id="theme-bootstrap" nonce={nonce} suppressHydrationWarning dangerouslySetInnerHTML={{ __html: HEAD_BOOTSTRAP }} />
         <Script id="ga-consent-default" strategy="beforeInteractive" nonce={nonce}>
           {CONSENT_DEFAULT}
         </Script>
         <JsonLd data={graph(personJsonLd(), websiteJsonLd())} nonce={nonce} />
       </head>
-      <body className="min-h-dvh bg-bg text-ink">
+      <body className="min-h-dvh text-ink">
         <a href="#main" className="skip-link">
           Skip to content
         </a>
+        <SceneHost releaseDates={RELEASE_DATES} />
         <Header />
         <main id="main">{children}</main>
         <Footer />

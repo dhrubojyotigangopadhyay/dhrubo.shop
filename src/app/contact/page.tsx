@@ -1,3 +1,4 @@
+import { PageHero } from "@/components/stage/PageHero";
 import { headers } from "next/headers";
 import { SocialLinks } from "@/components/site/SocialLinks";
 import { ContactForm } from "@/components/sections/ContactForm";
@@ -15,7 +16,7 @@ export const metadata = pageMetadata({ title: "Contact", description, path: "/co
 export default async function ContactPage() {
   const nonce = (await headers()).get("x-nonce") ?? undefined;
   return (
-    <Container className="py-10">
+    <Container className="stage-pad">
       <JsonLd
         data={graph(
           webPageJsonLd("/contact", "Contact", description),
@@ -29,13 +30,23 @@ export default async function ContactPage() {
       <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "Contact", href: "/contact" }]} />
       <div className="grid gap-10 lg:grid-cols-[1fr_1.3fr]">
         <div>
-          <p className="eyebrow mb-3">Contact</p>
-          <h1 className="font-display text-4xl sm:text-5xl">Say what you are trying to do</h1>
-          <p className="mt-4 text-lg text-ink-soft">
-            A role, a workflow you want automated, a question about the code. I read everything and reply within two
-            working days.
-          </p>
-          <dl className="mt-8 space-y-4 text-sm">
+          <PageHero
+            compact
+            no="08"
+            label="Contact"
+            title={
+              <>
+                Say what you are <em>trying to do</em>
+              </>
+            }
+            lede={
+              <p>
+                A role, a workflow you want automated, a question about the code. I read everything and reply within
+                two working days.
+              </p>
+            }
+          />
+          <dl className="space-y-4 text-sm">
             <div>
               <dt className="eyebrow">Email</dt>
               <dd className="mt-1">

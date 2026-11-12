@@ -66,16 +66,6 @@ test.describe("navigation and interaction", () => {
     await expect(page.getByText("policy allows").first()).toBeVisible();
   });
 
-  test("theme toggle switches data-theme and persists", async ({ page }) => {
-    await page.goto("/about");
-    const before = await page.evaluate(() => document.documentElement.getAttribute("data-theme"));
-    await page.getByRole("button", { name: /Switch to (dark|light) theme/ }).first().click();
-    const after = await page.evaluate(() => document.documentElement.getAttribute("data-theme"));
-    expect(after).not.toBe(before);
-    await page.reload();
-    expect(await page.evaluate(() => document.documentElement.getAttribute("data-theme"))).toBe(after);
-  });
-
   test("consent banner appears once and respects decline", async ({ page }) => {
     await page.goto("/");
     const dialog = page.getByRole("dialog", { name: "Analytics consent" });
@@ -137,7 +127,7 @@ test.describe("accessibility (axe, WCAG 2.1 AA)", () => {
       // Audit the settled page: mid-fade frames of the intro give axe false contrast readings.
       await page.addInitScript(() => sessionStorage.setItem("dhrubo.intro", "1"));
       await page.goto(path);
-      await page.waitForTimeout(400);
+      await page.waitForTimeout(1800);
       const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze();
       const serious = results.violations.filter((v) => v.impact === "serious" || v.impact === "critical");
       expect(serious, JSON.stringify(serious.map((v) => ({ id: v.id, nodes: v.nodes.map((n) => n.target) })), null, 1)).toEqual([]);
@@ -148,7 +138,7 @@ test.describe("accessibility (axe, WCAG 2.1 AA)", () => {
 test.describe("visual regressions", () => {
   test("primary buttons never render text in their own background colour", async ({ page }) => {
     await page.goto("/");
-    const pairs = await page.locator("a.bg-ink, button.bg-ink").evaluateAll((els) =>
+    const pairs = await page.locator("a.btn-bone, a.btn-solid, button.btn-solid").evaluateAll((els) =>
       els.map((e) => {
         const s = getComputedStyle(e);
         return { text: (e.textContent || "").trim().slice(0, 30), color: s.color, bg: s.backgroundColor };
@@ -246,5 +236,51 @@ test.describe("homepage film", () => {
     await page.goto("/projects/sahkarmi");
     await expect(page.locator(".case-shot img").first()).toHaveAttribute("alt", /sahkarmi\.site/);
     await expect(page.locator(".proof-chart")).toBeVisible();
+  });
+});
+
+test.describe("site-wide stage", () => {
+  for (const [path, label] of [
+    ["/about", "About"],
+    ["/projects", "Projects"],
+    ["/services", "Work with me"],
+    ["/writing", "Writing"],
+    ["/ask", "Ask"],
+    ["/contact", "Contact"],
+    ["/resume", "Résumé"],
+  ] as const) {
+    test(`${path} opens on a numbered slate and a poster headline over the shared backdrop`, async ({ page }) => {
+      await page.goto(path);
+      await expect(page.locator(".stage-back canvas")).toHaveCount(1);
+      await expect(page.locator(".page-hero .slate")).toContainText(label);
+      await expect(page.locator("h1.poster")).toBeVisible();
+      const [scroll, client] = await page.evaluate(() => [document.documentElement.scrollWidth, document.documentElement.clientWidth]);
+      expect(scroll).toBeLessThanOrEqual(client);
+    });
+  }
+
+  test("the backdrop canvas survives navigation between pages", async ({ page }) => {
+    await page.goto("/about");
+    await page.evaluate(() => ((document.querySelector(".stage-back canvas") as HTMLElement).dataset.keep = "1"));
+    await page.getByRole("contentinfo").getByRole("link", { name: "Writing" }).click();
+    await expect(page).toHaveURL(/\/writing$/);
+    await expect(page.locator('.stage-back canvas[data-keep="1"]')).toHaveCount(1);
+  });
+
+  test("projects index shows real product screenshots", async ({ page }) => {
+    await page.goto("/projects");
+    await expect(page.locator(".showcase-row")).toHaveCount(4);
+    await expect(page.locator(".showcase-row img").first()).toHaveAttribute("alt", /sahkarmi\.site/);
+  });
+
+  test("inner pages are readable without JavaScript", async ({ browser }) => {
+    const context = await browser.newContext({ javaScriptEnabled: false });
+    const page = await context.newPage();
+    for (const path of ["/about", "/projects", "/writing"]) {
+      await page.goto(path);
+      await expect(page.locator("h1")).toBeVisible();
+      await expect(page.locator("[data-reveal]").first()).toBeVisible();
+    }
+    await context.close();
   });
 });

@@ -3,7 +3,6 @@ import Link from "next/link";
 import { headers } from "next/headers";
 import type { CSSProperties } from "react";
 import { ArrowDown, ArrowRight, ArrowUpRight } from "lucide-react";
-import "./film.css";
 import { FilmStage } from "@/components/film/FilmStage";
 import { MethodCases } from "@/components/film/MethodCases";
 import { ReleaseChart } from "@/components/film/ReleaseChart";
@@ -55,12 +54,11 @@ function Slate({ index }: { index: number }) {
 
 export default async function Home() {
   const nonce = (await headers()).get("x-nonce") ?? undefined;
-  const releaseDates = github.releases.map((r) => r.date);
 
   return (
     <div className="film" id="film">
       <JsonLd data={graph(profilePageJsonLd("/", `${profile.name}: ${profile.headline}`, profile.verifiedOn))} nonce={nonce} />
-      <FilmStage chapters={chapters} releaseDates={releaseDates} />
+      <FilmStage chapters={chapters} />
 
       {/* 01 ---------------------------------------------------------- */}
       <section id="opening" data-chapter className="ch ch-opening" aria-labelledby="opening-title">
