@@ -160,7 +160,7 @@ How to read the mobile number: the hero's largest element is now a portrait inst
 6. **Sahkarmi screenshots show the product website**, not the desktop app running. App captures would be stronger evidence.
 7. **"About 650 Vitest cases" was counted on 2 Nov** and not recounted; the page says so.
 8. **Zappy's status line is from 2 Nov** ("web live, API degraded"). The site still shows only a sign-in screen.
-9. **Phone number is not shown in the film** because the CV and the site disagree (+91 98740 76688 against +91 82408 01921).
+9. **Phone number**: set to +91 98740 76688 (the CV number) on 12 Nov 2026 on the owner's instruction; the WhatsApp link uses the same number.
 10. **LinkedIn could not be read** (it blocks automated requests), so positioning comes from the CV.
 11. Three of the four prototype repositories have failing CI, as their case studies state.
 
