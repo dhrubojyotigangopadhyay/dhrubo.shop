@@ -4,12 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node scripts/build-knowledge.mjs",
+    "prebuild": "node scripts/build-github.mjs && node scripts/build-knowledge.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "knowledge": "node scripts/build-knowledge.mjs",
+    "github": "node scripts/build-github.mjs",
+    "capture": "node scripts/capture-work.mjs",
     "test": "npm run knowledge && vitest run",
     "test:e2e": "playwright test",
     "test:all": "npm run lint && npm run typecheck && npm run test && npm run build && npm run test:e2e"
@@ -21,6 +23,7 @@
     "@next/third-parties": "^15.5.28",
     "@types/mdx": "^2.0.14",
     "clsx": "^2.1.1",
+    "lenis": "^1.3.27",
     "lucide-react": "^0.562.0",
     "motion": "^14.9.0",
     "next": "^15.5.28",
@@ -30,6 +33,7 @@
     "remark-gfm": "^4.0.1",
     "shiki": "^4.6.0",
     "tailwind-merge": "^3.6.0",
+    "three": "^0.187.0",
     "zod": "^4.6.7"
   },
   "devDependencies": {
@@ -41,6 +45,7 @@
     "@types/node": "^24.10.3",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
+    "@types/three": "^0.187.0",
     "@vitejs/plugin-react": "^6.2.1",
     "eslint": "^9.39.2",
     "eslint-config-next": "^15.5.9",

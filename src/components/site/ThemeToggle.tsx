@@ -11,7 +11,7 @@ const KEY = "dhrubo.theme";
  * Inline bootstrap, injected in <head> before paint, so the theme never
  * flashes. Kept tiny and nonce-tagged for the CSP.
  */
-export const THEME_BOOTSTRAP = `(function(){try{var t=localStorage.getItem('${KEY}');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}})();`;
+export const THEME_BOOTSTRAP = `(function(){try{var t=localStorage.getItem('${KEY}');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);if(!sessionStorage.getItem('dhrubo.intro')&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('film-intro');}catch(e){}})();`;
 
 export function ThemeToggle() {
   const [theme, setTheme] = useState<Theme | null>(null);
@@ -38,7 +38,7 @@ export function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
-      className="rounded-lg p-2 text-ink-soft hover:bg-surface-2"
+      className="theme-toggle rounded-lg p-2 text-ink-soft hover:bg-surface-2"
     >
       {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
     </button>

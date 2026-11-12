@@ -1,3 +1,7 @@
+import github from "../generated/github.json";
+
+const day = (iso: string) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
+
 /**
  * Single source of truth for identity facts shown on the site, in JSON-LD,
  * in llms.txt and in the AI assistant's knowledge base.
@@ -74,12 +78,12 @@ export const profile = {
   ],
   /** Verified public numbers, with the date they were checked. */
   proof: [
-    { value: "50", label: "tagged Sahkarmi releases", detail: "v0.3.0 (19 Oct 2026) to v0.17.1 (2 Nov 2026)", href: "https://github.com/ganguydhrubo/sahakarmi/releases" },
-    { value: "277", label: "commits, 72 merged PRs", detail: "github.com/ganguydhrubo/sahakarmi, checked 2 Nov 2026", href: "https://github.com/ganguydhrubo/sahakarmi/pulls?q=is%3Apr+is%3Amerged" },
+    { value: String(github.releaseCount), label: "published Sahkarmi releases", detail: `${github.first.tag} (${day(github.first.date)}) to ${github.latest.tag} (${day(github.latest.date)})`, href: "https://github.com/ganguydhrubo/sahakarmi/releases" },
+    { value: String(github.commits), label: `commits, ${github.mergedPrs} merged PRs`, detail: `github.com/ganguydhrubo/sahakarmi, checked ${day(github.checkedOn)}`, href: "https://github.com/ganguydhrubo/sahakarmi/pulls?q=is%3Apr+is%3Amerged" },
     { value: "3", label: "live web products", detail: "atittle.com, auraleads.online, zappy.rest", href: "/projects" },
     { value: "16", label: "years enterprise revenue ops", detail: "2007 – 2023, AGM level in cement and steel", href: "/about" },
   ],
-  verifiedOn: "2026-11-02",
+  verifiedOn: "2026-11-12",
 } as const;
 
 export type Profile = typeof profile;

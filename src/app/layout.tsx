@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Newsreader } from "next/font/google";
+import { Big_Shoulders, Newsreader } from "next/font/google";
 import { headers } from "next/headers";
 import Script from "next/script";
 import "./globals.css";
@@ -17,6 +17,16 @@ const newsreader = Newsreader({
   variable: "--font-display",
   style: ["normal", "italic"],
   display: "swap",
+});
+
+// Poster face for the homepage film and case-study titles. SIL OFL 1.1.
+const poster = Big_Shoulders({
+  subsets: ["latin"],
+  variable: "--font-poster",
+  weight: ["700", "800", "900"],
+  display: "swap",
+  adjustFontFallback: false,
+  fallback: ["Arial Narrow", "Impact", "sans-serif"],
 });
 
 export const metadata: Metadata = {
@@ -50,7 +60,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#f6f2ea" },
-    { media: "(prefers-color-scheme: dark)", color: "#0c0e12" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0908" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -59,7 +69,7 @@ export const viewport: Viewport = {
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const nonce = (await headers()).get("x-nonce") ?? undefined;
   return (
-    <html lang="en" suppressHydrationWarning className={newsreader.variable}>
+    <html lang="en" suppressHydrationWarning className={`${newsreader.variable} ${poster.variable}`}>
       <head>
         <Script id="theme-bootstrap" strategy="beforeInteractive" nonce={nonce}>
           {THEME_BOOTSTRAP}

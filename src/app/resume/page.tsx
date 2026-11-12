@@ -1,4 +1,5 @@
 import Link from "next/link";
+import github from "@/generated/github.json";
 import { headers } from "next/headers";
 import { Download, FileText } from "lucide-react";
 import { JsonLd } from "@/components/site/JsonLd";
@@ -53,7 +54,7 @@ export default async function ResumePage() {
           <h2>Summary</h2>
           <p>
             Applied AI engineer who ships. Sole builder of Sahkarmi, an open-source desktop AI-coworker platform
-            (Electron, TypeScript, Claude Agent SDK, Model Context Protocol) with 50 tagged releases, a Microsoft Store
+            (Electron, TypeScript, Claude Agent SDK, Model Context Protocol) with {github.releaseCount} published releases, a Microsoft Store
             listing and human approval gates on every sensitive action; also three live web products and a dozen public
             LangGraph and RAG prototypes. Preceded by 16 years of revenue-operations leadership at AGM level in cement,
             steel and industrial distribution. Bridges executive stakeholders and code with no hand-off: discovery,

@@ -1,4 +1,5 @@
 import { profile } from "@/content/profile";
+import github from "@/generated/github.json";
 import type { Project } from "@/content/projects";
 import { SITE_NAME, SITE_URL, absoluteUrl } from "@/lib/site";
 
@@ -109,7 +110,7 @@ export function softwareJsonLd(project: Project) {
     url: project.live ?? project.repo,
     applicationCategory: "BusinessApplication",
     operatingSystem: "Windows",
-    softwareVersion: "0.17.1",
+    softwareVersion: github.latest.tag.replace(/^v/, ""),
     license: "https://www.apache.org/licenses/LICENSE-2.0",
     isAccessibleForFree: true,
     author: { "@id": PERSON_ID },

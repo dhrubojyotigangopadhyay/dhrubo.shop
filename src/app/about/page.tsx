@@ -1,4 +1,5 @@
 import Image from "next/image";
+import github from "@/generated/github.json";
 import Link from "next/link";
 import { headers } from "next/headers";
 import { JsonLd } from "@/components/site/JsonLd";
@@ -45,7 +46,7 @@ export default async function AboutPage() {
                 I build agentic systems that connect language models to the tools, data and approval steps a business
                 already runs on. The flagship is <Link href="/projects/sahkarmi">Sahkarmi</Link>, an open-source
                 Windows desktop platform where AI coworkers do real work inside sandboxed browsers and stop for a
-                human before anything consequential. It has fifty tagged releases, a Microsoft Store listing and about
+                human before anything consequential. It has {github.releaseCount} published releases, a Microsoft Store listing and about
                 650 unit tests, and every line of it is public.
               </p>
               <p>

@@ -15,7 +15,7 @@
   --muted: #5c6168;
   --line: rgba(18, 20, 23, 0.12);
   --line-strong: rgba(18, 20, 23, 0.28);
-  --accent: #c94c12;
+  --accent: #c2300f;
   --accent-ink: #ffffff;
   --cobalt: #1f4fd8;
   --forest: #1f5f3f;
@@ -28,16 +28,16 @@
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #0c0e12;
-  --surface: #141720;
-  --surface-2: #1b1f2a;
+  --bg: #0a0908;
+  --surface: #131110;
+  --surface-2: #1c1917;
   --ink: #eeeae1;
   --ink-soft: #d4cfc4;
   --muted: #9aa0a8;
   --line: rgba(238, 234, 225, 0.12);
   --line-strong: rgba(238, 234, 225, 0.3);
-  --accent: #ff7a3d;
-  --accent-ink: #120904;
+  --accent: #ff5330;
+  --accent-ink: #120503;
   --cobalt: #6f93ff;
   --forest: #5fbf8a;
   --gold: #f0c05a;

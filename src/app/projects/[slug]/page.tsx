@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+import Image from "next/image";
+import "../../film.css";
+import { ReleaseChart } from "@/components/film/ReleaseChart";
+import { workMedia } from "@/content/film";
+import github from "@/generated/github.json";
 import Link from "next/link";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
@@ -36,9 +41,12 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   if (!p) notFound();
   const nonce = (await headers()).get("x-nonce") ?? undefined;
   const related = articles.filter((a) => a.relatedProjects.includes(p.slug));
+  const media = workMedia[p.slug];
+  const checked = new Date(github.checkedOn).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
 
   return (
-    <Container className="py-10">
+    <div className="film case">
+    <Container className="pb-16 pt-24">
       <ProjectViewTracker slug={p.slug} status={p.status} />
       <JsonLd
         data={graph(
@@ -62,8 +70,8 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             </Badge>
             <span className="font-mono text-xs text-muted">{p.period}</span>
           </div>
-          <h1 className="mt-4 font-display text-4xl sm:text-5xl">{p.name}</h1>
-          <p className="mt-3 text-xl text-ink-soft">{p.oneLiner}</p>
+          <h1 className="case-title mt-5">{p.name}</h1>
+          <p className="mt-5 max-w-2xl text-xl text-ink-soft">{p.oneLiner}</p>
         </div>
         <aside className="card self-start p-5 text-sm">
           <p className="eyebrow mb-3">Inspect</p>
@@ -88,9 +96,23 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
               </li>
             )}
           </ul>
-          <p className="mt-4 text-xs text-muted">Facts verified 2 Nov 2026.</p>
+          <p className="mt-4 text-xs text-muted">{p.slug === "sahkarmi" ? `Repository numbers read from GitHub on ${checked}.` : "Facts verified 2 Nov 2026."}</p>
         </aside>
       </header>
+
+      {media && (
+        <figure className="case-shot">
+          <div className="work-frame">
+            <Image src={media.desktop} alt={media.alt} width={1440} height={900} sizes="(max-width: 1100px) 92vw, 1000px" priority />
+          </div>
+          <div className="work-phone">
+            <Image src={media.mobile} alt="" width={600} height={1298} sizes="(max-width: 1100px) 20vw, 210px" />
+          </div>
+          <figcaption className="work-cap">
+            {p.liveLabel}, as it looked on {media.captured}. Unretouched screenshots of the live site.
+          </figcaption>
+        </figure>
+      )}
 
       <div className="mt-12 grid gap-12 md:grid-cols-[1fr_16rem]">
         <div className="prose-site">
@@ -106,6 +128,14 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           </ul>
           {p.slug === "sahkarmi" && (
             <>
+              <h2>Release history</h2>
+              <p>
+                {github.releaseCount} published releases, {github.commits} commits and {github.mergedPrs} merged pull requests on the public
+                repository. One square is one release.
+              </p>
+              <div className="not-prose my-6">
+                <ReleaseChart />
+              </div>
               <h2>The approval path, interactively</h2>
               <div className="not-prose my-6">
                 <ApprovalFlow />
@@ -163,5 +193,6 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         </aside>
       </div>
     </Container>
+    </div>
   );
 }
