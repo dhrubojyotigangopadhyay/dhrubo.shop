@@ -4,7 +4,7 @@ import { chromium, devices } from "@playwright/test";
 import { mkdir } from "node:fs/promises";
 
 const base = process.argv[2] ?? "http://127.0.0.1:3100";
-const out = process.argv[3] ?? "test-results/film";
+const out = process.argv[3] ?? ".film-shots";
 const which = process.argv[4] ?? "both";
 await mkdir(out, { recursive: true });
 

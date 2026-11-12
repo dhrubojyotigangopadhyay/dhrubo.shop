@@ -9,9 +9,11 @@ const KEY = "dhrubo.theme";
 
 /**
  * Inline bootstrap, injected in <head> before paint, so the theme never
- * flashes. Kept tiny and nonce-tagged for the CSP.
+ * flashes. It also marks the motion mode for the homepage film (film-on /
+ * film-static, and film-intro once per session) so the first layout is
+ * already the final one. Kept tiny and nonce-tagged for the CSP.
  */
-export const THEME_BOOTSTRAP = `(function(){try{var t=localStorage.getItem('${KEY}');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);if(!sessionStorage.getItem('dhrubo.intro')&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('film-intro');}catch(e){}})();`;
+export const THEME_BOOTSTRAP = `(function(){try{var t=localStorage.getItem('${KEY}');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);var r=window.matchMedia('(prefers-reduced-motion: reduce)').matches,c=document.documentElement.classList;c.add(r?'film-static':'film-on');var p=location.pathname;if(p==='/'||p.indexOf('/projects/')===0)c.add('cine');if(!r&&!sessionStorage.getItem('dhrubo.intro'))c.add('film-intro');}catch(e){}})();`;
 
 export function ThemeToggle() {
   const [theme, setTheme] = useState<Theme | null>(null);

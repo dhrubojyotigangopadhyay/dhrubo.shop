@@ -134,7 +134,10 @@ test.describe("contact", () => {
 test.describe("accessibility (axe, WCAG 2.1 AA)", () => {
   for (const path of ["/", "/projects/sahkarmi", "/writing/approval-gates-for-ai-agents", "/ask", "/contact", "/resume"]) {
     test(`${path} has no serious or critical violations`, async ({ page }) => {
+      // Audit the settled page: mid-fade frames of the intro give axe false contrast readings.
+      await page.addInitScript(() => sessionStorage.setItem("dhrubo.intro", "1"));
       await page.goto(path);
+      await page.waitForTimeout(400);
       const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze();
       const serious = results.violations.filter((v) => v.impact === "serious" || v.impact === "critical");
       expect(serious, JSON.stringify(serious.map((v) => ({ id: v.id, nodes: v.nodes.map((n) => n.target) })), null, 1)).toEqual([]);

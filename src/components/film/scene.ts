@@ -427,6 +427,7 @@ export function createScene({ canvas, releaseDates, lite, reducedMotion }: Scene
   let raf = 0;
   let last = 0;
   let slowFrames = 0;
+  let onDemand = false;
   let frames = 0;
   let width = 0;
   let height = 0;
@@ -507,8 +508,9 @@ export function createScene({ canvas, releaseDates, lite, reducedMotion }: Scene
       }
     }
 
-    // Adaptive quality: if early frames are slow, halve the particle draw and drop to 1x.
-    if (frames < 90) {
+    // Adaptive quality. Slow early frames halve the particle draw and drop to 1x; if the
+    // device is still struggling after that, stop animating and only redraw on scroll.
+    if (frames < 180 && !onDemand) {
       frames++;
       if (frames > 20 && dt > 0.03) slowFrames++;
       if (frames === 90 && slowFrames > 30) {
@@ -517,6 +519,10 @@ export function createScene({ canvas, releaseDates, lite, reducedMotion }: Scene
         dpr = 1;
         renderer.setPixelRatio(1);
         resize();
+        slowFrames = 0;
+      } else if (frames === 180 && slowFrames > 45) {
+        onDemand = true;
+        uniforms.uMotion.value = 0;
       }
     }
   };
@@ -524,8 +530,9 @@ export function createScene({ canvas, releaseDates, lite, reducedMotion }: Scene
   const loop = (time: number) => {
     if (!running) return;
     render(time);
-    // With reduced motion nothing drifts, so only draw when the scroll position changes.
-    raf = reducedMotion ? 0 : requestAnimationFrame(loop);
+    // With reduced motion (or on a device that cannot keep up) nothing drifts, so only
+    // draw while the scroll position is still settling.
+    raf = reducedMotion || (onDemand && Math.abs(target - current) < 0.0005) ? 0 : requestAnimationFrame(loop);
   };
 
   resize();
@@ -533,6 +540,7 @@ export function createScene({ canvas, releaseDates, lite, reducedMotion }: Scene
     setProgress(f) {
       target = f;
       if (reducedMotion && running && !raf) raf = requestAnimationFrame((t) => { raf = 0; render(t); });
+      else if (onDemand && running && !raf) raf = requestAnimationFrame(loop);
     },
     setPointer(x, y) {
       pointerX = x;

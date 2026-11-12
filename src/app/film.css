@@ -1,11 +1,13 @@
 /* ==================================================================
-   The homepage film. Scoped to .film and to :root:has(.film) so the
-   rest of the site is untouched. Three values carry the look: a warm
+   The homepage film. Scoped to .film and to html.cine (set per route by
+   the head bootstrap and the Header) so the rest of the site is untouched.
+   No :has() on the root: it made the parser restyle the whole document. Three values carry the look: a warm
    near-black, bone white and one vermilion. Teal appears once, in
    chapter 07. Motion is layered on by html.film-on (set from JS); with
    no JS or with reduced motion every chapter is a plain readable page.
    ================================================================== */
-:root:has(.film) {
+.cine,
+.film {
   color-scheme: dark;
   --bg: #0a0908;
   --surface: #131110;
@@ -23,16 +25,16 @@
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 24px 60px -24px rgba(0, 0, 0, 0.9);
 }
 
-:root:has(.film) body > header {
+.cine body > header {
   position: fixed;
   inset: 0 0 auto 0;
   background: rgba(10, 9, 8, 0.8);
   border-bottom-color: transparent;
 }
-:root:has(.film) body > header .theme-toggle {
+.cine body > header .theme-toggle {
   display: none;
 }
-:root:has(.film) body > footer {
+.cine body > footer {
   position: relative;
   z-index: 20;
   background: var(--bg);
@@ -52,7 +54,7 @@
   color: var(--ink);
   overflow-x: clip;
 }
-html:has(.film) { overflow-x: clip; }
+.cine { overflow-x: clip; }
 
 /* ---------- Backdrop and HUD (both sticky for the length of the film) */
 .film-back,
@@ -318,13 +320,13 @@ html:has(.film) { overflow-x: clip; }
 .btn-solid:hover { background: var(--bone); border-color: var(--bone); color: #0a0908; }
 
 /* Scroll reveals exist only when the film is running. */
-.film-on [data-reveal] {
+.film-on.film-live [data-reveal] {
   opacity: 0;
   transform: translateY(28px);
   transition: opacity 0.9s cubic-bezier(0.2, 0.7, 0.1, 1), transform 0.9s cubic-bezier(0.2, 0.7, 0.1, 1);
   transition-delay: calc(var(--d, 0) * 90ms);
 }
-.film-on [data-reveal].in { opacity: 1; transform: none; }
+.film-on.film-live [data-reveal].in { opacity: 1; transform: none; }
 
 /* Pinned chapters: a tall track with a sticky stage; steps cross-fade in place. */
 .pin-stage { position: relative; }
@@ -427,23 +429,23 @@ html:has(.film) { overflow-x: clip; }
 .hero-meta strong { display: block; margin-bottom: 0.4rem; font-weight: 500; color: var(--red-text); }
 .hero-cta { position: relative; z-index: 3; display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 1.7rem; }
 
-.film-intro .intro-line { display: grid; animation: introLine 1.75s 0.1s both; }
-.film-intro .hero > *:not(.hero-portrait) { animation: heroIn 1s cubic-bezier(0.2, 0.7, 0.1, 1) both; animation-delay: calc(1.5s + var(--i, 0) * 0.13s); }
-.film-intro .hero-portrait img { animation: portraitIn 2s 1.35s cubic-bezier(0.2, 0.7, 0.1, 1) both; }
-.film-intro .film-back { animation: fadeIn 1.8s 1s both; }
+.film-intro .intro-line { display: grid; animation: introLine 1.6s 0.05s both; }
+.film-intro .hero > *:not(.hero-portrait) { animation: heroIn 1s cubic-bezier(0.2, 0.7, 0.1, 1) both; animation-delay: calc(1.3s + var(--i, 0) * 0.12s); }
+.film-intro .hero-portrait img { animation: portraitIn 3s cubic-bezier(0.2, 0.7, 0.1, 1) both; }
+.film-intro .film-back { animation: fadeIn 1.8s 0.9s both; }
 @keyframes introLine {
-  0% { opacity: 0; letter-spacing: 0.09em; filter: blur(8px); }
-  22% { opacity: 1; filter: blur(0); }
-  78% { opacity: 1; letter-spacing: 0.02em; }
-  100% { opacity: 0; letter-spacing: 0.015em; }
+  0% { opacity: 0; transform: scale(1.06); }
+  22% { opacity: 1; }
+  78% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.99); }
 }
 @keyframes heroIn {
   from { opacity: 0; transform: translate3d(0, 34px, 0); }
   to { opacity: 1; }
 }
 @keyframes portraitIn {
-  from { opacity: 0; filter: brightness(0.2); transform: scale(1.05); }
-  to { opacity: 1; filter: none; transform: none; }
+  0%, 42% { opacity: 0.1; transform: scale(1.05); }
+  100% { opacity: 1; transform: none; }
 }
 @keyframes fadeIn { from { opacity: 0; } }
 
@@ -741,6 +743,8 @@ html:has(.film) { overflow-x: clip; }
   align-items: center;
   gap: 0.6rem;
   min-height: 2.75rem;
+  min-width: 1.75rem;
+  justify-content: center;
   padding: 0 0.2rem;
   font-family: var(--mono);
   font-size: 0.7rem;
@@ -763,7 +767,7 @@ html:has(.film) { overflow-x: clip; }
 @media (min-width: 900px) {
   .film-on .method-grid { grid-template-columns: 17rem 1fr; gap: 4rem; align-items: start; margin-top: 2.6rem; }
   .film-on .method-rail { flex-direction: column; gap: 0; border-left: 1px solid var(--line); overflow: visible; }
-  .film-on .method-rail button { position: relative; padding-left: 1.4rem; }
+  .film-on .method-rail button { position: relative; padding-left: 1.4rem; justify-content: flex-start; }
   .film-on .method-rail button i { position: absolute; left: -0.32rem; background: var(--bg); }
   .film-on .method-rail button.on i { background: var(--red); }
 }

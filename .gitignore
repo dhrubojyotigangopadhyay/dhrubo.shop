@@ -28,3 +28,4 @@ phase-0-design/
 # test artifacts
 test-results/
 playwright-report/
+.film-shots/

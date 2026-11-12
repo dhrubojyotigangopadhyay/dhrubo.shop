@@ -15,6 +15,8 @@ export function Header() {
 
   useEffect(() => {
     setOpen(false);
+    // The film and the case studies are always dark; keep the page chrome in step on client navigation.
+    document.documentElement.classList.toggle("cine", /^\/($|projects\/.)/.test(pathname));
   }, [pathname]);
 
   useEffect(() => {

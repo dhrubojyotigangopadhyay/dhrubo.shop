@@ -24,7 +24,8 @@ const poster = Big_Shoulders({
   subsets: ["latin"],
   variable: "--font-poster",
   weight: ["700", "800", "900"],
-  display: "swap",
+  // Block briefly instead of swapping: at poster sizes a fallback swap visibly moves the page.
+  display: "block",
   adjustFontFallback: false,
   fallback: ["Arial Narrow", "Impact", "sans-serif"],
 });
@@ -71,9 +72,9 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   return (
     <html lang="en" suppressHydrationWarning className={`${newsreader.variable} ${poster.variable}`}>
       <head>
-        <Script id="theme-bootstrap" strategy="beforeInteractive" nonce={nonce}>
-          {THEME_BOOTSTRAP}
-        </Script>
+        {/* A plain inline script, not next/script: it must run while the parser is still in <head>,
+            before first paint, so theme and motion classes never change the first layout. */}
+        <script id="theme-bootstrap" nonce={nonce} suppressHydrationWarning dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP }} />
         <Script id="ga-consent-default" strategy="beforeInteractive" nonce={nonce}>
           {CONSENT_DEFAULT}
         </Script>

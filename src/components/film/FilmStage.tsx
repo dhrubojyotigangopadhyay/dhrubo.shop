@@ -10,6 +10,7 @@ type Chapter = { id: string; no: string; name: string };
 
 const INTRO_KEY = "dhrubo.intro";
 const INTRO_MS = 3000;
+const KICK_EVENTS = ["scroll", "touchstart", "pointerdown", "keydown"] as const;
 
 /**
  * Client conductor for the homepage film. It owns the sticky backdrop
@@ -37,7 +38,8 @@ export function FilmStage({ chapters, releaseDates }: { chapters: readonly Chapt
     const coarse = window.matchMedia("(pointer: coarse)").matches;
     const lite = coarse || window.innerWidth < 900 || (navigator.hardwareConcurrency ?? 8) <= 4;
     const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
-    root.classList.add(reduced ? "film-static" : "film-on");
+    // film-on / film-static are set before first paint by the head bootstrap; film-live marks that this conductor is running.
+    root.classList.add("film-live");
 
     // Intro plays once per session and never under reduced motion.
     let introTimer = 0;
@@ -221,12 +223,28 @@ export function FilmStage({ chapters, releaseDates }: { chapters: readonly Chapt
         /* the CSS backdrop remains */
       }
     };
-    const idle = window.requestIdleCallback ? window.requestIdleCallback(() => void boot(), { timeout: 1200 }) : window.setTimeout(() => void boot(), 300);
+    // Wait for the intro to finish so its type animation never competes with shader compilation.
+    // Phones and low-core machines start it on the first touch or scroll (or after a quiet
+    // spell), so nothing competes with first paint on the devices that can least afford it.
+    const wait = lite ? 7000 : root.classList.contains("film-intro") ? INTRO_MS + 100 : 250;
+    let idle = 0;
+    let booted = false;
+    const kick = () => {
+      if (booted) return;
+      booted = true;
+      window.clearTimeout(bootTimer);
+      for (const type of KICK_EVENTS) window.removeEventListener(type, kick);
+      if (window.requestIdleCallback) idle = window.requestIdleCallback(() => void boot(), { timeout: 1500 });
+      else void boot();
+    };
+    const bootTimer = window.setTimeout(kick, wait);
+    if (lite) for (const type of KICK_EVENTS) window.addEventListener(type, kick, { passive: true, once: true });
 
     return () => {
       cancelled = true;
-      if (window.cancelIdleCallback) window.cancelIdleCallback(idle);
-      else window.clearTimeout(idle);
+      window.clearTimeout(bootTimer);
+      for (const type of KICK_EVENTS) window.removeEventListener(type, kick);
+      if (idle && window.cancelIdleCallback) window.cancelIdleCallback(idle);
       cancelAnimationFrame(raf);
       window.clearTimeout(introTimer);
       window.removeEventListener("wheel", endIntro);
@@ -243,7 +261,7 @@ export function FilmStage({ chapters, releaseDates }: { chapters: readonly Chapt
       lenisRef.current = null;
       sceneRef.current?.dispose();
       sceneRef.current = null;
-      root.classList.remove("film-on", "film-static", "film-gl");
+      root.classList.remove("film-live", "film-gl");
     };
   }, [releaseDates]);
 
