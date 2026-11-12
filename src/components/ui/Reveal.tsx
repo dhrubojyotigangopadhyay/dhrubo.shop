@@ -1,12 +1,15 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 /**
- * Deliberately a no-op wrapper. An earlier version animated opacity on
- * scroll; it hid below-the-fold content from full-page screenshots,
- * reduced-motion users and any renderer that does not fire
- * IntersectionObserver, which is a bad trade for a portfolio whose job is
- * to be read. Motion is reserved for interactive components.
+ * Marks its children for a scroll reveal. The content is plain, visible HTML
+ * by default; SceneHost adds the motion only when JavaScript is running and
+ * the visitor has not asked for reduced motion, so crawlers, screenshots and
+ * no-script readers always get the full page.
  */
-export function Reveal({ children, className }: { children: ReactNode; delay?: number; className?: string }) {
-  return <div className={className}>{children}</div>;
+export function Reveal({ children, className, delay = 0 }: { children: ReactNode; delay?: number; className?: string }) {
+  return (
+    <div className={className} data-reveal style={delay ? ({ "--d": Math.round(delay * 20) } as CSSProperties) : undefined}>
+      {children}
+    </div>
+  );
 }

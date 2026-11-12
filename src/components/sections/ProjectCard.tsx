@@ -17,8 +17,8 @@ export function ProjectCard({ project, large = false }: { project: Project; larg
         <Badge tone={tone[project.status]}>{project.statusLabel}</Badge>
         <span className="font-mono text-[11px] text-muted">{project.period}</span>
       </div>
-      <h3 className={`mt-4 font-display ${large ? "text-3xl" : "text-2xl"}`}>
-        <Link href={`/projects/${project.slug}`} className="hover:underline underline-offset-4">
+      <h3 className={`card-title mt-4 ${large ? "text-4xl" : "text-3xl"}`}>
+        <Link href={`/projects/${project.slug}`} className="hover:text-accent">
           {project.name}
         </Link>
       </h3>

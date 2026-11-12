@@ -6,7 +6,7 @@ import { twMerge } from "tailwind-merge";
 export const cn = (...inputs: Parameters<typeof clsx>) => twMerge(clsx(inputs));
 
 export function Container({ className, ...props }: ComponentProps<"div">) {
-  return <div className={cn("mx-auto w-full max-w-6xl px-4 sm:px-6", className)} {...props} />;
+  return <div className={cn("mx-auto w-full max-w-[88rem] px-[var(--gutter)]", className)} {...props} />;
 }
 
 export function Section({
@@ -28,10 +28,10 @@ export function Section({
     <section id={id} className={cn("py-16 sm:py-24", className)}>
       <Container>
         {(eyebrow || title) && (
-          <header className="mb-10 max-w-2xl">
-            {eyebrow && <p className="eyebrow mb-3">{eyebrow}</p>}
-            {title && <h2 className="font-display text-3xl sm:text-4xl">{title}</h2>}
-            {intro && <p className="mt-4 text-lg text-ink-soft">{intro}</p>}
+          <header className="mb-10" data-reveal>
+            {eyebrow && <p className="eyebrow mb-4">{eyebrow}</p>}
+            {title && <h2 className="poster section-title">{title}</h2>}
+            {intro && <p className="mt-5 max-w-2xl text-lg text-ink-soft">{intro}</p>}
           </header>
         )}
         {children}
@@ -49,12 +49,8 @@ type ButtonProps = {
 };
 
 export function ButtonLink({ href, children, variant = "primary", className, onClick }: ButtonProps) {
-  const base = "inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-[opacity,background-color] focus-visible:outline-accent";
-  const styles = {
-    primary: "bg-ink text-paper hover:opacity-90",
-    secondary: "border border-line-strong bg-surface hover:bg-surface-2",
-    ghost: "hover:bg-surface-2",
-  }[variant];
+  const base = "btn focus-visible:outline-accent";
+  const styles = { primary: "btn-bone", secondary: "", ghost: "btn-ghost" }[variant];
   const external = /^https?:\/\//.test(href);
   if (external) {
     return (
@@ -88,7 +84,7 @@ export function Badge({ children, tone = "neutral" }: { children: ReactNode; ton
 export function Stat({ value, label, detail, href }: { value: string; label: string; detail?: string; href?: string }) {
   const body = (
     <>
-      <p className="font-display text-4xl leading-none">{value}</p>
+      <p className="stat-value">{value}</p>
       <p className="mt-2 text-sm font-medium">{label}</p>
       {detail && <p className="mt-1 text-xs text-muted">{detail}</p>}
       {href && <p className="mt-2 text-xs text-accent">Open evidence &rarr;</p>}
@@ -110,7 +106,7 @@ export function Stat({ value, label, detail, href }: { value: string; label: str
 
 export function Breadcrumbs({ items }: { items: { name: string; href: string }[] }) {
   return (
-    <nav aria-label="Breadcrumb" className="mb-6 text-sm text-muted">
+    <nav aria-label="Breadcrumb" className="mb-8 font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
       <ol className="flex flex-wrap items-center gap-1.5">
         {items.map((item, i) => (
           <li key={item.href} className="flex items-center gap-1.5">

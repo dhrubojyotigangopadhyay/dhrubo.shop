@@ -9,10 +9,10 @@ export const metadata = pageMetadata({
 
 export default function PrivacyPage() {
   return (
-    <Container className="py-10">
+    <Container className="stage-pad">
       <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "Privacy", href: "/privacy" }]} />
-      <div className="prose-site">
-        <h1 className="font-display text-4xl">Privacy</h1>
+      <div className="prose-site plate">
+        <h1 className="poster article-title">Privacy</h1>
         <p>Last updated 2 November 2026. This is a personal site run by Dhrubojyoti Gangopadhyay from Kolkata, India.</p>
         <h2>Analytics</h2>
         <p>
@@ -34,8 +34,9 @@ export default function PrivacyPage() {
         </p>
         <h2>Cookies and storage</h2>
         <p>
-          Besides the analytics cookie described above, the site stores your theme choice and your consent choice in
-          your browser&apos;s local storage. Nothing else.
+          Besides the analytics cookie described above, the site stores your consent choice in
+          your browser&apos;s local storage and, for the current tab only, a note that the opening animation has
+          already played. Nothing else.
         </p>
         <h2>Contact</h2>
         <p>Questions about this policy: dhrubojyoti.gangopadhyay@gmail.com.</p>

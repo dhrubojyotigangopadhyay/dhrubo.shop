@@ -38,7 +38,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   const related = a.relatedProjects.map(getProject).filter(Boolean);
 
   return (
-    <Container className="py-10">
+    <Container className="stage-pad">
       <JsonLd
         data={graph(
           articleJsonLd({ path: `/writing/${a.slug}`, title: a.title, description: a.description, datePublished: a.published, dateModified: a.updated, keywords: a.keywords }),
@@ -51,11 +51,14 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         nonce={nonce}
       />
       <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "Writing", href: "/writing" }, { name: a.title, href: `/writing/${a.slug}` }]} />
-      <article className="mx-auto max-w-3xl">
+      <article className="plate mx-auto max-w-4xl">
         <header>
-          <p className="eyebrow">{a.pillar}</p>
-          <h1 className="mt-3 font-display text-4xl leading-tight sm:text-5xl">{a.title}</h1>
-          <p className="mt-4 text-lg text-ink-soft">{a.description}</p>
+          <p className="slate">
+            <b>Note</b>
+            {a.pillar}
+          </p>
+          <h1 className="poster article-title">{a.title}</h1>
+          <p className="mt-6 font-display text-2xl italic text-ink-soft">{a.description}</p>
           <p className="mt-4 font-mono text-xs text-muted">
             By <Link href="/about" className="underline underline-offset-4">Dhrubojyoti Gangopadhyay</Link> · published {a.published}
             {a.updated ? ` · updated ${a.updated}` : ""} · {a.readingMinutes} min read

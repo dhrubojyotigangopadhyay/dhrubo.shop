@@ -1,3 +1,5 @@
+import github from "../generated/github.json";
+
 /**
  * Project records. Classification and every number were verified against the
  * public repository, releases, CI and live URLs on 2 Nov 2026. "Prototype"
@@ -63,11 +65,12 @@ export const projects: Project[] = [
       "Release engineering: CI on every PR, tag-driven release with SHA-256 checksums, SPDX SBOM, GitHub build-provenance attestation and electron-updater.",
     ],
     evidence: [
-      { label: "Releases", value: "50 tagged (v0.3.0 to v0.17.1)" },
-      { label: "History", value: "277 commits, 72 merged PRs" },
-      { label: "Tests", value: "About 650 Vitest cases in 74 files" },
+      { label: "Releases", value: `${github.releaseCount} published (${github.first.tag} to ${github.latest.tag})` },
+      { label: "History", value: `${github.commits} commits, ${github.mergedPrs} merged PRs` },
+      { label: "Distribution", value: "Microsoft Store, Scoop bucket" },
+      { label: "Tests", value: "About 650 Vitest cases (counted 2 Nov 2026)" },
       { label: "Diff over base", value: "+110,740 / -3,142 lines, 438 new files" },
-      { label: "Distribution", value: "Microsoft Store (9PD6BP3NGVST), Scoop bucket" },
+      { label: "Store ID", value: "9PD6BP3NGVST" },
       { label: "Locales", value: "12" },
     ],
     decisions: [
@@ -87,7 +90,6 @@ export const projects: Project[] = [
     limitations: [
       "Windows only; the installer is not yet code-signed, so SmartScreen warns on first run.",
       "Single maintainer; roughly half of the commits were co-authored with Claude Code and are reviewed, tested and released by one person.",
-      "No vector memory or RAG inside the app yet.",
       "Labelled a development preview; adoption numbers are small and are not quoted here.",
     ],
     keywords: ["desktop AI agent", "AI coworker", "human-in-the-loop", "MCP", "Claude Agent SDK", "Electron security"],

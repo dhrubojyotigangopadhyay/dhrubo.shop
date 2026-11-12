@@ -1,3 +1,5 @@
+import github from "../generated/github.json";
+
 /**
  * Answers to the questions visitors and answer engines actually ask. Shown on
  * the About page as visible content and fed to the assistant's index. No
@@ -27,7 +29,7 @@ export const faqs: Faq[] = [
     id: "sahkarmi",
     question: "What is Sahkarmi and how is it built?",
     answer:
-      "Sahkarmi is a Windows desktop application in which configurable AI coworkers browse, file, draft and report on the user's own machine, with every consequential action stopped for human approval. It is built with Electron, TypeScript and SolidJS on an Apache-2.0 OpenBot base, uses the Claude Agent SDK, the OpenAI Codex app-server and an Agent Client Protocol bridge, exposes tools over the Model Context Protocol, and ships with a 16-category permission policy, Telegram remote approvals, offline voice and 175 coworker templates. It has 50 tagged releases, about 650 unit tests, and is listed on the Microsoft Store and a Scoop bucket.",
+      `Sahkarmi is a Windows desktop application in which configurable AI coworkers browse, file, draft and report on the user's own machine, with every consequential action stopped for human approval. It is built with Electron, TypeScript and SolidJS on an Apache-2.0 OpenBot base, uses the Claude Agent SDK, the OpenAI Codex app-server and an Agent Client Protocol bridge, exposes tools over the Model Context Protocol, and ships with a 16-category permission policy, Telegram remote approvals, offline voice and 175 coworker templates. It has ${github.releaseCount} published releases, about 650 unit tests, and is listed on the Microsoft Store and a Scoop bucket.`,
   },
   {
     id: "fde",

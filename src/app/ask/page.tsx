@@ -1,3 +1,4 @@
+import { PageHero } from "@/components/stage/PageHero";
 import { headers } from "next/headers";
 import { AssistantPanel } from "@/components/assistant/AssistantPanel";
 import { AskOpenTracker } from "@/components/assistant/AskOpenTracker";
@@ -18,7 +19,7 @@ export const metadata = pageMetadata({
 export default async function AskPage() {
   const nonce = (await headers()).get("x-nonce") ?? undefined;
   return (
-    <Container className="py-10">
+    <Container className="stage-pad">
       <AskOpenTracker />
       <JsonLd
         data={graph(
@@ -33,9 +34,17 @@ export default async function AskPage() {
       <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "Ask", href: "/ask" }]} />
       <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr]">
         <div>
-          <p className="eyebrow mb-3">Ask</p>
-          <h1 className="font-display text-4xl sm:text-5xl">An assistant that only knows what this site says</h1>
-          <div className="prose-site mt-6">
+          <PageHero
+            compact
+            no="07"
+            label="Ask"
+            title={
+              <>
+                An assistant that only knows <em>what this site says</em>
+              </>
+            }
+          />
+          <div className="prose-site">
             <p>
               This is a small retrieval-augmented system, built the way I build them for clients: a BM25 index over
               the site&apos;s content is queried for every question, the top passages are handed to the model with

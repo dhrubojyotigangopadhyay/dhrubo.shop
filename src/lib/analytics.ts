@@ -25,6 +25,8 @@ export type AnalyticsEvent =
   | "resume_download"
   | "outbound_link_click"
   | "theme_toggle"
+  | "film_sound"
+  | "film_method_case"
   | "consent_update";
 
 type Params = Record<string, string | number | boolean | undefined>;

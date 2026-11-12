@@ -66,16 +66,6 @@ test.describe("navigation and interaction", () => {
     await expect(page.getByText("policy allows").first()).toBeVisible();
   });
 
-  test("theme toggle switches data-theme and persists", async ({ page }) => {
-    await page.goto("/");
-    const before = await page.evaluate(() => document.documentElement.getAttribute("data-theme"));
-    await page.getByRole("button", { name: /Switch to (dark|light) theme/ }).first().click();
-    const after = await page.evaluate(() => document.documentElement.getAttribute("data-theme"));
-    expect(after).not.toBe(before);
-    await page.reload();
-    expect(await page.evaluate(() => document.documentElement.getAttribute("data-theme"))).toBe(after);
-  });
-
   test("consent banner appears once and respects decline", async ({ page }) => {
     await page.goto("/");
     const dialog = page.getByRole("dialog", { name: "Analytics consent" });
@@ -134,7 +124,10 @@ test.describe("contact", () => {
 test.describe("accessibility (axe, WCAG 2.1 AA)", () => {
   for (const path of ["/", "/projects/sahkarmi", "/writing/approval-gates-for-ai-agents", "/ask", "/contact", "/resume"]) {
     test(`${path} has no serious or critical violations`, async ({ page }) => {
+      // Audit the settled page: mid-fade frames of the intro give axe false contrast readings.
+      await page.addInitScript(() => sessionStorage.setItem("dhrubo.intro", "1"));
       await page.goto(path);
+      await page.waitForTimeout(1800);
       const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze();
       const serious = results.violations.filter((v) => v.impact === "serious" || v.impact === "critical");
       expect(serious, JSON.stringify(serious.map((v) => ({ id: v.id, nodes: v.nodes.map((n) => n.target) })), null, 1)).toEqual([]);
@@ -145,7 +138,7 @@ test.describe("accessibility (axe, WCAG 2.1 AA)", () => {
 test.describe("visual regressions", () => {
   test("primary buttons never render text in their own background colour", async ({ page }) => {
     await page.goto("/");
-    const pairs = await page.locator("a.bg-ink, button.bg-ink").evaluateAll((els) =>
+    const pairs = await page.locator("a.btn-bone, a.btn-solid, button.btn-solid").evaluateAll((els) =>
       els.map((e) => {
         const s = getComputedStyle(e);
         return { text: (e.textContent || "").trim().slice(0, 30), color: s.color, bg: s.backgroundColor };
@@ -153,5 +146,141 @@ test.describe("visual regressions", () => {
     );
     expect(pairs.length).toBeGreaterThan(0);
     for (const p of pairs) expect(p.color, p.text).not.toBe(p.bg);
+  });
+});
+
+test.describe("homepage film", () => {
+  test("all eight chapters are server-rendered and the conductor starts", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator("[data-chapter]")).toHaveCount(8);
+    await expect(page.locator("html")).toHaveClass(/film-on/);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("Dhrubo");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("Forward Deployed AI Engineer");
+    for (const id of ["journey", "engineer", "builder", "thinker", "proof", "future", "contact"]) {
+      await expect(page.locator(`#${id} h2`)).toHaveCount(1);
+    }
+  });
+
+  test("intro can be skipped and does not replay in the same session", async ({ page }) => {
+    await page.goto("/", { waitUntil: "commit" });
+    const skip = page.getByRole("button", { name: "Skip intro" });
+    // The button only exists for three seconds; on a slow run the intro may already have ended by itself.
+    await skip.dispatchEvent("click", {}, { timeout: 5000 }).catch(() => {});
+    await expect(page.locator("html")).not.toHaveClass(/film-intro/);
+    await expect(page.locator(".hero-name")).toBeVisible();
+    await page.reload();
+    await expect(page.locator("html")).not.toHaveClass(/film-intro/);
+    await expect(skip).toHaveCount(0);
+  });
+
+  test("scrolling through a pinned chapter advances its steps", async ({ page }) => {
+    await page.goto("/");
+    const pin = page.locator('[data-pin="journey"]');
+    await expect(pin.locator("[data-step-item].on")).toHaveCount(1);
+    await page.evaluate(() => {
+      const el = document.querySelector<HTMLElement>('[data-pin="journey"]')!;
+      const top = el.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo(0, top + (el.offsetHeight - window.innerHeight) * 0.95);
+    });
+    await expect(pin).toHaveAttribute("data-step", "5");
+    await expect(pin.locator("[data-step-item].on")).toContainText("1XL Universe");
+  });
+
+  test("method chapter switches between the two worked examples", async ({ page }) => {
+    await page.goto("/");
+    const tab = page.getByRole("tab", { name: "An AI coworker sends a quote" });
+    await tab.scrollIntoViewIfNeeded();
+    await tab.click();
+    await expect(tab).toHaveAttribute("aria-selected", "true");
+    await expect(page.locator(".method-note")).toContainText("Sahkarmi");
+  });
+
+  test("proof numbers come from the GitHub snapshot and link to the record", async ({ page }) => {
+    await page.goto("/");
+    const releases = page.locator("#proof .proof-stats a").first();
+    await expect(releases).toHaveAttribute("href", "https://github.com/ganguydhrubo/sahakarmi/releases");
+    expect(Number(await releases.locator("strong").textContent())).toBeGreaterThanOrEqual(69);
+    await expect(page.locator("#proof .proof-chart rect")).toHaveCount(Number(await releases.locator("strong").textContent()));
+  });
+
+  test("reduced motion gets a still, fully expanded page", async ({ browser }) => {
+    const context = await browser.newContext({ reducedMotion: "reduce" });
+    const page = await context.newPage();
+    await page.goto("/");
+    await expect(page.locator("html")).toHaveClass(/film-static/);
+    await expect(page.getByRole("button", { name: "Skip intro" })).toHaveCount(0);
+    for (const item of await page.locator('[data-pin="journey"] [data-step-item]').all()) await expect(item).toBeVisible();
+    await context.close();
+  });
+
+  test("the whole story is readable without JavaScript", async ({ browser }) => {
+    const context = await browser.newContext({ javaScriptEnabled: false });
+    const page = await context.newPage();
+    await page.goto("/");
+    await expect(page.locator(".hero-name")).toBeVisible();
+    await expect(page.locator("#journey")).toContainText("MP Birla Cement");
+    await expect(page.locator("#engineer")).toContainText("Sixteen permission categories");
+    await expect(page.locator("#builder")).toContainText("ATITTLE");
+    await expect(page.locator("#thinker")).toContainText("Human approval");
+    await expect(page.locator("#contact")).toContainText("dhrubojyoti.gangopadhyay@gmail.com");
+    await context.close();
+  });
+
+  test("no horizontal overflow", async ({ page }) => {
+    await page.goto("/");
+    const [scroll, client] = await page.evaluate(() => [document.documentElement.scrollWidth, document.documentElement.clientWidth]);
+    expect(scroll).toBeLessThanOrEqual(client);
+  });
+
+  test("case study shows real screenshots of the live product", async ({ page }) => {
+    await page.goto("/projects/sahkarmi");
+    await expect(page.locator(".case-shot img").first()).toHaveAttribute("alt", /sahkarmi\.site/);
+    await expect(page.locator(".proof-chart")).toBeVisible();
+  });
+});
+
+test.describe("site-wide stage", () => {
+  for (const [path, label] of [
+    ["/about", "About"],
+    ["/projects", "Projects"],
+    ["/services", "Work with me"],
+    ["/writing", "Writing"],
+    ["/ask", "Ask"],
+    ["/contact", "Contact"],
+    ["/resume", "Résumé"],
+  ] as const) {
+    test(`${path} opens on a numbered slate and a poster headline over the shared backdrop`, async ({ page }) => {
+      await page.goto(path);
+      await expect(page.locator(".stage-back canvas")).toHaveCount(1);
+      await expect(page.locator(".page-hero .slate")).toContainText(label);
+      await expect(page.locator("h1.poster")).toBeVisible();
+      const [scroll, client] = await page.evaluate(() => [document.documentElement.scrollWidth, document.documentElement.clientWidth]);
+      expect(scroll).toBeLessThanOrEqual(client);
+    });
+  }
+
+  test("the backdrop canvas survives navigation between pages", async ({ page }) => {
+    await page.goto("/about");
+    await page.evaluate(() => ((document.querySelector(".stage-back canvas") as HTMLElement).dataset.keep = "1"));
+    await page.getByRole("contentinfo").getByRole("link", { name: "Writing" }).click();
+    await expect(page).toHaveURL(/\/writing$/);
+    await expect(page.locator('.stage-back canvas[data-keep="1"]')).toHaveCount(1);
+  });
+
+  test("projects index shows real product screenshots", async ({ page }) => {
+    await page.goto("/projects");
+    await expect(page.locator(".showcase-row")).toHaveCount(4);
+    await expect(page.locator(".showcase-row img").first()).toHaveAttribute("alt", /sahkarmi\.site/);
+  });
+
+  test("inner pages are readable without JavaScript", async ({ browser }) => {
+    const context = await browser.newContext({ javaScriptEnabled: false });
+    const page = await context.newPage();
+    for (const path of ["/about", "/projects", "/writing"]) {
+      await page.goto(path);
+      await expect(page.locator("h1")).toBeVisible();
+      await expect(page.locator("[data-reveal]").first()).toBeVisible();
+    }
+    await context.close();
   });
 });
